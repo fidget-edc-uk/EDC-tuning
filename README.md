@@ -6,6 +6,7 @@ Unofficial tuning guides for premium fidget sliders, built as a single static we
 - **MOT Groove**: the four plans from the instruction card, every hole on the straight and rotating faces, a builder and push and rotation simulators.
 - **Aura Sand Slim Pro** (Peacock): N52 and N45 corner magnet setups with halfmoon spacer, pad and foam options, and a hold-position simulator.
 - **Creation Mountain / Shuriken** (JJ EDC): Standard and Mini magnet layouts, a hold simulator and a builder.
+- **Polar Front** (DR EDC): the out-of-the-box magnet layout and a builder for corner magnets and washers.
 
 ## Run it
 

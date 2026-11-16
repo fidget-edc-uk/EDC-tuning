@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Unofficial tuning guides for the TITA Pro, MOT Groove, Aura Sand Slim Pro and JJ EDC Creation Mountain / Shuriken sliders: setups, drawings, steps and feel simulators.">
+<meta name="description" content="Unofficial tuning guides for the TITA Pro, MOT Groove, Aura Sand Slim Pro and JJ EDC Creation Mountain / Shuriken and DR EDC Polar Front sliders: setups, drawings, steps and feel simulators.">
 <title>Slider Tuning Guides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -294,6 +294,11 @@ select{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-
         <button class="tab" role="tab" data-tab="build" aria-selected="false">Build your own</button>
         <button class="tab" role="tab" data-tab="parts" aria-selected="false">Parts &amp; tips</button>
       </div>
+      <div class="tabs" role="tablist" aria-label="DR EDC Polar Front sections" data-g="pf">
+        <button class="tab" role="tab" data-tab="setups" aria-selected="true">Setups</button>
+        <button class="tab" role="tab" data-tab="build" aria-selected="false">Build your own</button>
+        <button class="tab" role="tab" data-tab="parts" aria-selected="false">Parts &amp; tips</button>
+      </div>
     </div>
   </div>
 </header>
@@ -465,7 +470,7 @@ select{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-
           </tbody></table></div>
           <p class="muted" style="font-size:.86rem">14 magnets in all: 6 in Panel A, 8 in Panel B. Sizes are diameter × thickness.</p>
           <div class="tbl"><table class="htable"><thead><tr><th scope="col">Slider</th><th scope="col">Size</th></tr></thead><tbody>
-            <tr><td>Creation Mountain</td><td>46 mm long, 12.6 mm thick</td></tr>
+            <tr><td>Creation Mountain</td><td>46 × 28 × 12.6 mm</td></tr>
             <tr><td>Shuriken</td><td>46 × 28 × 16 mm</td></tr>
             <tr><td>Creation Mountain Mini</td><td>41 × 25 × 11.5 mm</td></tr>
             <tr><td>Shuriken Mini</td><td>41.5 × 25 × 14.5 mm</td></tr>
@@ -498,8 +503,47 @@ select{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-
     </div>
     <p class="note">Unofficial, written from JJ EDC's product pages. Hold positions are worked out from the magnet layout, so test by hand.</p>
   </section>
+  <!-- ===== DR EDC Polar Front ===== -->
+  <section id="g-pf" hidden>
+    <div data-panel="setups">
+      <div class="bench">
+        <div class="list"><div id="pfitems"></div></div>
+        <div class="card" id="pfsheet" aria-live="polite"></div>
+      </div>
+    </div>
+    <div data-panel="build" hidden>
+      <div class="bench">
+        <div class="card ctl" id="pfctl"></div>
+        <div class="card" id="pfout" aria-live="polite"></div>
+      </div>
+    </div>
+    <div data-panel="parts" hidden>
+      <div class="kitgrid">
+        <div style="display:grid;gap:10px"><h2>Out of the box</h2>
+          <div class="tbl"><table class="htable"><thead><tr><th scope="col">Where</th><th scope="col">Magnets</th></tr></thead><tbody>
+            <tr><td>8 side (8-magnet piece), outer corners ×4</td><td>N52 8 × 2.5 mm</td></tr>
+            <tr><td>6 side (6-magnet piece), inner corners ×4</td><td>N52 8 × 2 mm</td></tr>
+            <tr><td>Centre positioning magnets</td><td>N52 5 × 2 mm</td></tr>
+            <tr><td>Base plate</td><td>0.3 mm convex limit at the four corners</td></tr>
+          </tbody></table></div>
+          <p class="muted" style="font-size:.86rem">Sizes are diameter × thickness. A spare Teflon plate comes in the box.</p>
+        </div>
+        <div style="display:grid;gap:10px"><h2>Tips</h2>
+          <ul class="tips">
+            <li><b>Washers</b>Thin steel discs, 0.1 or 0.2 mm (stack both for 0.3 mm). If the magnets go in from the back, like the Aura, a washer sits between the magnet and the other piece, so it softens the pull. Check how yours fits.</li>
+            <li><b>Grade and thickness</b>N52 pulls harder than N45, and an 8 × 2.5 mm magnet harder than an 8 × 2 mm.</li>
+            <li><b>Mark before you lift</b>Put a marker dot on each magnet's top face before taking it out, so it goes back the same way up.</li>
+            <li><b>Check before closing</b>Every corner magnet should sit flush, and every corner should pull when you hold the pieces together.</li>
+            <li class="warn"><b>Keep the plates clean</b>Grit caught between the pieces damages the Teflon. Blu Tack lifts debris.</li>
+            <li class="warn"><b>Magnet safety</b>Strong N52 magnets. Keep away from young children.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="note">Unofficial, written from the maker's out-of-the-box spec. Strength figures are estimates, so test by hand.</p>
+  </section>
 </main>
-<footer><div class="wrap">Unofficial guides. TITA Pro is made by PEL Studio, Groove by MOT, Aura Sand by Peacock, and Creation Mountain and Shuriken by JJ EDC.</div></footer>
+<footer><div class="wrap">Unofficial guides. TITA Pro is made by PEL Studio, Groove by MOT, Aura Sand by Peacock, Creation Mountain and Shuriken by JJ EDC, and Polar Front by DR EDC.</div></footer>
 
 <script>
 /* ---------- Data ---------- */
@@ -1388,7 +1432,7 @@ const JU=3.75; // layout units per mm, so the hold model matches the Aura one
 const JBR={N52:1,N45:.93,N35:.83,N25:.71};
 const JSPEC={
  std:{n:'Standard',W:28,H:46,pos:{cx:8.8,cy:17.7,by:6.0},aC:{d:7,t:3,g:'N35'},bC:{d:8,t:2,g:'N52'},mid:{d:5,t:3,g:'N35'},swap:false,
-  dims:[['Creation Mountain','46 mm long, 12.6 mm thick'],['Shuriken','46 × 28 × 16 mm']]},
+  dims:[['Creation Mountain','46 × 28 × 12.6 mm'],['Shuriken','46 × 28 × 16 mm']]},
  mini:{n:'Mini',W:25,H:41.5,pos:{cx:7.1,cy:15.5,by:5.4},aC:{d:7,t:2,g:'N45'},bC:{d:7,t:2,g:'N52'},mid:{d:5,t:2.5,g:'N25'},swap:true,
   dims:[['Creation Mountain Mini','41 × 25 × 11.5 mm'],['Shuriken Mini','41.5 × 25 × 14.5 mm']]}
 };
@@ -1512,18 +1556,107 @@ function renderJBuild(){
 }
 
 /* =========================================================
+   DR EDC Polar Front · fancy play 8 × 6
+   Out of the box (maker spec): 8-magnet piece corners N52 8 × 2.5 mm, 6-magnet piece corners N52 8 × 2 mm,
+   centre positioning magnets N52 5 × 2 mm, base plate with a 0.3 mm convex limit at the four corners.
+   Strength is an estimate: grade and thickness of each corner magnet, and washers that add gap.
+   ========================================================= */
+const PFG={N52:1,N45:.93},PFT={2.5:1,2:.8},PFW={0:1,.1:.9,.2:.8,.3:.7};
+const PFSTOCK={c8:{g:'N52',t:2.5,w:0},c6:{g:'N52',t:2,w:0}};
+const pfStr=c=>PFG[c.g]*PFT[c.t]*PFW[c.w];
+const pfRel=m=>pfStr(m.c8)*pfStr(m.c6)/(pfStr(PFSTOCK.c8)*pfStr(PFSTOCK.c6));
+const pfHold=m=>Math.max(1,Math.min(5,Math.round(3+(pfRel(m)-1)/.1)));
+const pfWd=w=>w===.3?'0.1 + 0.2 mm washers':`a ${w} mm washer`;
+const pfDesc=c=>`${c.g} 8 × ${c.t} mm${c.w?`, on ${pfWd(c.w)}`:''}`;
+const pfSame=(a,b)=>['g','t','w'].every(k=>String(a[k])===String(b[k]));
+const pfb=JSON.parse(JSON.stringify(PFSTOCK));
+function pfDiagram(m){
+  const st=`stroke="${INK}" stroke-width="1.1"`;
+  let s=`<svg viewBox="0 0 320 196" role="img" aria-label="Schematic of the 8-magnet and 6-magnet pieces">`;
+  const lab=(t,x)=>`<text x="${x}" y="13" text-anchor="middle" font-size="8" fill="#6b7077" font-family="var(--mono)" letter-spacing=".6">${t}</text>`;
+  s+=lab('8 SIDE · 8-MAGNET PIECE',82)+lab('6 SIDE · 6-MAGNET PIECE',238);
+  const mag=(x,y,c)=>{const r=c.t===2.5?17:15;let o='';if(c.w)o+=`<circle cx="${x}" cy="${y}" r="${r+3}" fill="none" stroke="#7d828a" stroke-width="${c.w===.3?3.2:2.2}"/>`;
+    return o+`<circle cx="${x}" cy="${y}" r="${r}" fill="${c.g==='N45'?'#dfe7ee':'#ffffff'}" ${st}/><text x="${x}" y="${y+3}" text-anchor="middle" font-size="7.5" font-weight="600" fill="${INK}" font-family="var(--mono)">${c.g==='N45'?'N45 ':''}${c.t}</text>`;};
+  [[82,'#d7d9dd',m.c8,[[-28,-12],[28,-12],[-28,12],[28,12]]],[238,'#2c2e33',m.c6,[[-28,0],[28,0]]]].forEach(([cx,fill,c,mid])=>{
+    s+=`<rect x="${cx-66}" y="22" width="132" height="168" rx="18" fill="${fill}" ${st}/>`;
+    [[cx-38,48],[cx+38,48],[cx-38,164],[cx+38,164]].forEach(([x,y])=>s+=mag(x,y,c));
+    mid.forEach(([dx,dy])=>s+=`<circle cx="${cx+dx}" cy="${106+dy}" r="8" fill="#fff" ${st}/><text x="${cx+dx}" y="${106+dy+2.5}" text-anchor="middle" font-size="5.5" font-weight="600" fill="${INK}" font-family="var(--mono)">5×2</text>`);
+  });
+  return s+'</svg>';
+}
+const PFLEG=`<div class="legend"><span><i style="background:#fff"></i>N52 magnet</span><span><i style="background:#dfe7ee"></i>N45 magnet</span><span><i style="background:none;border:2px solid #7d828a"></i>Washer</span></div>`;
+function pfChanges(m){const L=[];[['8 side corners','c8'],['6 side corners','c6']].forEach(([n,k])=>{if(!pfSame(m[k],PFSTOCK[k]))L.push(`${n}: ${pfDesc(PFSTOCK[k])} → ${m[k].g===PFSTOCK[k].g&&m[k].t===PFSTOCK[k].t?'the same magnets':`${m[k].g} 8 × ${m[k].t} mm`}${m[k].w?`, on ${pfWd(m[k].w)}`:''}`);});
+  if(L.length)L.push('Centre positioning magnets: no change');return L;}
+function pfNeed(m){const c={},buy=[],have={'N52 8 × 2.5 mm magnet':4,'N52 8 × 2 mm magnet':4},need={};
+  [m.c8,m.c6].forEach(x=>{const k=`${x.g} 8 × ${x.t} mm magnet`;need[k]=(need[k]||0)+4;});
+  Object.entries(need).forEach(([k,q])=>{const extra=Math.max(0,q-(have[k]||0));c[extra?`${k} (${q-extra?q-extra+' stock, ':''}${extra} to buy)`:`${k} (stock)`]=q;if(extra)buy.push(`${extra} × ${k.replace(' magnet','')}`);});
+  let w1=0,w2=0;[m.c8,m.c6].forEach(x=>{if(x.w===.1)w1+=4;if(x.w===.2)w2+=4;if(x.w===.3){w1+=4;w2+=4;}});
+  if(w1)c['0.1 mm washer']=w1;if(w2)c['0.2 mm washer']=w2;return {c,buy};}
+function pfNotes(m){const N=[],r=pfRel(m);
+  [['8 side','c8'],['6 side','c6']].forEach(([n,k])=>{const a=m[k],b=PFSTOCK[k];
+    if(a.g!==b.g)N.push(`${n}: ${a.g} instead of ${b.g}. ${a.g==='N45'?'About 7% less pull from that side: a softer, floatier glide.':'About 7% more pull from that side: firmer holds.'}`);
+    if(a.t!==b.t)N.push(`${n}: ${a.t} mm thick instead of ${b.t} mm. ${a.t===2.5?'Thicker, so a stronger pull and firmer, crunchier holds.':'Thinner, so a little less pull.'}`);
+    if(a.w)N.push(`${n}: ${pfWd(a.w)} under each corner. If the magnets go in from the back, like the Aura, the washer sits between the magnet and the other piece, adding gap and softening the pull.`);});
+  if(!N.length)N.push('Same as out of the box.');
+  const W=[];[['8 side','c8'],['6 side','c6']].forEach(([n,k])=>{const a=m[k],b=PFSTOCK[k],up=(a.t-b.t)+a.w;if(up>0)W.push(`${n}: each corner magnet now sits ${Math.round(up*10)/10} mm higher than the pocket was made for. Check it still sits flush, or it will rub the other piece.`);});if(r<.75)W.push('Much softer than stock: expect it to come apart sooner with power or speed.');if(r>1.1)W.push('Firmer than stock: more effort to slide.');
+  return {N,W,r};}
+function pfSteps(m){
+  const ch=['c8','c6'].filter(k=>!pfSame(m[k],PFSTOCK[k]));
+  if(!ch.length)return stepsBox(['This is how it arrives, so there is nothing to change. Use Build your own to try a change.']);
+  const s=['Work over a metal tray, with a dish for small parts.','Lift out the corner magnets on the side you are changing with a metal tool, or a magnet. Note which way up each one was.'];
+  ch.forEach(k=>{const c=m[k],n=k==='c8'?'8 side (8-magnet piece)':'6 side (6-magnet piece)',same=c.g===PFSTOCK[k].g&&c.t===PFSTOCK[k].t;
+    s.push(`${n}: ${c.w?`put ${c.w===.3?'a 0.1 mm and a 0.2 mm washer':pfWd(c.w)} in the bottom of each corner pocket first, then `:''}fit ${same?'the same magnets back in all four corners, the same way up':`${c.g} 8 × ${c.t} mm magnets in all four corners`}.`);});
+  if(ch.some(k=>m[k].w))s.push('Washers soften the pull only if they end up between the magnet and the other piece, which is how it works when the magnets go in from the back, as on the Aura. Check how yours fits when it arrives.');
+  s.push('Leave the centre positioning magnets as they are.');
+  s.push('Check every corner magnet still sits flush, then hold the pieces together: every corner should pull. If one pushes, flip that magnet.');
+  s.push('Reassemble and try some slow slides before speeding up.');
+  return stepsBox(s);}
+function pfSheet(){const m=PFSTOCK;
+  return `<div class="head"><div class="row"><span class="label">DR EDC Polar Front · 8 × 6</span></div><h2>Out of the box</h2>
+     <p>The 8-magnet piece has N52 8 × 2.5 mm magnets in its outer corners and the 6-magnet piece has N52 8 × 2 mm magnets in its inner corners. N52 5 × 2 mm centre positioning magnets set where it sits, and the base plate curves 0.3 mm at the four corners to act as a soft limit.</p></div>
+   <div class="meter"><div><span class="label">Hold · 100%</span>${bars(3)}</div><div></div><div></div></div>
+   <div class="split">${drawBox(pfDiagram(m),PFLEG,'Schematic from the maker spec; positions are approximate.')}
+     <div style="display:grid;gap:12px;align-content:start">${ioList(['8 side corners: N52 8 × 2.5 mm','6 side corners: N52 8 × 2 mm','Centre positioning magnets: N52 5 × 2 mm','Base plate: 0.3 mm convex limit at the four corners'],[])}</div></div>
+   ${pfSteps(m)}
+   <div class="nav"><button class="btn ghost" data-pfbuild>Change the magnets</button></div>`;}
+function renderPfList(){$('#pfitems').innerHTML=`<div class="grp" style="margin-top:8px"><span class="label">Magnet setups · 1</span><button class="item" aria-pressed="true"><span class="nm">Out of the box</span><span class="tg">The maker's stock layout</span></button></div>
+   <p class="muted" style="font-size:.82rem;margin-top:10px">No tested setups yet. Use Build your own to change the corner magnets or add washers.</p>`;}
+function renderPfSheet(){const el=$('#pfsheet');el.innerHTML=pfSheet();el.querySelectorAll('[data-pfbuild]').forEach(b=>b.addEventListener('click',()=>{showTab('pf','build');renderPfBuild();window.scrollTo(0,0);}));}
+const PFOPT=[['g','Grade',[['N52','N52 · stronger'],['N45','N45 · softer']]],['t','Thickness',[[2,'8 × 2 mm'],[2.5,'8 × 2.5 mm · stronger']]],['w','Washers under each corner',[[0,'None'],[.1,'0.1 mm'],[.2,'0.2 mm'],[.3,'0.1 + 0.2 mm']]]];
+function pfSide(k,label){const c=pfb[k],st=PFSTOCK[k];return `<div class="row" style="display:grid;gap:8px"><span class="label">${label} · corner magnets ×4</span>${PFOPT.map(([o,l,opts])=>`<div style="display:grid;gap:4px"><span class="muted" style="font-size:.78rem">${l}</span><div class="chips">${opts.map(([v,t])=>`<button class="chip" data-pf="${k}.${o}" data-v="${v}" aria-pressed="${String(c[o])===String(v)}">${t}${String(st[o])===String(v)?' · stock':''}</button>`).join('')}</div></div>`).join('')}</div>`;}
+function renderPfBuild(){
+  $('#pfctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">Change the corner magnets or add washers on either side. Hold and the steps update as you go. Strength is an estimate, so test by hand.</p></div>
+   ${pfSide('c8','8 side · 8-magnet piece')}${pfSide('c6','6 side · 6-magnet piece')}
+   <div class="nav"><button class="btn ghost" id="pfreset">Reset to stock</button></div>`;
+  $('#pfctl').querySelectorAll('[data-pf]').forEach(b=>b.addEventListener('click',()=>{const [k,o]=b.dataset.pf.split('.'),v=b.dataset.v;pfb[k][o]=o==='g'?v:+v;renderPfBuild();}));
+  $('#pfreset').addEventListener('click',()=>{Object.assign(pfb,JSON.parse(JSON.stringify(PFSTOCK)));renderPfBuild();});
+  const m=JSON.parse(JSON.stringify(pfb)),{N,W,r}=pfNotes(m),{c,buy}=pfNeed(m),ch=pfChanges(m);
+  $('#pfout').innerHTML=`<div class="head"><span class="label">${ch.length?'Your build':'Matches: out of the box'}</span>
+     <div class="meter"><div><span class="label">Hold · ${Math.round(r*100)}%</span>${bars(pfHold(m))}</div><div></div><div></div></div>
+     <p class="muted" style="font-size:.8rem">Hold is relative to out of the box (100%).</p>
+     ${ch.length?`<div class="changed"><b>Changed from out of the box</b><ul style="margin:4px 0 0;padding-left:18px">${ch.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
+     ${buy.length?`<p class="changed"><b>You'll need to buy:</b> ${esc(buy.join(', '))}.</p>`:''}
+     <ul class="feelbox">${N.map(x=>`<li>${esc(x)}</li>`).join('')}${W.map(x=>`<li class="w">${esc(x)}</li>`).join('')}</ul></div>
+   <div class="split">${drawBox(pfDiagram(m),PFLEG,'Schematic; positions are approximate.')}
+     <div style="display:grid;gap:12px;align-content:start">${ioList([`8 side corners: ${pfDesc(m.c8)}`,`6 side corners: ${pfDesc(m.c6)}`,'Centre positioning magnets: N52 5 × 2 mm (no change)'],[])}<div style="display:grid;gap:6px"><span class="label">You'll need</span>${partList(c)}</div></div></div>
+   ${pfSteps(m)}`;
+}
+
+/* =========================================================
    Hub: menu, routing, tabs
    ========================================================= */
 const GUIDES=[
  {id:'tita',n:'TITA Pro',by:'PEL Studio',type:'Modular magnetic + mechanical',count:`${ALL.length} setups`,blurb:'Buckyballs, detent magnets, limit blocks and spring balls: eight official modes from the manual plus twelve more worked out from them, and a mixer.',tabs:'tita'},
  {id:'groove',n:'MOT Groove',by:'MOT',type:'Bead and spring · push + rotate',count:'4 card plans + builder',blurb:'The four plans from the instruction card, every hole on the straight push face and the rotating face, and a builder to try your own.',tabs:'groove'},
  {id:'aura',n:'Aura Sand Slim Pro',by:'Peacock',type:'Floating · fancy play 8 × 6',count:`${ASET.length} magnet setups`,blurb:'N52 and N45 corner magnet setups with halfmoon spacers or pads, long halfmoon and foam pad options, and what each one changes.',tabs:'aura'},
- {id:'jj',n:'Creation Mountain / Shuriken',by:'JJ EDC',type:'Infinite slider · 6 × 8',count:'Standard and Mini',blurb:'The 14-magnet layouts both sliders share, in Standard and Mini, a simulator of where Panel A holds, and a builder.',tabs:'jj'}
+ {id:'jj',n:'Creation Mountain / Shuriken',by:'JJ EDC',type:'Infinite slider · 6 × 8',count:'Standard and Mini',blurb:'The 14-magnet layouts both sliders share, in Standard and Mini, a simulator of where Panel A holds, and a builder.',tabs:'jj'},
+ {id:'pf',n:'Polar Front',by:'DR EDC',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'pf'}
 ];
 function thumb(id){
   if(id==='tita')return diagram(OFF[0]);
   if(id==='groove')return gvDiagram(GPLANS[2].en.h);
   if(id==='jj')return jDiagram(jStock('std'));
+  if(id==='pf')return pfDiagram(PFSTOCK);
   return aDiagram(ASET[1],{mid:'spacer',foam:'none'});
 }
 function renderMenu(){
@@ -1539,10 +1672,10 @@ document.querySelectorAll('.tabs[data-g]').forEach(tl=>tl.querySelectorAll('.tab
 const inited={};
 function route(){
   const id=(location.hash||'').replace(/^#\/?/,'');const g=GUIDES.find(x=>x.id===id);
-  ['home','tita','groove','aura','jj'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
+  ['home','tita','groove','aura','jj','pf'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
   document.querySelectorAll('.tabs[data-g]').forEach(t=>t.classList.toggle('on',!!g&&t.dataset.g===g.id));
   $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'Slider tuning';$('#htitle').textContent=g?`${g.n} tuning guide`:'Slider Tuning Guides';
-  if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}}
+  if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}if(g.id==='pf'){renderPfList();renderPfSheet();renderPfBuild();}}
   window.scrollTo(0,0);
 }
 $('#back').addEventListener('click',()=>{try{history.pushState('',document.title,location.pathname+location.search);}catch(e){location.hash='';}route();});
