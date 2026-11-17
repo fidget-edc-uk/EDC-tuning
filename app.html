@@ -7,29 +7,35 @@
 <title>Slider Tuning Guides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap">
 <style>
 /* Hub: menu of slider guides (TITA Pro, MOT Groove, Aura Sand), each a compact workbench. Dark-first, copper accent; drawings always light like the printed manuals. */
 :root{
-  --bg:#131416; --surface:#1c1e21; --surface-2:#25282c; --line:#34383d;
-  --fg:#eeece6; --muted:#a2a6ac;
-  --accent:#d9825b; --on-accent:#1b0f08;
+  --bg:#1b1e22; --surface:#24282d; --surface-2:#2c3137; --line:#3a4047;
+  --fg:#e8ebee; --muted:#9ba4ad; --hi:rgba(255,255,255,.06); --lo:rgba(0,0,0,.35);
+  --a-tita:#e0a86a; --a-groove:#e2c35c; --a-aura:#b9a0ea; --a-jj:#8fb3ea; --a-pf:#6fc9c9;
+  --accent:#8fb3ea; --on-accent:#14181d;
   --sideA:#e6898a; --sideB:#eea67c; --body:#4a4e55;
   --bucky:#2a2c30; --bucky-rim:#8d9198; --ceramic:#7fb3e6; --mag:#f4f4f2;
   --ok:#7cc79a; --no:#e57e74; --warn:#e3a35b; --var:#8fb6e8;
-  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",sans-serif;
-  --bodyf:"Figtree","Helvetica Neue",Arial,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --bodyf:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Archivo","Helvetica Neue",Arial,sans-serif;
   color-scheme:dark;
 }
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
-  --bg:#f1efea; --surface:#faf9f6; --surface-2:#e8e5de; --line:#d2cec5; --fg:#1d1f22; --muted:#5d6168;
-  --accent:#b55a33; --on-accent:#fff8f3; --body:#8a8f97; --bucky-rim:#555a61; --ceramic:#4a8fd0; --mag:#ffffff;
+  --bg:#dde1e5; --surface:#f4f5f6; --surface-2:#e8ebee; --line:#c2c8ce; --fg:#1c2126; --muted:#545e68; --hi:rgba(255,255,255,.9); --lo:rgba(30,40,50,.18);
+  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74;
+  --accent:#2c5ba3; --on-accent:#ffffff; --body:#8a8f97; --bucky-rim:#555a61; --ceramic:#4a8fd0; --mag:#ffffff;
   --ok:#2f8a55; --no:#c0473b; --warn:#a8620f; --var:#2f6db0; color-scheme:light}}
 :root[data-theme="light"]{
-  --bg:#f1efea; --surface:#faf9f6; --surface-2:#e8e5de; --line:#d2cec5; --fg:#1d1f22; --muted:#5d6168;
-  --accent:#b55a33; --on-accent:#fff8f3; --body:#8a8f97; --bucky-rim:#555a61; --ceramic:#4a8fd0; --mag:#ffffff;
+  --bg:#dde1e5; --surface:#f4f5f6; --surface-2:#e8ebee; --line:#c2c8ce; --fg:#1c2126; --muted:#545e68; --hi:rgba(255,255,255,.9); --lo:rgba(30,40,50,.18);
+  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74;
+  --accent:#2c5ba3; --on-accent:#ffffff; --body:#8a8f97; --bucky-rim:#555a61; --ceramic:#4a8fd0; --mag:#ffffff;
   --ok:#2f8a55; --no:#c0473b; --warn:#a8620f; --var:#2f6db0; color-scheme:light}
+:root[data-g="tita"]{--accent:var(--a-tita)}:root[data-g="groove"]{--accent:var(--a-groove)}:root[data-g="aura"]{--accent:var(--a-aura)}:root[data-g="jj"]{--accent:var(--a-jj)}:root[data-g="pf"]{--accent:var(--a-pf)}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"])[data-g]{--on-accent:#ffffff}}
+:root[data-theme="light"][data-g]{--on-accent:#ffffff}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
@@ -266,6 +272,43 @@ select{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-
 .boxes td:first-child{font-weight:600}
 .gtop{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:16px;align-items:start}
 @media (max-width:700px){.gtop{grid-template-columns:1fr}}
+
+/* ---------- Anodised titanium redesign ---------- */
+body{font-size:15.5px;font-feature-settings:"tnum" 1}
+h1,h2,h3{font-stretch:118%;letter-spacing:-.01em}
+h1{font-weight:800}h2{font-weight:750}h3{font-weight:650}
+.label{font:600 .8rem/1.35 var(--bodyf);font-stretch:90%;letter-spacing:0;text-transform:none;color:var(--muted)}
+header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(--bg) 90%,transparent)}
+:root:not([data-g]) header.top{border-top:0;border-image:linear-gradient(90deg,var(--a-tita),var(--a-groove),var(--a-aura),var(--a-jj),var(--a-pf)) 1;border-top:3px solid}
+.topbar h1{font-size:clamp(1.3rem,3.2vw,1.8rem)}
+.tabs{background:var(--surface-2);box-shadow:inset 0 1px 2px var(--lo)}
+.tab[aria-selected="true"]{box-shadow:0 1px 0 var(--hi) inset,0 1px 2px var(--lo)}
+.card,.magnets{box-shadow:inset 0 1px 0 var(--hi),0 1px 0 var(--lo);border-radius:14px}
+.item{border-radius:9px;box-shadow:inset 0 1px 0 var(--hi)}
+.item[aria-pressed="true"]{box-shadow:inset 3px 0 0 var(--accent),inset 0 1px 0 var(--hi)}
+.btn{border-radius:8px;font-weight:650}
+.chip[aria-pressed="true"]{box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.src{font:650 .7rem/1.2 var(--bodyf);letter-spacing:0;text-transform:none;font-stretch:90%}
+.sim{border-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+/* Home: one tray with a well per slider */
+.hero{padding-block:22px 16px;gap:10px;max-width:none}
+.hero h1{font-size:clamp(2.3rem,9vw,4rem);font-stretch:125%;font-weight:800;line-height:.95;letter-spacing:-.025em}
+.hero p{max-width:56ch;color:var(--muted);font-size:1rem}
+.tray{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:18px 14px 14px;background:var(--surface-2);border-radius:22px;box-shadow:inset 0 1px 0 var(--hi),0 2px 6px var(--lo);max-width:980px}
+@media (min-width:760px){.tray{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:22px 18px 18px}}
+.tray::before,.tray::after{content:"";position:absolute;top:7px;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle at 40% 35%,var(--hi),var(--line) 60%);box-shadow:0 1px 0 var(--hi)}
+.tray::before{left:9px}.tray::after{right:9px}
+.well{position:relative;display:grid;grid-template-rows:auto 1fr;text-align:left;border:0;padding:0;cursor:pointer;color:var(--fg);font:inherit;background:var(--bg);border-radius:14px;overflow:hidden;box-shadow:inset 0 2px 5px var(--lo),inset 0 -1px 0 var(--hi)}
+.well::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--wa);z-index:1}
+.well .pic{background:#f7f6f2;display:grid;place-items:center;height:96px;padding:10px 8px 6px}
+.well .pic svg{width:100%;height:100%}
+@media (min-width:760px){.well .pic{height:138px}}
+.well .txt{display:grid;gap:2px;padding:9px 11px 11px;align-content:start}
+.well .nm{font:750 .98rem/1.15 var(--display);font-stretch:100%}
+.well .by{font-size:.8rem;color:var(--muted);font-stretch:90%}
+.well .ct{font-size:.78rem;font-weight:650;color:var(--wa);margin-top:4px;font-stretch:90%}
+.well:hover{box-shadow:inset 0 2px 5px var(--lo),inset 0 0 0 2px var(--wa)}
+.well:focus-visible{outline:2px solid var(--wa);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -306,8 +349,8 @@ select{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-
 <main class="wrap">
   <!-- ===== Menu ===== -->
   <section id="g-home">
-    <div class="hero"><span class="label">Pick a slider</span><h2>Choose a slider to tune</h2><p>Each guide shows its setups as drawings, lists the parts to pull, gives the steps, and has a simulator so you can hear and feel a setup before you open the slider up.</p></div>
-    <div class="menu" id="menu"></div>
+    <div class="hero"><h1>Slider tuning</h1><p>Pick a slider. Each guide has drawings of every setup, the parts to pull, the steps, and a simulator to try a setup before you open it up.</p></div>
+    <div class="tray" id="menu"></div>
   </section>
 
   <!-- ===== TITA Pro ===== -->
@@ -1646,11 +1689,11 @@ function renderPfBuild(){
    Hub: menu, routing, tabs
    ========================================================= */
 const GUIDES=[
- {id:'tita',n:'TITA Pro',by:'PEL Studio',type:'Modular magnetic + mechanical',count:`${ALL.length} setups`,blurb:'Buckyballs, detent magnets, limit blocks and spring balls: eight official modes from the manual plus twelve more worked out from them, and a mixer.',tabs:'tita'},
- {id:'groove',n:'MOT Groove',by:'MOT',type:'Bead and spring · push + rotate',count:'4 card plans + builder',blurb:'The four plans from the instruction card, every hole on the straight push face and the rotating face, and a builder to try your own.',tabs:'groove'},
- {id:'aura',n:'Aura Sand Slim Pro',by:'Peacock',type:'Floating · fancy play 8 × 6',count:`${ASET.length} magnet setups`,blurb:'N52 and N45 corner magnet setups with halfmoon spacers or pads, long halfmoon and foam pad options, and what each one changes.',tabs:'aura'},
- {id:'jj',n:'Creation Mountain / Shuriken',by:'JJ EDC',type:'Infinite slider · 6 × 8',count:'Standard and Mini',blurb:'The 14-magnet layouts both sliders share, in Standard and Mini, a simulator of where Panel A holds, and a builder.',tabs:'jj'},
- {id:'pf',n:'Polar Front',by:'DR EDC',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'pf'}
+ {id:'tita',n:'TITA Pro',by:'PEL Studio',kind:'magnetic + mechanical',type:'Modular magnetic + mechanical',count:`${ALL.length} setups`,blurb:'Buckyballs, detent magnets, limit blocks and spring balls: eight official modes from the manual plus twelve more worked out from them, and a mixer.',tabs:'tita'},
+ {id:'groove',n:'MOT Groove',by:'MOT',kind:'bead and spring',type:'Bead and spring · push + rotate',count:'4 card plans + builder',blurb:'The four plans from the instruction card, every hole on the straight push face and the rotating face, and a builder to try your own.',tabs:'groove'},
+ {id:'aura',n:'Aura Sand Slim Pro',by:'Peacock',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:`${ASET.length} magnet setups`,blurb:'N52 and N45 corner magnet setups with halfmoon spacers or pads, long halfmoon and foam pad options, and what each one changes.',tabs:'aura'},
+ {id:'jj',n:'Creation Mountain / Shuriken',by:'JJ EDC',kind:'infinite slider',type:'Infinite slider · 6 × 8',count:'Standard and Mini',blurb:'The 14-magnet layouts both sliders share, in Standard and Mini, a simulator of where Panel A holds, and a builder.',tabs:'jj'},
+ {id:'pf',n:'Polar Front',by:'DR EDC',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'pf'}
 ];
 function thumb(id){
   if(id==='tita')return diagram(OFF[0]);
@@ -1660,8 +1703,8 @@ function thumb(id){
   return aDiagram(ASET[1],{mid:'spacer',foam:'none'});
 }
 function renderMenu(){
-  $('#menu').innerHTML=GUIDES.map(g=>`<button class="gcard" data-open-guide="${g.id}"><div class="pic drawing" style="border-radius:0;border:0;border-bottom:1px solid #d9d5cc">${thumb(g.id)}</div>
-    <div class="txt"><span class="label">${esc(g.by)}</span><h2>${esc(g.n)}</h2><div class="meta"><span class="pill">${esc(g.type)}</span><span class="pill">${esc(g.count)}</span></div><p class="muted" style="font-size:.9rem">${esc(g.blurb)}</p><span class="go">Open tuning guide →</span></div></button>`).join('');
+  $('#menu').innerHTML=GUIDES.map(g=>`<button class="well" data-open-guide="${g.id}" style="--wa:var(--a-${g.id})"><div class="pic drawing" style="border:0;border-radius:0">${thumb(g.id)}</div>
+    <div class="txt"><span class="nm">${esc(g.n)}</span><span class="by">${esc(g.by)} · ${esc(g.kind)}</span><span class="ct">${esc(g.count)}</span></div></button>`).join('');
   $('#menu').querySelectorAll('[data-open-guide]').forEach(b=>b.addEventListener('click',()=>{location.hash=b.dataset.openGuide;}));
 }
 function showTab(g,t){
@@ -1674,7 +1717,8 @@ function route(){
   const id=(location.hash||'').replace(/^#\/?/,'');const g=GUIDES.find(x=>x.id===id);
   ['home','tita','groove','aura','jj','pf'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
   document.querySelectorAll('.tabs[data-g]').forEach(t=>t.classList.toggle('on',!!g&&t.dataset.g===g.id));
-  $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'Slider tuning';$('#htitle').textContent=g?`${g.n} tuning guide`:'Slider Tuning Guides';
+  if(g)document.documentElement.dataset.g=g.id;else delete document.documentElement.dataset.g;document.querySelector('.topbar').hidden=!g;
+  $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'Slider tuning';$('#htitle').textContent=g?g.n:'Slider Tuning Guides';
   if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}if(g.id==='pf'){renderPfList();renderPfSheet();renderPfBuild();}}
   window.scrollTo(0,0);
 }
