@@ -1219,7 +1219,7 @@ const AEFF={g:{N52:'N52 grade: about 15% more pull than N45. Firmer holds and a 
  t:{2.5:'8 × 2.5 mm: thicker, so a stronger pull and firmer, crunchier holds.',2:'8 × 2 mm: thinner, so a little less pull.'},
  metal:{.2:'0.2 mm metal spacer: sits under the magnet and adds strength.',0:''},
  hm:{pad:'Halfmoon pad: adds gap between the magnets, so softer, quieter holds.',spacer:'Plastic halfmoon spacer: thin, so it softens the pull only slightly.',none:''}};
-function abSide(side,label){const c=ab[side];return `<div class="row" style="display:grid;gap:8px"><span class="label">${label} · corner magnets ×4</span>${AOPT.map(([k,l,o])=>`<div style="display:grid;gap:4px"><span class="muted" style="font-size:.78rem">${l}</span><div class="chips">${o.map(([v,t])=>`<button class="chip" data-ab="${side}.${k}" data-v="${v}" aria-pressed="${String(c[k]??'none')===String(v)}">${t}</button>`).join('')}</div></div>`).join('')}</div>`;}
+function abSide(side,label){const c=ab[side];return `<div class="row" style="display:grid;gap:8px"><span class="label">${label} · corner magnets ×4</span>${AOPT.map(([k,l,o])=>`<div style="display:grid;gap:4px"><span class="muted" style="font-size:.78rem">${l}</span><div class="chips">${o.map(([v,t])=>`<button class="chip" data-ab="${side}.${k}" data-v="${v}" ${k==='t'&&c.g==='N42'&&String(v)!=='2'?'disabled title="Your N42s are 8 × 2 mm"':''} aria-pressed="${String(c[k]??'none')===String(v)}">${t}</button>`).join('')}</div></div>`).join('')}</div>`;}
 function abSteps(m){
   const sp=[m.c8,m.c6].some(c=>c.hm==='spacer'),s=['Work over a metal tray, with a dish for small parts.'];
   if(sp)s.push('Cut the plastic halfmoon spacers off the sprue (not the separate pads), then file away any excess so they sit flat.');
@@ -1239,7 +1239,7 @@ function renderABuild(){
    ${abSide('c8','8 side · steel card')}${abSide('c6','6 side · Teflon card')}
    ${aXtra({mid:ab.mid,foam:ab.foam},'ab')}`;
   const C=$('#abctl');
-  C.querySelectorAll('[data-ab]').forEach(b=>b.addEventListener('click',()=>{const [sd,k]=b.dataset.ab.split('.'),v=b.dataset.v;ab[sd][k]=k==='g'||k==='hm'?(v==='none'?null:v):+v;ab.from=null;renderABuild();}));
+  C.querySelectorAll('[data-ab]').forEach(b=>b.addEventListener('click',()=>{const [sd,k]=b.dataset.ab.split('.'),v=b.dataset.v;ab[sd][k]=k==='g'||k==='hm'?(v==='none'?null:v):+v;if(ab[sd].g==='N42')ab[sd].t=2;ab.from=null;renderABuild();}));
   C.querySelectorAll('[data-abfrom]').forEach(b=>b.addEventListener('click',()=>{const x=ASET.find(q=>q.id===b.dataset.abfrom);Object.assign(ab,JSON.parse(JSON.stringify({c8:x.c8,c6:x.c6})));ab.from=x.n;renderABuild();}));
   C.querySelectorAll('[data-abmid]').forEach(b=>b.addEventListener('click',()=>{ab.mid=b.dataset.abmid;renderABuild();}));
   C.querySelectorAll('[data-abfoam]').forEach(b=>b.addEventListener('click',()=>{ab.foam=b.dataset.abfoam;renderABuild();}));
@@ -1672,12 +1672,12 @@ function renderPfList(){$('#pfitems').innerHTML=`<div class="grp" style="margin-
    <p class="muted" style="font-size:.82rem;margin-top:10px">No tested setups yet. Use Build your own to change the corner magnets or add washers.</p>`;}
 function renderPfSheet(){const el=$('#pfsheet');el.innerHTML=pfSheet();el.querySelectorAll('[data-pfbuild]').forEach(b=>b.addEventListener('click',()=>{showTab('pf','build');renderPfBuild();window.scrollTo(0,0);}));}
 const PFOPT=[['g','Grade',[['N52','N52 · stronger'],['N45','N45 · softer'],['N42','N42 · yours, 8 × 2 mm']]],['t','Thickness',[[2,'8 × 2 mm'],[2.5,'8 × 2.5 mm · stronger']]],['w','Washers under each corner',[[0,'None'],[.1,'0.1 mm'],[.2,'0.2 mm'],[.3,'0.1 + 0.2 mm']]]];
-function pfSide(k,label){const c=pfb[k],st=PFSTOCK[k];return `<div class="row" style="display:grid;gap:8px"><span class="label">${label} · corner magnets ×4</span>${PFOPT.map(([o,l,opts])=>`<div style="display:grid;gap:4px"><span class="muted" style="font-size:.78rem">${l}</span><div class="chips">${opts.map(([v,t])=>`<button class="chip" data-pf="${k}.${o}" data-v="${v}" aria-pressed="${String(c[o])===String(v)}">${t}${String(st[o])===String(v)?' · stock':''}</button>`).join('')}</div></div>`).join('')}</div>`;}
+function pfSide(k,label){const c=pfb[k],st=PFSTOCK[k];return `<div class="row" style="display:grid;gap:8px"><span class="label">${label} · corner magnets ×4</span>${PFOPT.map(([o,l,opts])=>`<div style="display:grid;gap:4px"><span class="muted" style="font-size:.78rem">${l}</span><div class="chips">${opts.map(([v,t])=>`<button class="chip" data-pf="${k}.${o}" data-v="${v}" ${o==='t'&&c.g==='N42'&&String(v)!=='2'?'disabled title="Your N42s are 8 × 2 mm"':''} aria-pressed="${String(c[o])===String(v)}">${t}${String(st[o])===String(v)?' · stock':''}</button>`).join('')}</div></div>`).join('')}</div>`;}
 function renderPfBuild(){
   $('#pfctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">Change the corner magnets or add washers on either side. Hold and the steps update as you go. Strength is an estimate, so test by hand.</p></div>
    ${pfSide('c8','8 side · 8-magnet piece')}${pfSide('c6','6 side · 6-magnet piece')}
    <div class="nav"><button class="btn ghost" id="pfreset">Reset to stock</button></div>`;
-  $('#pfctl').querySelectorAll('[data-pf]').forEach(b=>b.addEventListener('click',()=>{const [k,o]=b.dataset.pf.split('.'),v=b.dataset.v;pfb[k][o]=o==='g'?v:+v;renderPfBuild();}));
+  $('#pfctl').querySelectorAll('[data-pf]').forEach(b=>b.addEventListener('click',()=>{const [k,o]=b.dataset.pf.split('.'),v=b.dataset.v;pfb[k][o]=o==='g'?v:+v;if(pfb[k].g==='N42')pfb[k].t=2;renderPfBuild();}));
   $('#pfreset').addEventListener('click',()=>{Object.assign(pfb,JSON.parse(JSON.stringify(PFSTOCK)));renderPfBuild();});
   const m=JSON.parse(JSON.stringify(pfb)),{N,W,r}=pfNotes(m),{c,buy}=pfNeed(m),ch=pfChanges(m);
   $('#pfout').innerHTML=`<div class="head"><span class="label">${ch.length?'Your build':'Matches: out of the box'}</span>
