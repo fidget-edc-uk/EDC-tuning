@@ -1119,9 +1119,10 @@ function aDiagram(m,mods){
   const card=(cx,fill)=>{const x=cx-66,y=22,w=132,h=168;return `<path d="M${x+18},${y} Q${cx},${y+10} ${x+w-18},${y} Q${x+w},${y} ${x+w},${y+18} Q${x+w-8},${y+h/2} ${x+w},${y+h-18} Q${x+w},${y+h} ${x+w-18},${y+h} Q${cx},${y+h-10} ${x+18},${y+h} Q${x},${y+h} ${x},${y+h-18} Q${x+8},${y+h/2} ${x},${y+18} Q${x},${y} ${x+18},${y}Z" fill="${fill}" ${st}/>`;};
   const mag=(x,y,c)=>{const r=c.t===2.5?17:15,grade=c.g==='N45'?'#dfe7ee':c.g==='N42'?'#f1e3c8':'#ffffff';let o='';
     if(c.metal)o+=`<circle cx="${x}" cy="${y}" r="${r+3}" fill="none" stroke="#7d828a" stroke-width="2.2"/>`;
+    if(c.hm==='pad')o+=`<circle cx="${x}" cy="${y}" r="${r+3.5}" fill="#2a2c30" ${st}/>`;
     o+=`<circle cx="${x}" cy="${y}" r="${r}" fill="${grade}" ${st}/>`;
+    if(c.hm==='padback')return o+`<circle cx="${x}" cy="${y}" r="${r+1}" fill="#2a2c30" ${st}/><circle cx="${x}" cy="${y}" r="${r-4}" fill="none" stroke="#4a4e55" stroke-width="1" stroke-dasharray="1.5 2"/><text x="${x}" y="${y+3}" text-anchor="middle" font-size="7" font-weight="600" fill="#e8ebee" font-family="var(--mono)">${c.g!=='N52'?c.g:''}${c.t}</text>`;
     if(c.hm==='spacer')o+=`<path d="M${x-r+3},${y-4} A${r-3},${r-3} 0 0 1 ${x+r-3},${y-4} A${r-6},${r-8} 0 0 0 ${x-r+3},${y-4}Z" fill="var(--sideB)" stroke="${INK}" stroke-width=".8"/>`;
-    if(c.hm==='pad'||c.hm==='padback')o+=`<path d="M${x-r+3},${y-4} A${r-3},${r-3} 0 0 1 ${x+r-3},${y-4} A${r-6},${r-8} 0 0 0 ${x-r+3},${y-4}Z" fill="#2a2c30" stroke="${INK}" stroke-width=".8"/>`;
     return o+`<text x="${x}" y="${y+7}" text-anchor="middle" font-size="7.5" font-weight="600" fill="${INK}" font-family="var(--mono)">${c.g!=='N52'?c.g:''}${c.t}</text>`;};
   const slot=(x,y,n,longPiece)=>{let o=`<rect x="${x-9}" y="${y-26}" width="18" height="52" rx="9" fill="#e9e7e1" ${st}/>`;
     if(longPiece)o+=`<rect x="${x-9}" y="${y-26}" width="5" height="52" rx="2.5" fill="${longPiece==='pad'?'#2a2c30':'var(--sideB)'}" stroke="${INK}" stroke-width=".7"/>`;
@@ -1136,7 +1137,7 @@ function aDiagram(m,mods){
   });
   return s+'</svg>';
 }
-const ALEG=`<div class="legend"><span><i style="background:#fff"></i>N52 magnet</span><span><i style="background:#dfe7ee"></i>N45 magnet</span><span><i style="background:#f1e3c8"></i>N42 magnet</span><span><i style="background:none;border:2px solid #7d828a"></i>Metal spacer under it</span><span><i style="background:var(--sideB)"></i>Halfmoon spacer</span><span><i style="background:#2a2c30"></i>Halfmoon pad</span></div>`;
+const ALEG=`<div class="legend"><span><i style="background:#fff"></i>N52 magnet</span><span><i style="background:#dfe7ee"></i>N45 magnet</span><span><i style="background:#f1e3c8"></i>N42 magnet</span><span><i style="background:none;border:2px solid #7d828a"></i>Metal spacer under it</span><span><i style="background:var(--sideB)"></i>Halfmoon spacer</span><span><i style="background:#2a2c30"></i>Halfmoon pad: a full disc covers the magnet when it's on the back; a dark rim when it's in the gap</span><span>Drawn from the back of each card</span></div>`;
 const cdesc=c=>`${c.g} 8 × ${c.t} mm${c.metal?` on a ${c.metal} mm metal spacer`:''}${c.hm==='spacer'?', halfmoon spacer':c.hm==='pad'?', halfmoon pad':c.hm==='padback'?', halfmoon pad behind it':''}`;
 // Strength model. Grade: pull goes with remanence squared, so N45 is about 0.86 of N52. Thickness, halfmoon
 // pieces and the 0.2 mm metal spacer are scaled so the guide's setups land in the order its comparisons give
