@@ -8,6 +8,7 @@ Unofficial tuning guides for premium fidget sliders, built as a single static we
 - **Creation Mountain / Shuriken** (JJ EDC): Standard and Mini magnet layouts, a hold simulator and a builder.
 - **Polar Front** (DR EDC): the out-of-the-box magnet layout and a builder for corner magnets and washers.
 - **Heart Feather** (YY EDC): the out-of-the-box magnet layout and a builder for corner magnets and washers.
+- **Suan QS Spinner** (E-Go): two video guides with tappable steps.
 
 ## Run it
 

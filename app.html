@@ -13,7 +13,7 @@
 :root{
   --bg:#1b1e22; --surface:#24282d; --surface-2:#2c3137; --line:#3a4047;
   --fg:#e8ebee; --muted:#9ba4ad; --hi:rgba(255,255,255,.06); --lo:rgba(0,0,0,.35);
-  --a-tita:#e0a86a; --a-groove:#e2c35c; --a-aura:#b9a0ea; --a-jj:#8fb3ea; --a-pf:#6fc9c9; --a-hf:#e79ac0;
+  --a-tita:#e0a86a; --a-groove:#e2c35c; --a-aura:#b9a0ea; --a-jj:#8fb3ea; --a-pf:#6fc9c9; --a-hf:#e79ac0; --a-ego:#a3d08c;
   --accent:#8fb3ea; --on-accent:#14181d;
   --sideA:#e6898a; --sideB:#eea67c; --body:#4a4e55;
   --bucky:#2a2c30; --bucky-rim:#8d9198; --ceramic:#7fb3e6; --mag:#f4f4f2;
@@ -25,15 +25,15 @@
 }
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
   --bg:#dde1e5; --surface:#f4f5f6; --surface-2:#e8ebee; --line:#c2c8ce; --fg:#1c2126; --muted:#545e68; --hi:rgba(255,255,255,.9); --lo:rgba(30,40,50,.18);
-  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74; --a-hf:#a33d6c;
+  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74; --a-hf:#a33d6c; --a-ego:#3d7531;
   --accent:#2c5ba3; --on-accent:#ffffff; --body:#8a8f97; --bucky-rim:#555a61; --ceramic:#4a8fd0; --mag:#ffffff;
   --ok:#2f8a55; --no:#c0473b; --warn:#a8620f; --var:#2f6db0; color-scheme:light}}
 :root[data-theme="light"]{
   --bg:#dde1e5; --surface:#f4f5f6; --surface-2:#e8ebee; --line:#c2c8ce; --fg:#1c2126; --muted:#545e68; --hi:rgba(255,255,255,.9); --lo:rgba(30,40,50,.18);
-  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74; --a-hf:#a33d6c;
+  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74; --a-hf:#a33d6c; --a-ego:#3d7531;
   --accent:#2c5ba3; --on-accent:#ffffff; --body:#8a8f97; --bucky-rim:#555a61; --ceramic:#4a8fd0; --mag:#ffffff;
   --ok:#2f8a55; --no:#c0473b; --warn:#a8620f; --var:#2f6db0; color-scheme:light}
-:root[data-g="tita"]{--accent:var(--a-tita)}:root[data-g="groove"]{--accent:var(--a-groove)}:root[data-g="aura"]{--accent:var(--a-aura)}:root[data-g="jj"]{--accent:var(--a-jj)}:root[data-g="pf"]{--accent:var(--a-pf)}:root[data-g="hf"]{--accent:var(--a-hf)}
+:root[data-g="tita"]{--accent:var(--a-tita)}:root[data-g="groove"]{--accent:var(--a-groove)}:root[data-g="aura"]{--accent:var(--a-aura)}:root[data-g="jj"]{--accent:var(--a-jj)}:root[data-g="pf"]{--accent:var(--a-pf)}:root[data-g="hf"]{--accent:var(--a-hf)}:root[data-g="ego"]{--accent:var(--a-ego)}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"])[data-g]{--on-accent:#ffffff}}
 :root[data-theme="light"][data-g]{--on-accent:#ffffff}
 *{box-sizing:border-box}
@@ -279,7 +279,7 @@ h1,h2,h3{font-stretch:100%;letter-spacing:-.01em}
 h1{font-weight:800}h2{font-weight:750}h3{font-weight:650}
 .label{font:600 .8rem/1.35 var(--bodyf);font-stretch:90%;letter-spacing:0;text-transform:none;color:var(--muted)}
 header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(--bg) 90%,transparent)}
-:root:not([data-g]) header.top{border-top:0;border-image:linear-gradient(90deg,var(--a-tita),var(--a-groove),var(--a-aura),var(--a-jj),var(--a-pf),var(--a-hf)) 1;border-top:3px solid}
+:root:not([data-g]) header.top{border-top:0;border-image:linear-gradient(90deg,var(--a-tita),var(--a-groove),var(--a-aura),var(--a-jj),var(--a-pf),var(--a-hf),var(--a-ego)) 1;border-top:3px solid}
 .topbar h1{font-size:clamp(1.3rem,3.2vw,1.8rem)}
 .tabs{background:var(--surface-2);box-shadow:inset 0 1px 2px var(--lo)}
 .tab[aria-selected="true"]{box-shadow:0 1px 0 var(--hi) inset,0 1px 2px var(--lo)}
@@ -309,13 +309,25 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
 .well .ct{font-size:.78rem;font-weight:650;color:var(--wa);margin-top:4px;font-stretch:90%}
 .well:hover{box-shadow:inset 0 2px 5px var(--lo),inset 0 0 0 2px var(--wa)}
 .well:focus-visible{outline:2px solid var(--wa);outline-offset:2px}
+
+/* Video guides */
+.well .pic.photo{padding:0}.well .pic.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.vguide{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:760px){.vguide{grid-template-columns:1fr}}
+.vguide video{width:100%;max-height:72vh;border-radius:12px;background:#000;display:block}
+.chap{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.chap button{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;width:100%;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 11px;color:var(--fg);font:inherit;cursor:pointer;box-shadow:inset 0 1px 0 var(--hi)}
+.chap .tc{font-weight:700;color:var(--accent);white-space:nowrap;font-size:.86rem;padding-top:1px}
+.chap button[aria-current="true"]{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.chap li.warn button{border-color:color-mix(in srgb,var(--warn) 65%,var(--line))}
+.chap li.warn .must{display:block;font-weight:700;color:var(--warn);font-size:.8rem;margin-bottom:2px}
 </style>
 </head>
 <body>
 <header class="top">
   <div class="wrap">
     <div class="topbar">
-      <button class="back" id="back" hidden>← All sliders</button>
+      <button class="back" id="back" hidden>← All guides</button>
       <div class="t"><span class="label" id="hlabel">Slider tuning</span><h1 id="htitle">Slider Tuning Guides</h1></div>
       <div class="tabs" role="tablist" aria-label="TITA Pro sections" data-g="tita">
         <button class="tab" role="tab" data-tab="setups" aria-selected="true">Setups</button>
@@ -630,8 +642,35 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
     </div>
     <p class="note">Unofficial, written from the maker's out-of-the-box spec. Strength figures are estimates, so test by hand.</p>
   </section>
+  <!-- ===== E-Go Suan QS Spinner ===== -->
+  <section id="g-ego" hidden>
+    <p class="muted" style="max-width:62ch;margin-bottom:16px">Two ways to set up the Suan QS: with the tuning-fork expansion piece taken off and 6 mm buckyballs fitted, or with pins added and the tuning fork refitted. Tap a step to jump to that part of the video.</p>
+    <div style="display:grid;gap:18px">
+      <div class="card vguide" data-vg>
+        <video controls playsinline preload="metadata" poster="ego/poster1.jpg" src="ego/video1.mp4"></video>
+        <div style="display:grid;gap:10px;align-content:start"><span class="label">Video 1 · 52 seconds</span><h2>Removing the tuning fork and fitting 6 mm buckyballs</h2>
+          <ol class="chap">
+            <li><button data-t="2"><span class="tc">0:02–0:11</span><span>Removing the tuning-fork expansion piece at lightning speed</span></button></li>
+            <li class="warn"><button data-t="11"><span class="tc">0:11–0:25</span><span><span class="must">Don't skip this</span>After removing the expansion piece, you absolutely must put the short screws back in and re-tighten the main body</span></button></li>
+            <li><button data-t="28"><span class="tc">0:28–0:35</span><span>Insert the 6 mm buckyballs</span></button></li>
+            <li><button data-t="47"><span class="tc">0:47–0:52</span><span>With the pins added, the back side doesn't open its armour</span></button></li>
+          </ol></div>
+      </div>
+      <div class="card vguide" data-vg>
+        <video controls playsinline preload="metadata" poster="ego/poster2.jpg" src="ego/video2.mp4"></video>
+        <div style="display:grid;gap:10px;align-content:start"><span class="label">Video 2 · 1 minute 11 seconds</span><h2>Pin setup with the tuning fork refitted</h2>
+          <ol class="chap">
+            <li><button data-t="10"><span class="tc">0:10–0:17</span><span>Removing the tuning-fork expansion piece (sped up)</span></button></li>
+            <li><button data-t="25"><span class="tc">0:25–0:28</span><span>Pin placement holes</span></button></li>
+            <li><button data-t="44"><span class="tc">0:44–0:49</span><span>Fitting the tuning-fork expansion piece (sped up)</span></button></li>
+            <li><button data-t="53"><span class="tc">0:53–1:02</span><span>Adding the pins means the armour opens on the front side only, and the back side stays shut as a plain tactile spinner</span></button></li>
+          </ol></div>
+      </div>
+    </div>
+    <p class="note">Videos by EndlessGO.</p>
+  </section>
 </main>
-<footer><div class="wrap">Unofficial guides. TITA Pro is made by PEL Studio, Groove by MOT, Aura Sand by Peacock, Creation Mountain and Shuriken by JJ EDC, Polar Front by DR EDC, and Heart Feather by YY EDC.</div></footer>
+<footer><div class="wrap">Unofficial guides. TITA Pro is made by PEL Studio, Groove by MOT, Aura Sand by Peacock, Creation Mountain and Shuriken by JJ EDC, Polar Front by DR EDC, Heart Feather by YY EDC, and the Suan QS Spinner by E-Go.</div></footer>
 
 <script>
 /* ---------- Data ---------- */
@@ -1825,6 +1864,11 @@ function renderHfBuild(){
    ${hfSteps(m)}`;
 }
 
+
+/* ---------- Video guides: tap a step to jump there ---------- */
+function initEgo(){document.querySelectorAll('#g-ego [data-vg]').forEach(card=>{const v=card.querySelector('video'),bs=[...card.querySelectorAll('.chap button')];
+  bs.forEach(b=>b.addEventListener('click',()=>{v.currentTime=+b.dataset.t;v.play().catch(()=>{});}));
+  v.addEventListener('timeupdate',()=>{let cur=null;bs.forEach(b=>{if(v.currentTime>=+b.dataset.t-.2)cur=b;});bs.forEach(b=>b.setAttribute('aria-current',String(b===cur)));});});}
 /* =========================================================
    Hub: menu, routing, tabs
    ========================================================= */
@@ -1834,7 +1878,8 @@ const GUIDES=[
  {id:'aura',n:'Aura Sand Slim Pro',by:'Peacock',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:`${ASET.length} magnet setups`,blurb:'N52 and N45 corner magnet setups with halfmoon spacers or pads, long halfmoon and foam pad options, and what each one changes.',tabs:'aura'},
  {id:'jj',n:'Creation Mountain / Shuriken',by:'JJ EDC',kind:'infinite slider',type:'Infinite slider · 6 × 8',count:'Standard and Mini',blurb:'The 14-magnet layouts both sliders share, in Standard and Mini, a simulator of where Panel A holds, and a builder.',tabs:'jj'},
  {id:'pf',n:'Polar Front',by:'DR EDC',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'pf'},
- {id:'hf',n:'Heart Feather',by:'YY EDC',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'hf'}
+ {id:'hf',n:'Heart Feather',by:'YY EDC',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'hf'},
+ {id:'ego',n:'Suan QS Spinner',by:'E-Go',kind:'spinner',type:'Spinner · video guides',count:'2 video guides',blurb:'Removing the tuning fork, fitting 6 mm buckyballs, and the pin setup.',tabs:'ego'}
 ];
 function thumb(id){
   if(id==='tita')return diagram(OFF[0]);
@@ -1842,10 +1887,11 @@ function thumb(id){
   if(id==='jj')return jDiagram(jStock('std'));
   if(id==='pf')return pfDiagram(PFSTOCK);
   if(id==='hf')return hfDiagram(HFSTOCK);
+  if(id==='ego')return '<img src="ego/thumb.jpg" alt="">';
   return aDiagram(ASET[1],{mid:'spacer',foam:'none'});
 }
 function renderMenu(){
-  $('#menu').innerHTML=GUIDES.map(g=>`<button class="well" data-open-guide="${g.id}" style="--wa:var(--a-${g.id})"><div class="pic drawing" style="border:0;border-radius:0">${thumb(g.id)}</div>
+  $('#menu').innerHTML=GUIDES.map(g=>`<button class="well" data-open-guide="${g.id}" style="--wa:var(--a-${g.id})"><div class="pic ${g.id==='ego'?'photo':'drawing'}" style="border:0;border-radius:0">${thumb(g.id)}</div>
     <div class="txt"><span class="nm">${esc(g.n)}</span><span class="by">${esc(g.by)} · ${esc(g.kind)}</span><span class="ct">${esc(g.count)}</span></div></button>`).join('');
   $('#menu').querySelectorAll('[data-open-guide]').forEach(b=>b.addEventListener('click',()=>{location.hash=b.dataset.openGuide;}));
 }
@@ -1857,11 +1903,11 @@ document.querySelectorAll('.tabs[data-g]').forEach(tl=>tl.querySelectorAll('.tab
 const inited={};
 function route(){
   const id=(location.hash||'').replace(/^#\/?/,'');const g=GUIDES.find(x=>x.id===id);
-  ['home','tita','groove','aura','jj','pf','hf'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
+  ['home','tita','groove','aura','jj','pf','hf','ego'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
   document.querySelectorAll('.tabs[data-g]').forEach(t=>t.classList.toggle('on',!!g&&t.dataset.g===g.id));
   if(g)document.documentElement.dataset.g=g.id;else delete document.documentElement.dataset.g;document.querySelector('.topbar').hidden=!g;
   $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'Slider tuning';$('#htitle').textContent=g?g.n:'Slider Tuning Guides';
-  if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}if(g.id==='pf'){renderPfList();renderPfSheet();renderPfBuild();}if(g.id==='hf'){renderHfList();renderHfSheet();renderHfBuild();}}
+  if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}if(g.id==='pf'){renderPfList();renderPfSheet();renderPfBuild();}if(g.id==='hf'){renderHfList();renderHfSheet();renderHfBuild();}if(g.id==='ego')initEgo();}
   window.scrollTo(0,0);
 }
 $('#back').addEventListener('click',()=>{try{history.pushState('',document.title,location.pathname+location.search);}catch(e){location.hash='';}route();});
