@@ -1072,12 +1072,12 @@ function aDiagram(m,mods){
   const lab=(t,x)=>`<text x="${x}" y="13" text-anchor="middle" font-size="8" fill="#6b7077" font-family="var(--mono)" letter-spacing=".6">${t}</text>`;
   s+=lab('8 SIDE · STEEL CARD',82)+lab('6 SIDE · TEFLON CARD',238);
   const card=(cx,fill)=>{const x=cx-66,y=22,w=132,h=168;return `<path d="M${x+18},${y} Q${cx},${y+10} ${x+w-18},${y} Q${x+w},${y} ${x+w},${y+18} Q${x+w-8},${y+h/2} ${x+w},${y+h-18} Q${x+w},${y+h} ${x+w-18},${y+h} Q${cx},${y+h-10} ${x+18},${y+h} Q${x},${y+h} ${x},${y+h-18} Q${x+8},${y+h/2} ${x},${y+18} Q${x},${y} ${x+18},${y}Z" fill="${fill}" ${st}/>`;};
-  const mag=(x,y,c)=>{const r=c.t===2.5?17:15,grade=c.g==='N45'?'#dfe7ee':'#ffffff';let o='';
+  const mag=(x,y,c)=>{const r=c.t===2.5?17:15,grade=c.g==='N45'?'#dfe7ee':c.g==='N42'?'#f1e3c8':'#ffffff';let o='';
     if(c.metal)o+=`<circle cx="${x}" cy="${y}" r="${r+3}" fill="none" stroke="#7d828a" stroke-width="2.2"/>`;
     o+=`<circle cx="${x}" cy="${y}" r="${r}" fill="${grade}" ${st}/>`;
     if(c.hm==='spacer')o+=`<path d="M${x-r+3},${y-4} A${r-3},${r-3} 0 0 1 ${x+r-3},${y-4} A${r-6},${r-8} 0 0 0 ${x-r+3},${y-4}Z" fill="var(--sideB)" stroke="${INK}" stroke-width=".8"/>`;
     if(c.hm==='pad')o+=`<path d="M${x-r+3},${y-4} A${r-3},${r-3} 0 0 1 ${x+r-3},${y-4} A${r-6},${r-8} 0 0 0 ${x-r+3},${y-4}Z" fill="#2a2c30" stroke="${INK}" stroke-width=".8"/>`;
-    return o+`<text x="${x}" y="${y+7}" text-anchor="middle" font-size="7.5" font-weight="600" fill="${INK}" font-family="var(--mono)">${c.g==='N45'?'N45':''}${c.t}</text>`;};
+    return o+`<text x="${x}" y="${y+7}" text-anchor="middle" font-size="7.5" font-weight="600" fill="${INK}" font-family="var(--mono)">${c.g!=='N52'?c.g:''}${c.t}</text>`;};
   const slot=(x,y,n,longPiece)=>{let o=`<rect x="${x-9}" y="${y-26}" width="18" height="52" rx="9" fill="#e9e7e1" ${st}/>`;
     if(longPiece)o+=`<rect x="${x-9}" y="${y-26}" width="5" height="52" rx="2.5" fill="${longPiece==='pad'?'#2a2c30':'var(--sideB)'}" stroke="${INK}" stroke-width=".7"/>`;
     const ys=n===2?[y-12,y+12]:[y];ys.forEach(yy=>o+=`<circle cx="${x+1}" cy="${yy}" r="7" fill="#fff" ${st}/>`);return o;};
@@ -1091,12 +1091,14 @@ function aDiagram(m,mods){
   });
   return s+'</svg>';
 }
-const ALEG=`<div class="legend"><span><i style="background:#fff"></i>N52 magnet</span><span><i style="background:#dfe7ee"></i>N45 magnet</span><span><i style="background:none;border:2px solid #7d828a"></i>Metal spacer under it</span><span><i style="background:var(--sideB)"></i>Halfmoon spacer</span><span><i style="background:#2a2c30"></i>Halfmoon pad</span></div>`;
+const ALEG=`<div class="legend"><span><i style="background:#fff"></i>N52 magnet</span><span><i style="background:#dfe7ee"></i>N45 magnet</span><span><i style="background:#f1e3c8"></i>N42 magnet</span><span><i style="background:none;border:2px solid #7d828a"></i>Metal spacer under it</span><span><i style="background:var(--sideB)"></i>Halfmoon spacer</span><span><i style="background:#2a2c30"></i>Halfmoon pad</span></div>`;
 const cdesc=c=>`${c.g} 8 × ${c.t} mm${c.metal?` on a ${c.metal} mm metal spacer`:''}${c.hm==='spacer'?', halfmoon spacer':c.hm==='pad'?', halfmoon pad':''}`;
 // Strength model. Grade: pull goes with remanence squared, so N45 is about 0.86 of N52. Thickness, halfmoon
 // pieces and the 0.2 mm metal spacer are scaled so the guide's setups land in the order its comparisons give
 // (stock > N45 on halfmoon spacers ≈ thick N52 on pads > N52 on pads). Relative, not measured.
-const AF={g:{N52:1,N45:.86},t:{2.5:1,2:.85},hm:{none:1,spacer:.92,pad:.66},metal:{0:1,.1:.9,.2:.8,.3:.7}}; // a spacer under an Aura magnet weakens it
+// Magnets you own on top of what came in the box
+const OWN={'N42 8 × 2 mm':20};
+const AF={g:{N52:1,N45:.86,N42:.83},t:{2.5:1,2:.85},hm:{none:1,spacer:.92,pad:.66},metal:{0:1,.1:.9,.2:.8,.3:.7}}; // a spacer under an Aura magnet weakens it
 const cStr=c=>AF.g[c.g]*AF.t[c.t]*AF.hm[c.hm||'none']*AF.metal[c.metal||0];
 const aStr=m=>Math.pow(cStr(m.c6),.75)*Math.pow(cStr(m.c8)/.92,.25);
 const AREF=Math.pow(1,.75)*Math.pow(.85*.66/.92,.25); // out of the box = 100%
@@ -1211,9 +1213,9 @@ let minfoOpen=false;
 function magInfo(){const mi=document.querySelector('#g-aura .magnets');if(!mi)return '';return `<details class="minfo"${minfoOpen?' open':''}><summary>How magnet choices change the feel</summary><div class="minfo-b">${mi.querySelector('.head p').outerHTML}${mi.querySelector('.tbl').outerHTML}${mi.querySelector(':scope > p').outerHTML}</div></details>`;}
 document.addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('minfo'))minfoOpen=e.target.open;},true);
 const ab={c8:{...AC8_PRO},c6:{g:'N45',t:2,metal:0,hm:'spacer'},mid:'pad',foam:'none',from:'N45 on halfmoon spacers'};
-const AOPT=[['g','Grade',[['N52','N52 · stronger'],['N45','N45 · softer']]],['t','Thickness',[[2,'8 × 2 mm'],[2.5,'8 × 2.5 mm · stronger']]],
+const AOPT=[['g','Grade',[['N52','N52 · stronger'],['N45','N45 · softer'],['N42','N42 · yours, 8 × 2 mm']]],['t','Thickness',[[2,'8 × 2 mm'],[2.5,'8 × 2.5 mm · stronger']]],
 ['hm','Halfmoon piece',[['none','None'],['spacer','Plastic spacer'],['pad','Pad · softer']]]];
-const AEFF={g:{N52:'N52 grade: about 15% more pull than N45. Firmer holds and a sharper snap.',N45:'N45 grade: about 15% less pull than N52. A softer, floatier glide.'},
+const AEFF={g:{N52:'N52 grade: about 15% more pull than N45. Firmer holds and a sharper snap.',N45:'N45 grade: about 15% less pull than N52. A softer, floatier glide.',N42:'N42 grade: about 17% less pull than N52 at the same size. A softer, easier glide.'},
  t:{2.5:'8 × 2.5 mm: thicker, so a stronger pull and firmer, crunchier holds.',2:'8 × 2 mm: thinner, so a little less pull.'},
  metal:{.2:'0.2 mm metal spacer: sits under the magnet and adds strength.',0:''},
  hm:{pad:'Halfmoon pad: adds gap between the magnets, so softer, quieter holds.',spacer:'Plastic halfmoon spacer: thin, so it softens the pull only slightly.',none:''}};
@@ -1228,7 +1230,7 @@ function abSteps(m){
   s.push(ab.mid==='spacer'?'6 side only: swap the long halfmoon pad by the middle magnets for the long halfmoon, for more crunch.':'Keep the long halfmoon pad by the 6 side middle magnets.');
   s.push(ab.foam==='none'?'Leave the foam pads out.':'Fit one foam pad, on the 8 side only.');
   s.push('Reassemble and try a few slow tricks before speeding up.');return stepsBox(s);}
-function abParts(m){const c={};const add=(k,q)=>c[k]=(c[k]||0)+q;[m.c8,m.c6].forEach(x=>{add(`${x.g} 8 × ${x.t} mm magnet`,4);if(x.metal)add(`${x.metal} mm metal spacer`,4);if(x.hm==='spacer')add('Halfmoon spacer',4);if(x.hm==='pad')add('Halfmoon pad',4);});
+function abParts(m){const c={};const add=(k,q)=>c[k]=(c[k]||0)+q;[m.c8,m.c6].forEach(x=>{const k=`${x.g} 8 × ${x.t} mm`;add(`${k} magnet${OWN[k]?' (yours)':''}`,4);if(x.metal)add(`${x.metal} mm metal spacer`,4);if(x.hm==='spacer')add('Halfmoon spacer',4);if(x.hm==='pad')add('Halfmoon pad',4);});
   if(ab.mid==='spacer')add('Long halfmoon',2);if(ab.foam==='one')add('Foam pad',1);return partList(c);}
 function renderABuild(){
   $('#abctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">Pick the corner magnets for each side. Hold, the drawing and the simulator update as you go. Strength is an estimate, so test by hand.</p></div>
@@ -1243,7 +1245,7 @@ function renderABuild(){
   C.querySelectorAll('[data-abfoam]').forEach(b=>b.addEventListener('click',()=>{ab.foam=b.dataset.abfoam;renderABuild();}));
   const m={id:'build',src:'mix',n:'Your build',c8:ab.c8,c6:ab.c6},mods={mid:ab.mid,foam:ab.foam},rel=aRelM(m,mods),hold=aHold(m,mods),cr=Math.min(5,aCrunch(m,mods)),flow=ab.foam==='none'?4:3;
   const REF={c8:AC8_STOCK,c6:{g:'N52',t:2.5,metal:0,hm:null}},eff=[];['c6','c8'].forEach(sd=>{const c=ab[sd],r=REF[sd],n=sd==='c6'?'6 side':'8 side';['g','t','metal','hm'].forEach(k=>{const cv=c[k]??'none',rv=r[k]??'none';if(String(cv)===String(rv))return;const t=AEFF[k][cv]||(k==='metal'?'No metal spacer: a little less pull.':k==='hm'?'No halfmoon piece: nothing softening the pull.':'');if(t)eff.push(`${n}: ${t}`);});});if(!eff.length)eff.push('Same corner magnets as out of the box.');
-  const W=[],need={},box={'N52 8 × 2.5 mm':4,'N52 8 × 2 mm':4};[ab.c8,ab.c6].forEach(c=>{const k=`${c.g} 8 × ${c.t} mm`;need[k]=(need[k]||0)+4;});Object.entries(need).forEach(([k,q])=>{const extra=q-(box[k]||0);if(extra>0)W.push(`You'll need to buy ${extra} × ${k} magnets: the box only has ${box[k]||0}.`);});if(rel<.78)W.push('Weaker than N45 on halfmoon spacers: expect it to come apart with power or speed.');if(rel>1.05)W.push('Stronger than out of the box: firmer, but more effort to slide.');
+  const W=[],need={},box={'N52 8 × 2.5 mm':4,'N52 8 × 2 mm':4,...OWN};[ab.c8,ab.c6].forEach(c=>{const k=`${c.g} 8 × ${c.t} mm`;need[k]=(need[k]||0)+4;});Object.entries(need).forEach(([k,q])=>{const extra=q-(box[k]||0);if(extra>0)W.push(`You'll need to buy ${extra} × ${k} magnets${box[k]?`: you only have ${box[k]}`:''}.`);});if(rel<.78)W.push('Weaker than N45 on halfmoon spacers: expect it to come apart with power or speed.');if(rel>1.05)W.push('Stronger than out of the box: firmer, but more effort to slide.');
   const ref=ASET.find(x=>x.id!=='build'&&JSON.stringify([x.c8,x.c6].map(c=>[c.g,c.t,c.metal||0,c.hm||null]))===JSON.stringify([ab.c8,ab.c6].map(c=>[c.g,c.t,c.metal||0,c.hm||null])));
   $('#about').innerHTML=`<div class="head"><span class="label">${ref?'Matches: '+esc(ref.n):ab.from?'Based on '+esc(ab.from)+', changed':'Your build'}</span>
      <div class="meter"><div><span class="label">Hold · ${Math.round(rel*100)}%</span>${bars(hold)}</div><div><span class="label">Crunch</span>${bars(cr)}</div><div><span class="label">Flow</span>${bars(flow)}</div></div>
@@ -1472,7 +1474,7 @@ function initGroove(){
    Strength of one magnet: grade (remanence vs N52) × volume (diameter² × thickness).
    ========================================================= */
 const JU=3.75; // layout units per mm, so the hold model matches the Aura one
-const JBR={N52:1,N45:.93,N35:.83,N25:.71};
+const JBR={N52:1,N45:.93,N42:.91,N35:.83,N25:.71};
 const JSPEC={
  std:{n:'Standard',W:28,H:46,pos:{cx:8.8,cy:17.7,by:6.0},aC:{d:7,t:3,g:'N35'},bC:{d:8,t:2,g:'N52'},mid:{d:5,t:3,g:'N35'},swap:false,
   dims:[['Creation Mountain','46 × 28 × 12.6 mm'],['Shuriken','46 × 28 × 16 mm']]},
@@ -1513,7 +1515,7 @@ function jDiagram(c){
   let s=`<svg viewBox="0 0 300 200" role="img" aria-label="Drawing of the Panel A and Panel B magnet layouts">`;
   const lab=(t,x)=>`<text x="${x}" y="13" text-anchor="middle" font-size="8" fill="#6b7077" font-family="var(--mono)" letter-spacing=".6">${t}</text>`;
   s+=lab(`PANEL A · ${4+(c.aM?2:0)} MAGNETS`,78)+lab(`PANEL B · ${4+(c.bM?4:0)} MAGNETS`,222);
-  const fill=g=>({N52:'#ffffff',N45:'#dfe7ee',N35:'#cfe3d2',N25:'#f3dc8a'})[g];
+  const fill=g=>({N52:'#ffffff',N45:'#dfe7ee',N42:'#f1e3c8',N35:'#cfe3d2',N25:'#f3dc8a'})[g];
   const mag=(x,y,m,small)=>`<circle cx="${x}" cy="${y}" r="${m.d*2.2}" fill="${fill(m.g)}" ${st}/><text x="${x}" y="${y+3}" text-anchor="middle" font-size="${small?6.5:7.5}" font-weight="600" fill="${INK}" font-family="var(--mono)">${m.g}</text>`;
   const empty=(x,y,m)=>`<circle cx="${x}" cy="${y}" r="${m.d*2.2}" fill="none" stroke="#9a9ea5" stroke-width="1" stroke-dasharray="2.5 2.5"/>`;
   [[78,aC,c.aM,[0]],[222,bC,c.bM,[-sp.pos.by,sp.pos.by]]].forEach(([cx,cm,on,rows])=>{
@@ -1524,7 +1526,7 @@ function jDiagram(c){
   });
   return s+'</svg>';
 }
-function jLeg(c){const {aC,bC,mid}=jSpec(c),fill=g=>({N52:'#fff',N45:'#dfe7ee',N35:'#cfe3d2',N25:'#f3dc8a'})[g],seen=new Set(),it=[];
+function jLeg(c){const {aC,bC,mid}=jSpec(c),fill=g=>({N52:'#fff',N45:'#dfe7ee',N42:'#f1e3c8',N35:'#cfe3d2',N25:'#f3dc8a'})[g],seen=new Set(),it=[];
   [aC,bC,mid].forEach(m=>{const k=m.g+jSz(m);if(seen.has(k))return;seen.add(k);it.push(`<span><i style="background:${fill(m.g)}"></i>${m.g} · ${jSz(m)}</span>`);});
   return `<div class="legend">${it.join('')}<span><i style="background:none;border:1px dashed #9a9ea5"></i>Left empty</span></div>`;}
 const jDesc=c=>{const {aC,bC,mid}=jSpec(c);return [`Panel A corners: 4 × ${aC.g} ${jSz(aC)}`,`Panel B corners: 4 × ${bC.g} ${jSz(bC)}`,`Panel A middle: ${c.aM?`2 × ${mid.g} ${jSz(mid)}`:'empty'}`,`Panel B middle: ${c.bM?`4 × ${mid.g} ${jSz(mid)}, two rows`:'empty'}`];};
@@ -1541,6 +1543,7 @@ function jNotes(c){
   if(c.aC===st.bC&&c.bC===st.aC)N.push('Corners swapped between panels: the pull between two magnets depends on both of them together, so this feels almost the same as stock.');
   else if(c.aC==='N52'&&c.bC==='N52')N.push('N52 corners on both panels: firmer holds and a sharper snap, and a little more effort to slide.');
   else if(c.aC==='N45'&&c.bC==='N45')N.push('N45 corners on both panels: a softer, floatier glide that comes apart sooner with speed.');
+  if(c.size==='std'&&c.bC==='N42')N.push('Panel B corners: N42 instead of N52. About 9% less pull from that side: a softer, easier glide.');
   if(!c.aM)N.push('Panel A middle empty: fewer stops in the middle, so longer, smoother runs between the corner holds.');
   if(!c.bM)N.push('Panel B middle empty: fewer stops in the middle, so longer, smoother runs between the corner holds.');
   ['N52','N45'].forEach(g=>{if(n(g)>1)W.push(`You'll need 8 ${g} ${jSz(aC)} magnets. The slider only comes with 4, so buy spares of the same size and grade.`);});
@@ -1551,7 +1554,9 @@ function jSteps(c){
   if(jSame(c,jStock(c.size)))return stepsBox(['This is how both sliders arrive, so there is nothing to change. Use Build your own to try a change.']);
   const {aC,bC,mid}=jSpec(c),st=jStock(c.size);
   const s=['Lay the panels on the metal plate from the box, with a dish for small parts.','Before you lift a magnet, put a marker dot on its top face. A magnet that goes back upside down pushes instead of pulls.','Lift magnets out with the magnetic tip of the tool from the box.'];
-  if(c.aC!==st.aC||c.bC!==st.bC)s.push(`Fit ${aC.g} ${jSz(aC)} magnets in Panel A's four corners and ${bC.g} ${jSz(bC)} magnets in Panel B's. A magnet moved to the other panel goes in dot side down, because the panels face each other.`);
+  const swapped=c.aC===st.bC&&c.bC===st.aC&&c.aC!==c.bC;
+  if(swapped)s.push(`Fit ${aC.g} ${jSz(aC)} magnets in Panel A's four corners and ${bC.g} ${jSz(bC)} magnets in Panel B's. A magnet moved to the other panel goes in dot side down, because the panels face each other.`);
+  else{if(c.aC!==st.aC)s.push(`Panel A: replace the four corner magnets with ${aC.g} ${jSz(aC)} magnets.`);if(c.bC!==st.bC)s.push(`Panel B: replace the four corner magnets with ${bC.g} ${jSz(bC)} magnets.`);}
   if(!c.aM)s.push(`Take the two ${mid.g} ${jSz(mid)} magnets out of Panel A's middle and keep them safe.`);
   if(!c.bM)s.push(`Take the four ${mid.g} ${jSz(mid)} magnets out of Panel B's middle and keep them safe.`);
   s.push('Before closing it up, hold the panels face to face. They should pull together at every corner; if one spot pushes, flip that magnet.');
@@ -1577,12 +1582,13 @@ function renderJSheet(){const el=$('#jsheet');el.innerHTML=jSheet();jMount(el.qu
 function renderJBuild(){
   const sp=JSPEC[jsize],st=jStock(jsize),{aC,bC,mid}=jSpec(jb);
   const OPT=[];
+  if(!sp.swap)OPT.push(['bC',`Panel B corners · 4 × ${jSz(sp.bC)}`,[['N52','N52 · stock'],['N42','N42 · yours']]]);
   if(sp.swap){OPT.push(['aC',`Panel A corners · 4 × ${jSz(sp.aC)}`,[[st.aC,st.aC+' · stock'],[st.bC,st.bC]]]);OPT.push(['bC',`Panel B corners · 4 × ${jSz(sp.bC)}`,[[st.bC,st.bC+' · stock'],[st.aC,st.aC]]]);}
   OPT.push(['aM',`Panel A middle · 2 × ${mid.g} ${jSz(mid)}`,[[1,'In · stock'],[0,'Leave empty']]]);
   OPT.push(['bM',`Panel B middle · 4 × ${mid.g} ${jSz(mid)}`,[[1,'In · stock'],[0,'Leave empty']]]);
-  $('#jctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">${sp.swap?'Swap magnets between the panels or leave the middles empty.':'Leave the middle magnets in or out.'} Hold, stops and the simulator update as you go. It's an estimate from the magnet layout, so test by hand.</p></div>${jSizeBar()}`+
+  $('#jctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">${sp.swap?'Swap magnets between the panels or leave the middles empty.':'Fit your N42s in Panel B\'s corners, or leave the middles empty.'} Hold, stops and the simulator update as you go. It's an estimate from the magnet layout, so test by hand.</p></div>${jSizeBar()}`+
    OPT.map(([k,l,o])=>`<div class="row" style="display:grid;gap:5px"><span class="label">${l}</span><div class="chips">${o.map(([v,t])=>`<button class="chip" data-jk="${k}" data-v="${v}" aria-pressed="${String(jb[k])===String(v)}">${t}</button>`).join('')}</div></div>`).join('')+
-   (sp.swap?'':`<p class="muted" style="font-size:.84rem">On the Standard, Panel A's corner magnets are 7 mm across and Panel B's are 8 mm, so the corners can't swap between panels.</p>`)+
+   `<p class="muted" style="font-size:.84rem">${sp.swap?'Your N42 8 × 2 mm magnets are 8 mm across, so they don\'t fit the Mini\'s 7 mm corner pockets.':'On the Standard, Panel A\'s corner magnets are 7 mm across and Panel B\'s are 8 mm, so the corners can\'t swap between panels. Your N42 8 × 2 mm magnets fit Panel B only.'}</p>`+
    `<div class="nav"><button class="btn ghost" id="jreset">Reset to stock</button></div>`;
   $('#jctl').querySelectorAll('[data-jsize]').forEach(b=>b.addEventListener('click',()=>jSetSize(b.dataset.jsize)));
   $('#jctl').querySelectorAll('[data-jk]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.jk,v=b.dataset.v;jb[k]=isNaN(+v)?v:+v;renderJBuild();}));
@@ -1604,7 +1610,7 @@ function renderJBuild(){
    centre positioning magnets N52 5 × 2 mm, base plate with a 0.3 mm convex limit at the four corners.
    Strength is an estimate: grade and thickness of each corner magnet, and washers that add gap.
    ========================================================= */
-const PFG={N52:1,N45:.93},PFT={2.5:1,2:.8},PFW={0:1,.1:.9,.2:.8,.3:.7};
+const PFG={N52:1,N45:.93,N42:.91},PFT={2.5:1,2:.8},PFW={0:1,.1:.9,.2:.8,.3:.7};
 const PFSTOCK={c8:{g:'N52',t:2.5,w:0},c6:{g:'N52',t:2,w:0}};
 const pfStr=c=>PFG[c.g]*PFT[c.t]*PFW[c.w];
 const pfRel=m=>pfStr(m.c8)*pfStr(m.c6)/(pfStr(PFSTOCK.c8)*pfStr(PFSTOCK.c6));
@@ -1619,7 +1625,7 @@ function pfDiagram(m){
   const lab=(t,x)=>`<text x="${x}" y="13" text-anchor="middle" font-size="8" fill="#6b7077" font-family="var(--mono)" letter-spacing=".6">${t}</text>`;
   s+=lab('8 SIDE · 8-MAGNET PIECE',82)+lab('6 SIDE · 6-MAGNET PIECE',238);
   const mag=(x,y,c)=>{const r=c.t===2.5?17:15;let o='';if(c.w)o+=`<circle cx="${x}" cy="${y}" r="${r+3}" fill="none" stroke="#7d828a" stroke-width="${c.w===.3?3.2:2.2}"/>`;
-    return o+`<circle cx="${x}" cy="${y}" r="${r}" fill="${c.g==='N45'?'#dfe7ee':'#ffffff'}" ${st}/><text x="${x}" y="${y+3}" text-anchor="middle" font-size="7.5" font-weight="600" fill="${INK}" font-family="var(--mono)">${c.g==='N45'?'N45 ':''}${c.t}</text>`;};
+    return o+`<circle cx="${x}" cy="${y}" r="${r}" fill="${c.g==='N45'?'#dfe7ee':c.g==='N42'?'#f1e3c8':'#ffffff'}" ${st}/><text x="${x}" y="${y+3}" text-anchor="middle" font-size="7.5" font-weight="600" fill="${INK}" font-family="var(--mono)">${c.g!=='N52'?c.g+' ':''}${c.t}</text>`;};
   [[82,'#d7d9dd',m.c8,[[-28,-12],[28,-12],[-28,12],[28,12]]],[238,'#2c2e33',m.c6,[[-28,0],[28,0]]]].forEach(([cx,fill,c,mid])=>{
     s+=`<rect x="${cx-66}" y="22" width="132" height="168" rx="18" fill="${fill}" ${st}/>`;
     [[cx-38,48],[cx+38,48],[cx-38,164],[cx+38,164]].forEach(([x,y])=>s+=mag(x,y,c));
@@ -1627,17 +1633,17 @@ function pfDiagram(m){
   });
   return s+'</svg>';
 }
-const PFLEG=`<div class="legend"><span><i style="background:#fff"></i>N52 magnet</span><span><i style="background:#dfe7ee"></i>N45 magnet</span><span><i style="background:none;border:2px solid #7d828a"></i>Washer</span></div>`;
+const PFLEG=`<div class="legend"><span><i style="background:#fff"></i>N52 magnet</span><span><i style="background:#dfe7ee"></i>N45 magnet</span><span><i style="background:#f1e3c8"></i>N42 magnet</span><span><i style="background:none;border:2px solid #7d828a"></i>Washer</span></div>`;
 function pfChanges(m){const L=[];[['8 side corners','c8'],['6 side corners','c6']].forEach(([n,k])=>{if(!pfSame(m[k],PFSTOCK[k]))L.push(`${n}: ${pfDesc(PFSTOCK[k])} → ${m[k].g===PFSTOCK[k].g&&m[k].t===PFSTOCK[k].t?'the same magnets':`${m[k].g} 8 × ${m[k].t} mm`}${m[k].w?`, on ${pfWd(m[k].w)}`:''}`);});
   if(L.length)L.push('Centre positioning magnets: no change');return L;}
-function pfNeed(m){const c={},buy=[],have={'N52 8 × 2.5 mm magnet':4,'N52 8 × 2 mm magnet':4},need={};
+function pfNeed(m){const c={},buy=[],have={'N52 8 × 2.5 mm magnet':4,'N52 8 × 2 mm magnet':4,'N42 8 × 2 mm magnet':20},need={};
   [m.c8,m.c6].forEach(x=>{const k=`${x.g} 8 × ${x.t} mm magnet`;need[k]=(need[k]||0)+4;});
-  Object.entries(need).forEach(([k,q])=>{const extra=Math.max(0,q-(have[k]||0));c[extra?`${k} (${q-extra?q-extra+' stock, ':''}${extra} to buy)`:`${k} (stock)`]=q;if(extra)buy.push(`${extra} × ${k.replace(' magnet','')}`);});
+  Object.entries(need).forEach(([k,q])=>{const extra=Math.max(0,q-(have[k]||0));const src=k.startsWith('N42')?'yours':'stock';c[extra?`${k} (${q-extra?q-extra+' '+src+', ':''}${extra} to buy)`:`${k} (${src})`]=q;if(extra)buy.push(`${extra} × ${k.replace(' magnet','')}`);});
   let w1=0,w2=0;[m.c8,m.c6].forEach(x=>{if(x.w===.1)w1+=4;if(x.w===.2)w2+=4;if(x.w===.3){w1+=4;w2+=4;}});
   if(w1)c['0.1 mm washer']=w1;if(w2)c['0.2 mm washer']=w2;return {c,buy};}
 function pfNotes(m){const N=[],r=pfRel(m);
   [['8 side','c8'],['6 side','c6']].forEach(([n,k])=>{const a=m[k],b=PFSTOCK[k];
-    if(a.g!==b.g)N.push(`${n}: ${a.g} instead of ${b.g}. ${a.g==='N45'?'About 7% less pull from that side: a softer, floatier glide.':'About 7% more pull from that side: firmer holds.'}`);
+    if(a.g!==b.g){const p=Math.round((PFG[a.g]/PFG[b.g]-1)*100);N.push(`${n}: ${a.g} instead of ${b.g}. About ${Math.abs(p)}% ${p<0?'less pull from that side: a softer, easier glide.':'more pull from that side: firmer holds.'}`);}
     if(a.t!==b.t)N.push(`${n}: ${a.t} mm thick instead of ${b.t} mm. ${a.t===2.5?'Thicker, so a stronger pull and firmer, crunchier holds.':'Thinner, so a little less pull.'}`);
     if(a.w)N.push(`${n}: ${pfWd(a.w)} under each corner. If the magnets go in from the back, like the Aura, the washer sits between the magnet and the other piece, adding gap and softening the pull.`);});
   if(!N.length)N.push('Same as out of the box.');
@@ -1665,7 +1671,7 @@ function pfSheet(){const m=PFSTOCK;
 function renderPfList(){$('#pfitems').innerHTML=`<div class="grp" style="margin-top:8px"><span class="label">Magnet setups · 1</span><button class="item" aria-pressed="true"><span class="nm">Out of the box</span><span class="tg">The maker's stock layout</span></button></div>
    <p class="muted" style="font-size:.82rem;margin-top:10px">No tested setups yet. Use Build your own to change the corner magnets or add washers.</p>`;}
 function renderPfSheet(){const el=$('#pfsheet');el.innerHTML=pfSheet();el.querySelectorAll('[data-pfbuild]').forEach(b=>b.addEventListener('click',()=>{showTab('pf','build');renderPfBuild();window.scrollTo(0,0);}));}
-const PFOPT=[['g','Grade',[['N52','N52 · stronger'],['N45','N45 · softer']]],['t','Thickness',[[2,'8 × 2 mm'],[2.5,'8 × 2.5 mm · stronger']]],['w','Washers under each corner',[[0,'None'],[.1,'0.1 mm'],[.2,'0.2 mm'],[.3,'0.1 + 0.2 mm']]]];
+const PFOPT=[['g','Grade',[['N52','N52 · stronger'],['N45','N45 · softer'],['N42','N42 · yours, 8 × 2 mm']]],['t','Thickness',[[2,'8 × 2 mm'],[2.5,'8 × 2.5 mm · stronger']]],['w','Washers under each corner',[[0,'None'],[.1,'0.1 mm'],[.2,'0.2 mm'],[.3,'0.1 + 0.2 mm']]]];
 function pfSide(k,label){const c=pfb[k],st=PFSTOCK[k];return `<div class="row" style="display:grid;gap:8px"><span class="label">${label} · corner magnets ×4</span>${PFOPT.map(([o,l,opts])=>`<div style="display:grid;gap:4px"><span class="muted" style="font-size:.78rem">${l}</span><div class="chips">${opts.map(([v,t])=>`<button class="chip" data-pf="${k}.${o}" data-v="${v}" aria-pressed="${String(c[o])===String(v)}">${t}${String(st[o])===String(v)?' · stock':''}</button>`).join('')}</div></div>`).join('')}</div>`;}
 function renderPfBuild(){
   $('#pfctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">Change the corner magnets or add washers on either side. Hold and the steps update as you go. Strength is an estimate, so test by hand.</p></div>
