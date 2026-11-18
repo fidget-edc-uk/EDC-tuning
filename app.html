@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Unofficial tuning guides for the TITA Pro, MOT Groove, Aura Sand Slim Pro and JJ EDC Creation Mountain / Shuriken and DR EDC Polar Front sliders: setups, drawings, steps and feel simulators.">
+<meta name="description" content="Unofficial tuning guides for the TITA Pro, MOT Groove, Aura Sand Slim Pro and JJ EDC Creation Mountain / Shuriken, DR EDC Polar Front and YY EDC Heart Feather sliders: setups, drawings, steps and feel simulators.">
 <title>Slider Tuning Guides</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,7 @@
 :root{
   --bg:#1b1e22; --surface:#24282d; --surface-2:#2c3137; --line:#3a4047;
   --fg:#e8ebee; --muted:#9ba4ad; --hi:rgba(255,255,255,.06); --lo:rgba(0,0,0,.35);
-  --a-tita:#e0a86a; --a-groove:#e2c35c; --a-aura:#b9a0ea; --a-jj:#8fb3ea; --a-pf:#6fc9c9;
+  --a-tita:#e0a86a; --a-groove:#e2c35c; --a-aura:#b9a0ea; --a-jj:#8fb3ea; --a-pf:#6fc9c9; --a-hf:#e79ac0;
   --accent:#8fb3ea; --on-accent:#14181d;
   --sideA:#e6898a; --sideB:#eea67c; --body:#4a4e55;
   --bucky:#2a2c30; --bucky-rim:#8d9198; --ceramic:#7fb3e6; --mag:#f4f4f2;
@@ -25,15 +25,15 @@
 }
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
   --bg:#dde1e5; --surface:#f4f5f6; --surface-2:#e8ebee; --line:#c2c8ce; --fg:#1c2126; --muted:#545e68; --hi:rgba(255,255,255,.9); --lo:rgba(30,40,50,.18);
-  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74;
+  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74; --a-hf:#a33d6c;
   --accent:#2c5ba3; --on-accent:#ffffff; --body:#8a8f97; --bucky-rim:#555a61; --ceramic:#4a8fd0; --mag:#ffffff;
   --ok:#2f8a55; --no:#c0473b; --warn:#a8620f; --var:#2f6db0; color-scheme:light}}
 :root[data-theme="light"]{
   --bg:#dde1e5; --surface:#f4f5f6; --surface-2:#e8ebee; --line:#c2c8ce; --fg:#1c2126; --muted:#545e68; --hi:rgba(255,255,255,.9); --lo:rgba(30,40,50,.18);
-  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74;
+  --a-tita:#94591a; --a-groove:#7f600b; --a-aura:#6845a3; --a-jj:#2c5ba3; --a-pf:#1b6f74; --a-hf:#a33d6c;
   --accent:#2c5ba3; --on-accent:#ffffff; --body:#8a8f97; --bucky-rim:#555a61; --ceramic:#4a8fd0; --mag:#ffffff;
   --ok:#2f8a55; --no:#c0473b; --warn:#a8620f; --var:#2f6db0; color-scheme:light}
-:root[data-g="tita"]{--accent:var(--a-tita)}:root[data-g="groove"]{--accent:var(--a-groove)}:root[data-g="aura"]{--accent:var(--a-aura)}:root[data-g="jj"]{--accent:var(--a-jj)}:root[data-g="pf"]{--accent:var(--a-pf)}
+:root[data-g="tita"]{--accent:var(--a-tita)}:root[data-g="groove"]{--accent:var(--a-groove)}:root[data-g="aura"]{--accent:var(--a-aura)}:root[data-g="jj"]{--accent:var(--a-jj)}:root[data-g="pf"]{--accent:var(--a-pf)}:root[data-g="hf"]{--accent:var(--a-hf)}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"])[data-g]{--on-accent:#ffffff}}
 :root[data-theme="light"][data-g]{--on-accent:#ffffff}
 *{box-sizing:border-box}
@@ -279,7 +279,7 @@ h1,h2,h3{font-stretch:100%;letter-spacing:-.01em}
 h1{font-weight:800}h2{font-weight:750}h3{font-weight:650}
 .label{font:600 .8rem/1.35 var(--bodyf);font-stretch:90%;letter-spacing:0;text-transform:none;color:var(--muted)}
 header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(--bg) 90%,transparent)}
-:root:not([data-g]) header.top{border-top:0;border-image:linear-gradient(90deg,var(--a-tita),var(--a-groove),var(--a-aura),var(--a-jj),var(--a-pf)) 1;border-top:3px solid}
+:root:not([data-g]) header.top{border-top:0;border-image:linear-gradient(90deg,var(--a-tita),var(--a-groove),var(--a-aura),var(--a-jj),var(--a-pf),var(--a-hf)) 1;border-top:3px solid}
 .topbar h1{font-size:clamp(1.3rem,3.2vw,1.8rem)}
 .tabs{background:var(--surface-2);box-shadow:inset 0 1px 2px var(--lo)}
 .tab[aria-selected="true"]{box-shadow:0 1px 0 var(--hi) inset,0 1px 2px var(--lo)}
@@ -338,6 +338,11 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
         <button class="tab" role="tab" data-tab="parts" aria-selected="false">Parts &amp; tips</button>
       </div>
       <div class="tabs" role="tablist" aria-label="DR EDC Polar Front sections" data-g="pf">
+        <button class="tab" role="tab" data-tab="setups" aria-selected="true">Setups</button>
+        <button class="tab" role="tab" data-tab="build" aria-selected="false">Build your own</button>
+        <button class="tab" role="tab" data-tab="parts" aria-selected="false">Parts &amp; tips</button>
+      </div>
+      <div class="tabs" role="tablist" aria-label="YY EDC Heart Feather sections" data-g="hf">
         <button class="tab" role="tab" data-tab="setups" aria-selected="true">Setups</button>
         <button class="tab" role="tab" data-tab="build" aria-selected="false">Build your own</button>
         <button class="tab" role="tab" data-tab="parts" aria-selected="false">Parts &amp; tips</button>
@@ -585,8 +590,48 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
     </div>
     <p class="note">Unofficial, written from the maker's out-of-the-box spec. Strength figures are estimates, so test by hand.</p>
   </section>
+  <!-- ===== YY EDC Heart Feather ===== -->
+  <section id="g-hf" hidden>
+    <div data-panel="setups">
+      <div class="bench">
+        <div class="list"><div id="hfitems"></div></div>
+        <div class="card" id="hfsheet" aria-live="polite"></div>
+      </div>
+    </div>
+    <div data-panel="build" hidden>
+      <div class="bench">
+        <div class="card ctl" id="hfctl"></div>
+        <div class="card" id="hfout" aria-live="polite"></div>
+      </div>
+    </div>
+    <div data-panel="parts" hidden>
+      <div class="kitgrid">
+        <div style="display:grid;gap:10px"><h2>Out of the box</h2>
+          <div class="tbl"><table class="htable"><thead><tr><th scope="col">Where</th><th scope="col">Magnets</th></tr></thead><tbody>
+            <tr><td>8 side (steel), corners ×4</td><td>N45 7 × 3 mm</td></tr>
+            <tr><td>8 side, middle ×4</td><td>N25 5 × 3 mm</td></tr>
+            <tr><td>6 side (Teflon), corners ×4</td><td>N45 7 × 3 mm</td></tr>
+            <tr><td>6 side, middle ×2</td><td>N25 5 × 3 mm</td></tr>
+          </tbody></table></div>
+          <p class="muted" style="font-size:.86rem">Sizes are diameter × thickness. The 6 side is Teflon with its magnet board on the inner side; the 8 side is steel with its magnet plate on the outer side.</p>
+        </div>
+        <div style="display:grid;gap:10px"><h2>Tips</h2>
+          <ul class="tips">
+            <li><b>Your N42s don't fit</b>The corners take 7 mm magnets, so your N42 8 × 2 mm magnets are too wide.</li>
+            <li><b>Washers</b>Thin steel discs, 0.1 or 0.2 mm (stack both for 0.3 mm). A washer between the magnet and the other piece adds gap and softens the pull. Check which way your pockets open before relying on it.</li>
+            <li><b>Grade and thickness</b>N52 pulls harder than N45, and a 7 × 3 mm magnet harder than a 7 × 2 mm.</li>
+            <li><b>Mark before you lift</b>Put a marker dot on each magnet's top face before taking it out, so it goes back the same way up.</li>
+            <li><b>Check before closing</b>Every corner magnet should sit flush, and every corner should pull when you hold the pieces together.</li>
+            <li class="warn"><b>Keep the plates clean</b>Grit caught between the pieces damages the Teflon. Blu Tack lifts debris.</li>
+            <li class="warn"><b>Magnet safety</b>Strong magnets. Keep away from young children.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p class="note">Unofficial, written from the maker's out-of-the-box spec. Strength figures are estimates, so test by hand.</p>
+  </section>
 </main>
-<footer><div class="wrap">Unofficial guides. TITA Pro is made by PEL Studio, Groove by MOT, Aura Sand by Peacock, Creation Mountain and Shuriken by JJ EDC, and Polar Front by DR EDC.</div></footer>
+<footer><div class="wrap">Unofficial guides. TITA Pro is made by PEL Studio, Groove by MOT, Aura Sand by Peacock, Creation Mountain and Shuriken by JJ EDC, Polar Front by DR EDC, and Heart Feather by YY EDC.</div></footer>
 
 <script>
 /* ---------- Data ---------- */
@@ -1647,7 +1692,7 @@ function pfNotes(m){const N=[],r=pfRel(m);
     if(a.t!==b.t)N.push(`${n}: ${a.t} mm thick instead of ${b.t} mm. ${a.t===2.5?'Thicker, so a stronger pull and firmer, crunchier holds.':'Thinner, so a little less pull.'}`);
     if(a.w)N.push(`${n}: ${pfWd(a.w)} under each corner. If the magnets go in from the back, like the Aura, the washer sits between the magnet and the other piece, adding gap and softening the pull.`);});
   if(!N.length)N.push('Same as out of the box.');
-  const W=[];[['8 side','c8'],['6 side','c6']].forEach(([n,k])=>{const a=m[k],b=PFSTOCK[k],up=(a.t-b.t)+a.w;if(up>0)W.push(`${n}: each corner magnet now sits ${Math.round(up*10)/10} mm higher than the pocket was made for. Check it still sits flush, or it will rub the other piece.`);});if(r<.75)W.push('Much softer than stock: expect it to come apart sooner with power or speed.');if(r>1.1)W.push('Firmer than stock: more effort to slide.');
+  const W=[];[['8 side','c8'],['6 side','c6']].forEach(([n,k])=>{const a=m[k],b=PFSTOCK[k],up=(a.t-b.t)+a.w;if(up>0)W.push(`${n}: each corner magnet now sits ${Math.round(up*10)/10} mm higher than the pocket was made for. Check it still sits flush, or it will rub the other piece.`);if(up<0)W.push(`${n}: each corner magnet is ${Math.round(-up*10)/10} mm thinner than the pocket was made for, so it may sit loose. Check it doesn\'t rattle.`);});if(r<.75)W.push('Much softer than stock: expect it to come apart sooner with power or speed.');if(r>1.1)W.push('Firmer than stock: more effort to slide.');
   return {N,W,r};}
 function pfSteps(m){
   const ch=['c8','c6'].filter(k=>!pfSame(m[k],PFSTOCK[k]));
@@ -1692,6 +1737,93 @@ function renderPfBuild(){
 }
 
 /* =========================================================
+   YY EDC Heart Feather · fancy play 8 × 6
+   Out of the box (maker spec): corners N45 7 × 3 mm on both pieces, middles N25 5 × 3 mm.
+   6 side Teflon, magnet board on the inner side; 8 side steel, magnet plate on the outer side.
+   Strength is an estimate: grade and thickness of each corner magnet, and washers that add gap.
+   ========================================================= */
+const HFG={N52:1,N45:.93,N42:.91},HFT={3:1,2:.67},HFW={0:1,.1:.9,.2:.8,.3:.7};
+const HFSTOCK={c8:{g:'N45',t:3,w:0},c6:{g:'N45',t:3,w:0}};
+const hfStr=c=>HFG[c.g]*HFT[c.t]*HFW[c.w];
+const hfRel=m=>hfStr(m.c8)*hfStr(m.c6)/(hfStr(HFSTOCK.c8)*hfStr(HFSTOCK.c6));
+const hfHold=m=>Math.max(1,Math.min(5,Math.round(3+(hfRel(m)-1)/.1)));
+const hfWd=w=>w===.3?'0.1 + 0.2 mm washers':`a ${w} mm washer`;
+const hfDesc=c=>`${c.g} 7 × ${c.t} mm${c.w?`, on ${hfWd(c.w)}`:''}`;
+const hfSame=(a,b)=>['g','t','w'].every(k=>String(a[k])===String(b[k]));
+const hfb=JSON.parse(JSON.stringify(HFSTOCK));
+function hfDiagram(m){
+  const st=`stroke="${INK}" stroke-width="1.1"`;
+  let s=`<svg viewBox="0 0 320 196" role="img" aria-label="Schematic of the 8-magnet and 6-magnet pieces">`;
+  const lab=(t,x)=>`<text x="${x}" y="13" text-anchor="middle" font-size="8" fill="#6b7077" font-family="var(--mono)" letter-spacing=".6">${t}</text>`;
+  s+=lab('8 SIDE · STEEL',82)+lab('6 SIDE · TEFLON',238);
+  const mag=(x,y,c)=>{const r=c.t===3?15:14;let o='';if(c.w)o+=`<circle cx="${x}" cy="${y}" r="${r+3}" fill="none" stroke="#7d828a" stroke-width="${c.w===.3?3.2:2.2}"/>`;
+    return o+`<circle cx="${x}" cy="${y}" r="${r}" fill="${c.g==='N45'?'#dfe7ee':c.g==='N42'?'#f1e3c8':'#ffffff'}" ${st}/><text x="${x}" y="${y+3}" text-anchor="middle" font-size="7.5" font-weight="600" fill="${INK}" font-family="var(--mono)">${c.g!=='N52'?c.g+' ':''}${c.t}</text>`;};
+  [[82,'#d7d9dd',m.c8,[[-28,-12],[28,-12],[-28,12],[28,12]]],[238,'#2c2e33',m.c6,[[-28,0],[28,0]]]].forEach(([cx,fill,c,mid])=>{
+    s+=`<rect x="${cx-66}" y="22" width="132" height="168" rx="18" fill="${fill}" ${st}/>`;
+    [[cx-38,48],[cx+38,48],[cx-38,164],[cx+38,164]].forEach(([x,y])=>s+=mag(x,y,c));
+    mid.forEach(([dx,dy])=>s+=`<circle cx="${cx+dx}" cy="${106+dy}" r="8" fill="#fff" ${st}/><text x="${cx+dx}" y="${106+dy+2.5}" text-anchor="middle" font-size="5.5" font-weight="600" fill="${INK}" font-family="var(--mono)">5×3</text>`);
+  });
+  return s+'</svg>';
+}
+const HFLEG=`<div class="legend"><span><i style="background:#fff"></i>N52 magnet</span><span><i style="background:#dfe7ee"></i>N45 magnet</span><span><i style="background:none;border:2px solid #7d828a"></i>Washer</span></div>`;
+function hfChanges(m){const L=[];[['8 side corners','c8'],['6 side corners','c6']].forEach(([n,k])=>{if(!hfSame(m[k],HFSTOCK[k]))L.push(`${n}: ${hfDesc(HFSTOCK[k])} → ${m[k].g===HFSTOCK[k].g&&m[k].t===HFSTOCK[k].t?'the same magnets':`${m[k].g} 7 × ${m[k].t} mm`}${m[k].w?`, on ${hfWd(m[k].w)}`:''}`);});
+  if(L.length)L.push('Middle magnets: no change');return L;}
+function hfNeed(m){const c={},buy=[],have={'N45 7 × 3 mm magnet':8},need={};
+  [m.c8,m.c6].forEach(x=>{const k=`${x.g} 7 × ${x.t} mm magnet`;need[k]=(need[k]||0)+4;});
+  Object.entries(need).forEach(([k,q])=>{const extra=Math.max(0,q-(have[k]||0));const src='stock';c[extra?`${k} (${q-extra?q-extra+' '+src+', ':''}${extra} to buy)`:`${k} (${src})`]=q;if(extra)buy.push(`${extra} × ${k.replace(' magnet','')}`);});
+  let w1=0,w2=0;[m.c8,m.c6].forEach(x=>{if(x.w===.1)w1+=4;if(x.w===.2)w2+=4;if(x.w===.3){w1+=4;w2+=4;}});
+  if(w1)c['0.1 mm washer']=w1;if(w2)c['0.2 mm washer']=w2;return {c,buy};}
+function hfNotes(m){const N=[],r=hfRel(m);
+  [['8 side','c8'],['6 side','c6']].forEach(([n,k])=>{const a=m[k],b=HFSTOCK[k];
+    if(a.g!==b.g){const p=Math.round((HFG[a.g]/HFG[b.g]-1)*100);N.push(`${n}: ${a.g} instead of ${b.g}. About ${Math.abs(p)}% ${p<0?'less pull from that side: a softer, easier glide.':'more pull from that side: firmer holds.'}`);}
+    if(a.t!==b.t)N.push(`${n}: ${a.t} mm thick instead of ${b.t} mm. ${a.t>b.t?'Thicker, so a stronger pull and firmer, crunchier holds.':'Thinner, so less pull and a softer glide.'}`);
+    if(a.w)N.push(`${n}: ${hfWd(a.w)} under each corner. If the magnets go in from the back, like the Aura, the washer sits between the magnet and the other piece, adding gap and softening the pull.`);});
+  if(!N.length)N.push('Same as out of the box.');
+  const W=[];[['8 side','c8'],['6 side','c6']].forEach(([n,k])=>{const a=m[k],b=HFSTOCK[k],up=(a.t-b.t)+a.w;if(up>0)W.push(`${n}: each corner magnet now sits ${Math.round(up*10)/10} mm higher than the pocket was made for. Check it still sits flush, or it will rub the other piece.`);if(up<0)W.push(`${n}: each corner magnet is ${Math.round(-up*10)/10} mm thinner than the pocket was made for, so it may sit loose. Check it doesn\'t rattle.`);});if(r<.75)W.push('Much softer than stock: expect it to come apart sooner with power or speed.');if(r>1.1)W.push('Firmer than stock: more effort to slide.');
+  return {N,W,r};}
+function hfSteps(m){
+  const ch=['c8','c6'].filter(k=>!hfSame(m[k],HFSTOCK[k]));
+  if(!ch.length)return stepsBox(['This is how it arrives, so there is nothing to change. Use Build your own to try a change.']);
+  const s=['Work over a metal tray, with a dish for small parts.','Lift out the corner magnets on the side you are changing with a metal tool, or a magnet. Note which way up each one was.'];
+  ch.forEach(k=>{const c=m[k],n=k==='c8'?'8 side (steel)':'6 side (Teflon)',same=c.g===HFSTOCK[k].g&&c.t===HFSTOCK[k].t;
+    s.push(`${n}: ${c.w?`put ${c.w===.3?'a 0.1 mm and a 0.2 mm washer':hfWd(c.w)} in the bottom of each corner pocket first, then `:''}fit ${same?'the same magnets back in all four corners, the same way up':`${c.g} 7 × ${c.t} mm magnets in all four corners`}.`);});
+  if(ch.some(k=>m[k].w))s.push('Washers soften the pull only if they end up between the magnet and the other piece, which is how it works when the magnets go in from the back, as on the Aura. Check which way your pockets open.');
+  s.push('Leave the middle magnets as they are.');
+  s.push('Check every corner magnet still sits flush, then hold the pieces together: every corner should pull. If one pushes, flip that magnet.');
+  s.push('Reassemble and try some slow slides before speeding up.');
+  return stepsBox(s);}
+function hfSheet(){const m=HFSTOCK;
+  return `<div class="head"><div class="row"><span class="label">YY EDC Heart Feather · 8 × 6</span></div><h2>Out of the box</h2>
+     <p>Both pieces have N45 7 × 3 mm corner magnets and N25 5 × 3 mm magnets in the middle: four on the 8 side, two on the 6 side. The 6 side is Teflon with its magnet board on the inner side; the 8 side is steel with its magnet plate on the outer side.</p></div>
+   <div class="meter"><div><span class="label">Hold · 100%</span>${bars(3)}</div><div></div><div></div></div>
+   <div class="split">${drawBox(hfDiagram(m),HFLEG,'Schematic from the maker spec; positions are approximate.')}
+     <div style="display:grid;gap:12px;align-content:start">${ioList(['8 side (steel) corners: N45 7 × 3 mm','6 side (Teflon) corners: N45 7 × 3 mm','Middle magnets: N25 5 × 3 mm, four on the 8 side, two on the 6 side'],[])}</div></div>
+   ${hfSteps(m)}
+   <div class="nav"><button class="btn ghost" data-hfbuild>Change the magnets</button></div>`;}
+function renderHfList(){$('#hfitems').innerHTML=`<div class="grp" style="margin-top:8px"><span class="label">Magnet setups · 1</span><button class="item" aria-pressed="true"><span class="nm">Out of the box</span><span class="tg">The maker's stock layout</span></button></div>
+   <p class="muted" style="font-size:.82rem;margin-top:10px">No tested setups yet. Use Build your own to change the corner magnets or add washers.</p>`;}
+function renderHfSheet(){const el=$('#hfsheet');el.innerHTML=hfSheet();el.querySelectorAll('[data-hfbuild]').forEach(b=>b.addEventListener('click',()=>{showTab('hf','build');renderHfBuild();window.scrollTo(0,0);}));}
+const HFOPT=[['g','Grade',[['N52','N52 · stronger'],['N45','N45 · softer']]],['t','Thickness',[[2,'7 × 2 mm · softer'],[3,'7 × 3 mm']]],['w','Washers under each corner',[[0,'None'],[.1,'0.1 mm'],[.2,'0.2 mm'],[.3,'0.1 + 0.2 mm']]]];
+function hfSide(k,label){const c=hfb[k],st=HFSTOCK[k];return `<div class="row" style="display:grid;gap:8px"><span class="label">${label} · corner magnets ×4</span>${HFOPT.map(([o,l,opts])=>`<div style="display:grid;gap:4px"><span class="muted" style="font-size:.78rem">${l}</span><div class="chips">${opts.map(([v,t])=>`<button class="chip" data-hf="${k}.${o}" data-v="${v}" ${o==='t'&&c.g==='N42'&&String(v)!=='2'?'disabled title="Your N42s are 8 × 2 mm"':''} aria-pressed="${String(c[o])===String(v)}">${t}${String(st[o])===String(v)?' · stock':''}</button>`).join('')}</div></div>`).join('')}</div>`;}
+function renderHfBuild(){
+  $('#hfctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">Change the corner magnets or add washers on either side. Hold and the steps update as you go. Strength is an estimate, so test by hand.</p></div>
+   ${hfSide('c8','8 side · steel')}${hfSide('c6','6 side · Teflon')}
+   <div class="nav"><button class="btn ghost" id="hfreset">Reset to stock</button></div>`;
+  $('#hfctl').querySelectorAll('[data-hf]').forEach(b=>b.addEventListener('click',()=>{const [k,o]=b.dataset.hf.split('.'),v=b.dataset.v;hfb[k][o]=o==='g'?v:+v;if(hfb[k].g==='N42')hfb[k].t=2;renderHfBuild();}));
+  $('#hfreset').addEventListener('click',()=>{Object.assign(hfb,JSON.parse(JSON.stringify(HFSTOCK)));renderHfBuild();});
+  const m=JSON.parse(JSON.stringify(hfb)),{N,W,r}=hfNotes(m),{c,buy}=hfNeed(m),ch=hfChanges(m);
+  $('#hfout').innerHTML=`<div class="head"><span class="label">${ch.length?'Your build':'Matches: out of the box'}</span>
+     <div class="meter"><div><span class="label">Hold · ${Math.round(r*100)}%</span>${bars(hfHold(m))}</div><div></div><div></div></div>
+     <p class="muted" style="font-size:.8rem">Hold is relative to out of the box (100%).</p>
+     ${ch.length?`<div class="changed"><b>Changed from out of the box</b><ul style="margin:4px 0 0;padding-left:18px">${ch.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
+     ${buy.length?`<p class="changed"><b>You'll need to buy:</b> ${esc(buy.join(', '))}.</p>`:''}
+     <ul class="feelbox">${N.map(x=>`<li>${esc(x)}</li>`).join('')}${W.map(x=>`<li class="w">${esc(x)}</li>`).join('')}</ul></div>
+   <div class="split">${drawBox(hfDiagram(m),HFLEG,'Schematic; positions are approximate.')}
+     <div style="display:grid;gap:12px;align-content:start">${ioList([`8 side corners: ${hfDesc(m.c8)}`,`6 side corners: ${hfDesc(m.c6)}`,'Middle magnets: N25 5 × 3 mm (no change)'],[])}<div style="display:grid;gap:6px"><span class="label">You'll need</span>${partList(c)}</div></div></div>
+   ${hfSteps(m)}`;
+}
+
+/* =========================================================
    Hub: menu, routing, tabs
    ========================================================= */
 const GUIDES=[
@@ -1699,13 +1831,15 @@ const GUIDES=[
  {id:'groove',n:'MOT Groove',by:'MOT',kind:'bead and spring',type:'Bead and spring · push + rotate',count:'4 card plans + builder',blurb:'The four plans from the instruction card, every hole on the straight push face and the rotating face, and a builder to try your own.',tabs:'groove'},
  {id:'aura',n:'Aura Sand Slim Pro',by:'Peacock',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:`${ASET.length} magnet setups`,blurb:'N52 and N45 corner magnet setups with halfmoon spacers or pads, long halfmoon and foam pad options, and what each one changes.',tabs:'aura'},
  {id:'jj',n:'Creation Mountain / Shuriken',by:'JJ EDC',kind:'infinite slider',type:'Infinite slider · 6 × 8',count:'Standard and Mini',blurb:'The 14-magnet layouts both sliders share, in Standard and Mini, a simulator of where Panel A holds, and a builder.',tabs:'jj'},
- {id:'pf',n:'Polar Front',by:'DR EDC',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'pf'}
+ {id:'pf',n:'Polar Front',by:'DR EDC',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'pf'},
+ {id:'hf',n:'Heart Feather',by:'YY EDC',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'hf'}
 ];
 function thumb(id){
   if(id==='tita')return diagram(OFF[0]);
   if(id==='groove')return gvDiagram(GPLANS[2].en.h);
   if(id==='jj')return jDiagram(jStock('std'));
   if(id==='pf')return pfDiagram(PFSTOCK);
+  if(id==='hf')return hfDiagram(HFSTOCK);
   return aDiagram(ASET[1],{mid:'spacer',foam:'none'});
 }
 function renderMenu(){
@@ -1721,11 +1855,11 @@ document.querySelectorAll('.tabs[data-g]').forEach(tl=>tl.querySelectorAll('.tab
 const inited={};
 function route(){
   const id=(location.hash||'').replace(/^#\/?/,'');const g=GUIDES.find(x=>x.id===id);
-  ['home','tita','groove','aura','jj','pf'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
+  ['home','tita','groove','aura','jj','pf','hf'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
   document.querySelectorAll('.tabs[data-g]').forEach(t=>t.classList.toggle('on',!!g&&t.dataset.g===g.id));
   if(g)document.documentElement.dataset.g=g.id;else delete document.documentElement.dataset.g;document.querySelector('.topbar').hidden=!g;
   $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'Slider tuning';$('#htitle').textContent=g?g.n:'Slider Tuning Guides';
-  if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}if(g.id==='pf'){renderPfList();renderPfSheet();renderPfBuild();}}
+  if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}if(g.id==='pf'){renderPfList();renderPfSheet();renderPfBuild();}if(g.id==='hf'){renderHfList();renderHfSheet();renderHfBuild();}}
   window.scrollTo(0,0);
 }
 $('#back').addEventListener('click',()=>{try{history.pushState('',document.title,location.pathname+location.search);}catch(e){location.hash='';}route();});
