@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slider Tuning Guides</title>
-<meta name="description" content="Unofficial tuning guides for the TITA Pro and Aura Sand Slim Pro sliders: setups, drawings, steps and feel simulators.">
+<title>EDC Tuning</title>
+<meta name="description" content="EDC Tuning: unofficial tuning guides for fidget sliders and spinners, with setups, drawings, steps, simulators and videos.">
 <style>body{margin:0;background:#141619;color:#a3a7ad;font:16px system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}@media (prefers-color-scheme:light){body{background:#eeede8;color:#5d6168}}</style>
 </head>
 <body>
@@ -22,7 +22,7 @@
     .then(function(r){if(!r.ok)throw 0;return r.json();})
     .then(function(c){return fetch('https://raw.githubusercontent.com/'+R+'/'+c.sha+'/app.html');})
     .then(function(r){if(!r.ok)throw 0;return r.text();})
-    .then(function(h){if(h.indexOf('Slider Tuning Guides')<0)throw 0;show(h);})
+    .then(function(h){if(h.indexOf('<title>EDC Tuning</title>')<0)throw 0;show(h);})
     .catch(local);
 })();
 </script>

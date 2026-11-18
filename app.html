@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Unofficial tuning guides for the TITA Pro, MOT Groove, Aura Sand Slim Pro and JJ EDC Creation Mountain / Shuriken, DR EDC Polar Front and YY EDC Heart Feather sliders: setups, drawings, steps and feel simulators.">
-<title>Slider Tuning Guides</title>
+<meta name="description" content="EDC Tuning: unofficial tuning guides for fidget sliders and spinners, with setups, drawings, steps, simulators and videos.">
+<title>EDC Tuning</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap">
@@ -328,7 +328,7 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
   <div class="wrap">
     <div class="topbar">
       <button class="back" id="back" hidden>← All guides</button>
-      <div class="t"><span class="label" id="hlabel">Slider tuning</span><h1 id="htitle">Slider Tuning Guides</h1></div>
+      <div class="t"><span class="label" id="hlabel">EDC Tuning</span><h1 id="htitle">EDC Tuning</h1></div>
       <div class="tabs" role="tablist" aria-label="TITA Pro sections" data-g="tita">
         <button class="tab" role="tab" data-tab="setups" aria-selected="true">Setups</button>
         <button class="tab" role="tab" data-tab="mix" aria-selected="false">Mix your own</button>
@@ -366,7 +366,7 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
 <main class="wrap">
   <!-- ===== Menu ===== -->
   <section id="g-home">
-    <div class="hero"><h1>Slider tuning</h1><p>Pick a slider. Each guide has drawings of every setup, the parts to pull, the steps, and a simulator to try a setup before you open it up.</p></div>
+    <div class="hero"><h1>EDC Tuning</h1><p>Pick a slider or spinner. Each guide shows the setups, the parts to pull and the steps, with drawings, simulators or videos so you can see a setup before you open it up.</p></div>
     <div class="tray" id="menu"></div>
   </section>
 
@@ -1906,7 +1906,7 @@ function route(){
   ['home','tita','groove','aura','jj','pf','hf','ego'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
   document.querySelectorAll('.tabs[data-g]').forEach(t=>t.classList.toggle('on',!!g&&t.dataset.g===g.id));
   if(g)document.documentElement.dataset.g=g.id;else delete document.documentElement.dataset.g;document.querySelector('.topbar').hidden=!g;
-  $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'Slider tuning';$('#htitle').textContent=g?g.n:'Slider Tuning Guides';
+  $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'EDC Tuning';$('#htitle').textContent=g?g.n:'EDC Tuning';
   if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}if(g.id==='pf'){renderPfList();renderPfSheet();renderPfBuild();}if(g.id==='hf'){renderHfList();renderHfSheet();renderHfBuild();}if(g.id==='ego')initEgo();}
   window.scrollTo(0,0);
 }
