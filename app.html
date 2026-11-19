@@ -477,14 +477,14 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
       <div class="kitgrid gv-ultra">
         <div style="display:grid;gap:10px"><h2>In the box</h2>
           <div class="tbl"><table class="htable"><thead><tr><th scope="col">Compartment</th><th scope="col">Spring</th><th scope="col">Also in it</th></tr></thead><tbody>
-            <tr><td>1</td><td>Custom high-pitch spring</td><td>Zirconia beads (see the note below)</td></tr>
+            <tr><td>1</td><td>Custom high-pitch spring</td><td>Zirconia beads (the label says silicon oxide)</td></tr>
             <tr><td>2</td><td>Piano steel middle spring</td><td>Silicon nitride beads</td></tr>
             <tr><td>3</td><td>Short spring</td><td>Teflon beads</td></tr>
             <tr><td>4</td><td>Custom low-pitch spring</td><td>Screw O-rings</td></tr>
             <tr><td>5</td><td>No spring</td><td>POM beads and screws</td></tr>
             <tr><td>6</td><td>Anti-loosening spring, for the hole</td><td>Tungsten steel beads</td></tr>
           </tbody></table></div>
-          <p class="muted" style="font-size:.84rem">Compartment 1's label says silicon oxide beads, but the card's ranking lists zirconia instead and never mentions silicon oxide, so they're most likely zirconia: bright white, heavy for their size, and fully opaque. Also in the box: a Torx key, plastic tweezers and stickers.</p>
+          <p class="muted" style="font-size:.84rem">Compartment 1's beads are zirconia, even though the label says silicon oxide. The anti-loosening spring in compartment 6 is included in the box but isn't part of any setup on the card. Also in the box: a Torx key, plastic tweezers and stickers.</p>
           <h2 style="margin-top:6px">From the card</h2>
           <div class="tbl"><table class="htable"><thead><tr><th scope="col">Spring</th><th scope="col">Push resistance</th></tr></thead><tbody>
             <tr><td>Piano steel middle spring</td><td class="up">Stiffest</td></tr><tr><td>Custom high-pitch spring</td><td>Firm</td></tr><tr><td>Custom low-pitch spring</td><td>Lighter</td></tr><tr><td>Short spring</td><td class="dn">Lightest</td></tr></tbody></table></div>
@@ -996,7 +996,7 @@ function mountTrack(el,S){
   function fire(k,v){n++;cnt.textContent=n+(n===1?' event':' events');last.textContent=S.lab(k);S.play(k,v);buzz(VIB[k]||6);if(k==='strike'||k==='stack'||k==='snap'){pusher.classList.remove('hit');void pusher.offsetWidth;pusher.classList.add('hit');}}
   function set(v){p=v;pusher.style.left=X(v)+'%';pusher.setAttribute('aria-valuenow',Math.round((v-lo)/(hi-lo)*100));}
   function move(to,speed){to=Math.max(lo,Math.min(hi,to));const a=p;if(to===a)return;
-    S.E.filter(e=>e.p>=lo&&e.p<=hi&&e.p>Math.min(a,to)&&e.p<=Math.max(a,to)).sort((x,y)=>to>a?x.p-y.p:y.p-x.p).forEach(e=>fire(e.k,speed));
+    S.E.filter(e=>e.p>=lo&&e.p<=hi&&e.p>Math.min(a,to)&&e.p<=Math.max(a,to)&&(!e.dir||e.dir===(to>a?'fwd':'back'))).sort((x,y)=>to>a?x.p-y.p:y.p-x.p).forEach(e=>fire(e.k,speed));
     if(to===lo&&a>lo)fire(S.top,speed);if(to===hi&&a<hi)fire(S.bot,speed);set(to);}
   function goHome(){if(S.home==null)return;const target=S.home?hi:lo;const step=()=>{const d=target-p;if(Math.abs(d)<.01){move(target,.6);raf=0;return;}move(p+Math.sign(d)*Math.min(Math.abs(d),.045),.6);raf=requestAnimationFrame(step);};cancelAnimationFrame(raf);setTimeout(()=>{raf=requestAnimationFrame(step);},120);}
   let lx=0,lt=0,sp=0;
@@ -2021,9 +2021,10 @@ function renderUgSheet(){const p=UPS.find(x=>x.id===uPush),r=URS.find(x=>x.id===
    </div></div>
    <div class="toggles">${uBeadSpringRows('ugs')}</div>${uMeters(uBead,uSpring)}
    <p class="muted" style="font-size:.8rem">The card doesn't tie beads or springs to a setup, so choose your own. Crisp follows the card's bead ranking; push effort follows its spring ranking.</p>
+   ${uSims()}
    ${uSteps(p.holes,r.holes,uBead,uSpring)}
    <div class="nav"><button class="btn ghost" data-ugbuild>Change the holes</button></div>`;
-  const el=$('#ugsheet');
+  const el=$('#ugsheet');uMount(el,p.holes,r.holes);
   el.querySelectorAll('[data-ugsbead]').forEach(b=>b.addEventListener('click',()=>{uBead=b.dataset.ugsbead;renderUgSheet();}));
   el.querySelectorAll('[data-ugsspring]').forEach(b=>b.addEventListener('click',()=>{uSpring=b.dataset.ugsspring;renderUgSheet();}));
   el.querySelector('[data-ugbuild]').addEventListener('click',()=>{ub.push=[...p.holes];ub.rot=[...r.holes];showTab('groove','build');renderUgBuild();window.scrollTo(0,0);});
@@ -2061,8 +2062,53 @@ function renderUgBuild(){
    <div class="split">${drawBox(uDiagram(P,R),ULEG,'Coloured holes get a spring and bead.')}
    <div style="display:grid;gap:14px;align-content:start"><div style="display:grid;gap:6px"><b>Straight push face</b>${uPatHTML(pp)}</div><div style="display:grid;gap:6px"><b>Rotating face</b>${uPatHTML(rp)}</div>
    <div style="display:grid;gap:6px"><span class="label">You'll need</span>${partList(Object.assign({},P.length+R.length?{[UB[uBead].n+' bead']:P.length+R.length,[US[uSpring].n]:P.length+R.length}:{}))}</div></div></div>
+   ${uSims()}
    ${uSteps(P,R,uBead,uSpring)}`;
+  uMount($('#ugout'),P,R);
 }
+
+/* --- Groove Ultra simulators: click patterns from the card, illustrative counts --- */
+const UPN={basic:6,dense:12,densified:18,ultra:26},URN={basic:8,dense:16,densified:24,ultra:32};
+const UKIND={basic:'A',dense:'B',densified:'C',ultra:'D'};
+const ULAB={A:'basic click',B:'dense click',C:'densified click',D:'ultra-dense click',stop:'end stop'};
+function uPushEvents(pat){if(!pat)return [];const E=[];
+  if(typeof pat==='string'){const N=UPN[pat];for(let i=0;i<N;i++)E.push({p:.05+(i+.5)/N*.9,k:pat==='dense'&&i%2?'B':UKIND[pat],cls:pat==='basic'||(pat==='dense'&&!(i%2))?'hi':'lo'});return E;}
+  const N=UPN.basic;for(let i=0;i<N;i++){E.push({p:.05+(i+.5)/N*.9,k:'A',cls:'hi'});}
+  const extra=pat.up==='dense'?'fwd':'back';for(let i=0;i<N;i++)E.push({p:.05+(i+1)/N*.9,k:'B',cls:'lo',dir:extra});
+  return E.filter(e=>e.p<.97);}
+function uRotEvents(pat){if(!pat)return [];const N=URN[pat];return Array.from({length:N},(_,i)=>({p:i/N,k:pat==='dense'&&i%2?'B':UKIND[pat],cls:pat==='basic'||(pat==='dense'&&!(i%2))?'hi':'lo'}));}
+function uPlay(k){const b=UB[uBead],sp=US[uSpring],soft=uBead==='pom'||uBead==='tef',heavy=uBead==='wc';if(!canPlay('ug'+k,22))return;
+  const gain=Math.min(1,(.3+sp.k*.13)*(k==='D'?.7:k==='C'?.85:1)*(soft?.45:1));
+  try{if(soft){noise(.012,'lowpass',1400+b.cr*150,.5*gain);tone('sine',420,240,.04,.18*gain);}
+    else{noise(.004+(5-b.cr)*.001,'highpass',2200+b.cr*900,.55*gain);tone('triangle',heavy?900:1400+b.cr*220,heavy?420:700,.03,.17*gain);if(heavy)tone('sine',210,110,.06,.22*gain);}
+    tone('sine',uSpring==='hi'?2300:uSpring==='lo'?1300:1700+sp.k*120,uSpring==='hi'?2250:uSpring==='lo'?1250:1650,.05,.03*gain);}catch(e){}
+  buzz(Math.round(5+sp.k*2));}
+function uSims(){return `<div class="sims">${simHTML('Straight push face · drag the pusher',false,'Right is pushing up, left is pushing down. Tall marks are basic clicks, short marks are the extra dense clicks. On the asymmetric setups, some clicks only happen in one direction. Use ◀ ▶ to feel each click on iPhone.')}
+  <div class="sim" data-udial><div class="sim-head"><span class="label">Rotating face · drag round</span><span class="label" data-count>0 clicks</span></div>
+  <div class="dialwrap"><div class="dial" role="slider" tabindex="0" aria-label="Rotating face. Arrow keys turn it." aria-valuemin="0" aria-valuemax="360"><div class="ticks"></div><div class="knob"></div></div></div>
+  <div class="taprow">${tapBtn('-1','↺','Turn back one click')}<span class="label">Or tap to turn</span>${tapBtn('1','↻','Turn forward one click')}</div>
+  <div class="sim-meta"><span class="label">Per turn</span><span data-per></span><span class="label">Last</span><span class="last" data-last>–</span></div></div></div>`;}
+function uMount(root,P,R){
+  const pp=uPushPat(P),z=P.filter(x=>x[0]==='Z').length,E=uPushEvents(pp);
+  mountTrack(root.querySelector('[data-sim]'),{E,travel:1,home:null,noise:Math.max(1,Math.min(5,Math.round((UB[uBead].cr+US[uSpring].k)/2))),top:'stop',bot:'stop',topName:'Pushed down',botName:'Pushed up',
+    drag:Math.min(.6,z*US[uSpring].k*.05),play:k=>k==='stop'?sfx('stop',{balls:[],blockMag:'5x4',spr:'none'}):uPlay(k),lab:k=>ULAB[k]});
+  const el=root.querySelector('[data-udial]');if(!el)return;
+  const RE=uRotEvents(uRotPat(R)),dial=el.querySelector('.dial'),knob=el.querySelector('.knob'),cnt=el.querySelector('[data-count]'),last=el.querySelector('[data-last]');
+  el.querySelector('.ticks').innerHTML=RE.map(e=>`<span class="tick ${e.cls==='hi'?'':'q'}" style="transform:rotate(${e.p*360+180}deg) translateY(66px)"></span>`).join('');
+  el.querySelector('[data-per]').textContent=RE.length?`${RE.length} clicks`:'No clicks';
+  let ang=0,drag=null,n=0;const set=()=>{knob.style.transform=`rotate(${ang*360}deg)`;dial.setAttribute('aria-valuenow',Math.round(((ang%1)+1)%1*360));};
+  function turn(to){const a=ang;if(to===a)return;const lo=Math.min(a,to),hi=Math.max(a,to),hits=[];
+    for(let k=Math.floor(lo);k<=Math.ceil(hi);k++)RE.forEach(e=>{const p=k+e.p;if(p>lo&&p<=hi)hits.push({p,k:e.k});});
+    hits.sort((x,y)=>to>a?x.p-y.p:y.p-x.p).slice(0,6).forEach(x=>{n++;cnt.textContent=n+(n===1?' click':' clicks');last.textContent=ULAB[x.k];uPlay(x.k);});
+    ang=to;set();}
+  const angAt=e=>{const r=dial.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))/(2*Math.PI);};
+  dial.addEventListener('pointerdown',e=>{drag={a:angAt(e)};dial.setPointerCapture(e.pointerId);dial.style.cursor='grabbing';});
+  dial.addEventListener('pointermove',e=>{if(!drag)return;const a=angAt(e);let d=a-drag.a;if(d>.5)d-=1;if(d<-.5)d+=1;drag.a=a;turn(ang+d);});
+  const end=()=>{drag=null;dial.style.cursor='';};dial.addEventListener('pointerup',end);dial.addEventListener('pointercancel',end);
+  const step=dir=>{if(!RE.length)return;const cur=ang,cand=[];for(let k=Math.floor(cur)-1;k<=Math.floor(cur)+2;k++)RE.forEach(e=>cand.push(k+e.p));cand.sort((x,y)=>x-y);
+    const nx=dir>0?cand.find(v=>v>cur+1e-6):[...cand].reverse().find(v=>v<cur-1e-6);if(nx!==undefined)turn(nx);};
+  dial.addEventListener('keydown',e=>{if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;e.preventDefault();step(e.key==='ArrowRight'?1:-1);});
+  bindTaps(el,d=>step(+d));set();}
 function setGrooveModel(m){const sec=$('#g-groove');sec.dataset.model=m;document.querySelectorAll('[data-gmodel]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gmodel===m)));
   $('#htitle').textContent=m==='ultra'?'MOT Groove Ultra':'MOT Groove';}
 function initGrooveUltra(){renderUgList();renderUgSheet();renderUgBuild();document.querySelectorAll('[data-gmodel]').forEach(b=>b.addEventListener('click',()=>setGrooveModel(b.dataset.gmodel)));}
