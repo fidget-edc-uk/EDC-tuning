@@ -9,6 +9,7 @@ Unofficial tuning guides for premium fidget sliders and spinners, built as a sin
 - **Polar Front** (DR EDC): the out-of-the-box magnet layout and a builder for corner magnets and washers.
 - **Heart Feather** (YY EDC): the out-of-the-box magnet layout and a builder for corner magnets and washers.
 - **Suan QS Spinner** (E-Go): two video guides with tappable steps.
+- **Blade Spinner** (Freak Mech Studio): single-rod and dual-rod video guide with English subtitles and transcript.
 
 ## Run it
 
