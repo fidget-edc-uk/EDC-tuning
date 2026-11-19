@@ -3,7 +3,7 @@
 Unofficial tuning guides for premium fidget sliders and spinners, built as a single static web page.
 
 - **TITA Pro** (PEL Studio): 8 official modes plus variations, manual-style drawings, a parts list, steps, a mixer and a feel simulator.
-- **MOT Groove**: the four plans from the instruction card, every hole on the straight and rotating faces, a builder and push and rotation simulators.
+- **MOT Groove and Groove Ultra**: the card plans and hole maps for both models, builders, and push and rotation simulators for the Groove.
 - **Aura Sand Slim Pro** (Peacock): N52 and N45 corner magnet setups with halfmoon spacer, pad and foam options, and a hold-position simulator.
 - **Creation Mountain / Shuriken** (JJ EDC): Standard and Mini magnet layouts, a hold simulator and a builder.
 - **Polar Front** (DR EDC): the out-of-the-box magnet layout and a builder for corner magnets and washers.

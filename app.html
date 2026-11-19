@@ -330,6 +330,7 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
 .txl button{display:grid;grid-template-columns:44px 1fr;gap:8px;width:100%;text-align:left;background:none;border:0;border-radius:6px;padding:5px 6px;color:var(--fg);font:inherit;font-size:.9rem;cursor:pointer}
 .txl .tc{color:var(--accent);font-weight:650}
 .txl button[aria-current="true"]{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+#g-groove:not([data-model="ultra"]) .gv-ultra{display:none!important}#g-groove[data-model="ultra"] .gv-orig{display:none!important}
 </style>
 </head>
 <body>
@@ -421,20 +422,29 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
 
   <!-- ===== MOT Groove ===== -->
   <section id="g-groove" hidden>
+    <div class="chips gmodel" style="margin-bottom:14px" role="group" aria-label="Model"><button class="chip" data-gmodel="groove" aria-pressed="true">Groove</button><button class="chip" data-gmodel="ultra" aria-pressed="false">Groove Ultra</button></div>
     <div data-panel="setups">
-      <div class="bench">
+      <div class="bench gv-orig">
         <div class="list"><div id="gvitems"></div></div>
         <div class="card" id="gvsheet" aria-live="polite"></div>
       </div>
+      <div class="bench gv-ultra">
+        <div class="list"><div id="ugitems"></div></div>
+        <div class="card" id="ugsheet" aria-live="polite"></div>
+      </div>
     </div>
     <div data-panel="build" hidden>
-      <div class="bench">
+      <div class="bench gv-orig">
         <div class="card ctl" id="gvctl"></div>
         <div class="card" id="gvout" aria-live="polite"></div>
       </div>
+      <div class="bench gv-ultra">
+        <div class="card ctl" id="ugctl"></div>
+        <div class="card" id="ugout" aria-live="polite"></div>
+      </div>
     </div>
     <div data-panel="parts" hidden>
-      <div class="kitgrid">
+      <div class="kitgrid gv-orig">
         <div style="display:grid;gap:10px"><h2>The holes</h2>
           <div class="magnets ginfo">
             <p><b>Straight (push) face.</b> <b>A</b> is the paragraph track, the main clicks. <b>B</b> adds density: more clicks between A's. <b>C</b> adds resistance: the slide drags and feels damped.</p>
@@ -464,8 +474,46 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
           </ul>
         </div>
       </div>
+      <div class="kitgrid gv-ultra">
+        <div style="display:grid;gap:10px"><h2>In the box</h2>
+          <div class="tbl"><table class="htable"><thead><tr><th scope="col">Compartment</th><th scope="col">Spring</th><th scope="col">Also in it</th></tr></thead><tbody>
+            <tr><td>1</td><td>Custom high-pitch spring</td><td>Zirconia beads (see the note below)</td></tr>
+            <tr><td>2</td><td>Piano steel middle spring</td><td>Silicon nitride beads</td></tr>
+            <tr><td>3</td><td>Short spring</td><td>Teflon beads</td></tr>
+            <tr><td>4</td><td>Custom low-pitch spring</td><td>Screw O-rings</td></tr>
+            <tr><td>5</td><td>No spring</td><td>POM beads and screws</td></tr>
+            <tr><td>6</td><td>Anti-loosening spring, for the hole</td><td>Tungsten steel beads</td></tr>
+          </tbody></table></div>
+          <p class="muted" style="font-size:.84rem">Compartment 1's label says silicon oxide beads, but the card's ranking lists zirconia instead and never mentions silicon oxide, so they're most likely zirconia: bright white, heavy for their size, and fully opaque. Also in the box: a Torx key, plastic tweezers and stickers.</p>
+          <h2 style="margin-top:6px">From the card</h2>
+          <div class="tbl"><table class="htable"><thead><tr><th scope="col">Spring</th><th scope="col">Push resistance</th></tr></thead><tbody>
+            <tr><td>Piano steel middle spring</td><td class="up">Stiffest</td></tr><tr><td>Custom high-pitch spring</td><td>Firm</td></tr><tr><td>Custom low-pitch spring</td><td>Lighter</td></tr><tr><td>Short spring</td><td class="dn">Lightest</td></tr></tbody></table></div>
+          <div class="tbl"><table class="htable"><thead><tr><th scope="col">Bead</th><th scope="col">Crispness</th></tr></thead><tbody>
+            <tr><td>Zirconia</td><td class="up">Crispest</td></tr><tr><td>Tungsten steel</td><td>Crisp</td></tr><tr><td>Silicon nitride</td><td>Medium</td></tr><tr><td>POM</td><td>Soft</td></tr><tr><td>Teflon</td><td class="dn">Softest</td></tr></tbody></table></div>
+        </div>
+        <div style="display:grid;gap:10px"><h2>What each hole does</h2>
+          <ul class="tips">
+            <li><b>A · Basic segment</b>Evenly spaced clicks.</li>
+            <li><b>B · Density boost</b>Adds clicks between A's.</li>
+            <li><b>C · Densified segment</b>Closer clicks again.</li>
+            <li><b>D · Ultra-dense segment</b>The most clicks. On the push face, the card uses it on its own.</li>
+            <li><b>E · Asymmetric (gourd hole)</b>Bead at the top (E1): pushing up is dense and down is basic. Bead at the bottom (E2): the other way round. Used with A.</li>
+            <li><b>F · End-segment reinforcement</b>Strengthens the end of the push.</li>
+            <li><b>Z · Damping and positioning</b>Z1 and Z2 on the push face, Z3 and Z4 on the rotating face.</li>
+            <li><b>Rotating-face corners</b>With beads in two corner holes, diagonal corners give basic clicks and adjacent corners give dense clicks.</li>
+          </ul>
+          <h2 style="margin-top:6px">Card notes</h2>
+          <ul class="tips">
+            <li class="warn"><b>Don't force it</b>Seat every part fully, and never force anything together: it can damage the body.</li>
+            <li><b>Clean the bead grooves</b>Clean them now and then and reassemble, to keep the best feel.</li>
+            <li><b>Centre post nut</b>Fit it with the notch facing up.</li>
+            <li><b>Centre post screw</b>It also adjusts the damping. Tighten it until the gap in the body closes with almost no play; left loose, the body can wear.</li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <p class="note">Unofficial, written from the MOT Groove instruction card. The four plans and both rankings are from the card; the click counts and sounds in the simulators are illustrative.</p>
+    <p class="note gv-ultra">Unofficial, written from the MOT Groove Ultra instruction card and the labels in its parts box. The setups, hole roles and both rankings are from the card.</p>
+    <p class="note gv-orig">Unofficial, written from the MOT Groove instruction card. The four plans and both rankings are from the card; the click counts and sounds in the simulators are illustrative.</p>
   </section>
 
   <!-- ===== Aura Sand ===== -->
@@ -1572,7 +1620,7 @@ function renderGvOut(){
 }
 function initGroove(){
   $('#gvbag').innerHTML=[['Beads','Zirconia, silicon nitride, Teflon, tungsten'],['Springs','SS 0.25, SS 0.3, short spring, middle spring, special middle spring (piano steel)'],['Tools','Screwdriver, unlocking tool, tweezers'],['Also','Screws and a designer sticker']].map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join('');
-  renderGvList();renderGvSheet();renderGvBuild();
+  renderGvList();renderGvSheet();renderGvBuild();initGrooveUltra();
 }
 
 /* =========================================================
@@ -1894,11 +1942,137 @@ function initVideos(sel){document.querySelectorAll(sel+' [data-vg]').forEach(car
   bs.forEach(b=>b.addEventListener('click',()=>{v.currentTime=+b.dataset.t;v.play().catch(()=>{});}));
   v.addEventListener('timeupdate',()=>{let cur=null;bs.forEach(b=>{if(v.currentTime>=+b.dataset.t-.2)cur=b;});bs.forEach(b=>b.setAttribute('aria-current',String(b===cur)));});});}
 /* =========================================================
+   MOT Groove Ultra, from its instruction card.
+   Hole roles: A basic, B density boost, C densified, D ultra-dense, E asymmetric (gourd hole, E1 top / E2 bottom),
+   F end-segment reinforcement, Z damping and positioning. Brown holes are segment spring holes, green are damping.
+   ========================================================= */
+const UROLE={A:['Basic segment','#5b7fb8'],B:['Density boost','#e3a1ad'],C:['Densified segment','#c9a46a'],D:['Ultra-dense segment','#8a4a3c'],E:['Asymmetric segment','#7d6a99'],F:['End-segment reinforcement','#5e4a2e'],Z:['Damping and positioning','#4f8a63']};
+const UPUSH=[['Z1',-30,-107],['F',32,-107],['E',-4,-78],['C',-60,-30],['A',58,2],['B',-2,48],['D',-32,80],['Z2',30,80]];
+const UROT=[['D2',0,-124],['A2',-52,-79],['B2',55,-79],['Z3',-54,-37],['Z4',55,10],['B3',-57,50],['A3',58,50],['D3',0,95]];
+const URole=id=>UROLE[id[0]];
+const UB={zr:{n:'Zirconia',c:'#fbfbf8',cr:5},wc:{n:'Tungsten steel',c:'#2a2c30',cr:4},si:{n:'Silicon nitride',c:'#5a5f67',cr:3},pom:{n:'POM',c:'#f1efe6',cr:2},tef:{n:'Teflon',c:'#e6dfcb',cr:1}};
+const US={piano:{n:'Piano steel middle spring',k:4},hi:{n:'Custom high-pitch spring',k:3},lo:{n:'Custom low-pitch spring',k:2},short:{n:'Short spring',k:1}};
+const UPATS={basic:'Basic: evenly spaced clicks',dense:'Dense: twice as many clicks',densified:'Densified: closer still',ultra:'Ultra-dense: the most clicks'};
+const UPS=[
+ {id:'p-basic',n:'Basic',holes:['Z1','A','Z2'],pat:'basic',feel:'A alone gives the basic stepped clicks, with Z1 and Z2 for positioning and damping.'},
+ {id:'p-dense',n:'Dense',holes:['Z1','A','B'],pat:'dense',feel:'A plus B\'s density boost doubles the clicks.'},
+ {id:'p-densified',n:'Densified',holes:['Z1','F','C'],pat:'densified',feel:'C\'s densified segments, with F reinforcing the end of the push.'},
+ {id:'p-ultra',n:'Ultra-dense',holes:['D'],pat:'ultra',feel:'D on its own gives the densest clicks.'},
+ {id:'p-asym1',n:'Asymmetric, bead at the top (E1)',holes:['E1','A','Z2'],pat:{up:'dense',down:'basic'},feel:'With the bead in the top of the gourd hole, pushing up is dense and pushing down is basic.'},
+ {id:'p-asym2',n:'Asymmetric, bead at the bottom (E2)',holes:['E2','A','Z2'],pat:{up:'basic',down:'dense'},feel:'With the bead in the bottom of the gourd hole, pushing up is basic and pushing down is dense.'}];
+const URS=[
+ {id:'r-basic',n:'Basic',holes:['B2','B3','Z3','Z4'],pat:'basic',feel:'Two diagonal corners give basic clicks as you turn, with Z3 and Z4 for damping.'},
+ {id:'r-dense',n:'Dense',holes:['A2','B2','A3','B3','Z3','Z4'],pat:'dense',feel:'All four corners filled. Adjacent corners make it dense.'},
+ {id:'r-ultra',n:'Ultra-dense',holes:['D2','D3','Z3','Z4'],pat:'ultra',feel:'D2 and D3 give the densest clicks as you turn.'}];
+let uPush='p-dense',uRot='r-dense';
+function uStrip(p){const W=220,H=12;let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true" style="max-width:100%">`;const ink='var(--fg)';
+  if(p==='dense')for(let i=0;i<10;i++)s+=`<circle cx="${11+i*22}" cy="6" r="5.5" fill="${ink}"/>`;
+  if(p==='densified')for(let i=0;i<12;i++)s+=`<rect x="${3+i*18}" y="1" width="14" height="10" rx="5" fill="${ink}"/>`;
+  if(p==='ultra')for(let i=0;i<18;i++)s+=`<rect x="${3+i*12}" y="1" width="8" height="10" rx="3" fill="${ink}"/>`;
+  if(p==='basic')for(let i=0;i<6;i++){s+=`<circle cx="${12+i*39}" cy="6" r="5.5" fill="${ink}"/>`;if(i<5)s+=`<rect x="${17+i*39}" y="5" width="29" height="2" fill="${ink}"/>`;}
+  return s+'</svg>';}
+function uPatHTML(pat){if(!pat)return '<p class="muted" style="font-size:.86rem">No segment holes filled: no clicks on this face.</p>';
+  if(typeof pat==='string')return `<div style="display:grid;gap:4px">${uStrip(pat)}<span class="muted" style="font-size:.84rem">${UPATS[pat]}</span></div>`;
+  return `<div style="display:grid;gap:6px"><div style="display:grid;gap:3px"><span class="label">Pushing up</span>${uStrip(pat.up)}<span class="muted" style="font-size:.84rem">${UPATS[pat.up]}</span></div><div style="display:grid;gap:3px"><span class="label">Pushing down</span>${uStrip(pat.down)}<span class="muted" style="font-size:.84rem">${UPATS[pat.down]}</span></div></div>`;}
+function uDiagram(push,rot){
+  const st=`stroke="${INK}" stroke-width="1.1"`,k=.62;
+  let s=`<svg viewBox="0 0 300 200" role="img" aria-label="Groove Ultra hole map">`;
+  const lab=(t,x)=>`<text x="${x}" y="12" text-anchor="middle" font-size="8" fill="#6b7077" font-family="var(--mono)" letter-spacing=".6">${t}</text>`;
+  s+=lab('STRAIGHT PUSH FACE',78)+lab('ROTATING FACE',222);
+  const hole=(cx,cy,id,on,gourd)=>{const c=URole(id)[1],x=cx,y=cy;
+    if(gourd){const t=on==='E1',b=on==='E2';return `<ellipse cx="${x}" cy="${y-5}" rx="7" ry="6.5" fill="${t?c:'#fff'}" ${st}/><ellipse cx="${x}" cy="${y+6}" rx="7" ry="6.5" fill="${b?c:'#fff'}" ${st}/><text x="${x}" y="${y-2.5}" text-anchor="middle" font-size="5.5" font-weight="700" fill="${t?'#fff':INK}" font-family="var(--mono)">E1</text><text x="${x}" y="${y+8.5}" text-anchor="middle" font-size="5.5" font-weight="700" fill="${b?'#fff':INK}" font-family="var(--mono)">E2</text>`;}
+    return `<circle cx="${x}" cy="${y}" r="8.5" fill="${on?c:'#fff'}" ${st}/><text x="${x}" y="${y+2.6}" text-anchor="middle" font-size="6.5" font-weight="700" fill="${on?(id[0]==='B'||id[0]==='C'?INK:'#fff'):INK}" font-family="var(--mono)">${id}</text>`;};
+  // push face
+  s+=`<rect x="22" y="22" width="112" height="170" rx="26" fill="#d7d9dd" ${st}/><circle cx="78" cy="107" r="17" fill="#fbfaf7" stroke="${INK}" stroke-width="3"/>`;
+  UPUSH.forEach(([id,dx,dy])=>{const x=78+dx*k,y=107+dy*k*.78;s+=id==='E'?hole(x,y,id,push.find(h=>h[0]==='E')||null,1):hole(x,y,id,push.includes(id));});
+  // rotating face
+  s+=`<rect x="166" y="22" width="112" height="170" rx="26" fill="#d7d9dd" ${st}/><circle cx="222" cy="104" r="17" fill="#fbfaf7" stroke="${INK}" stroke-width="3"/>`;
+  UROT.forEach(([id,dx,dy])=>{s+=hole(222+dx*k,104+dy*k*.66,id,rot.includes(id));});
+  return s+'</svg>';}
+const ULEG=`<div class="legend">${Object.entries(UROLE).map(([k,[n,c]])=>`<span><i style="background:${c}"></i>${k}: ${n}</span>`).join('')}</div>`;
+const uHoleList=hs=>hs.map(h=>`${h}: ${h[0]==='E'?(h==='E1'?'gourd hole, bead at the top':'gourd hole, bead at the bottom'):URole(h)[0].toLowerCase()}`);
+function uSteps(push,rot,bead,spring){
+  const s=['Undo the centre screw and open the slider. Work over a tray, with a dish for small parts.',
+   'Empty any holes you aren\'t using in this setup.'];
+  if(push.length)s.push(`Straight push face: fit a ${spring?US[spring].n.toLowerCase():'spring'} and a ${bead?UB[bead].n.toLowerCase():''} bead in ${push.filter(h=>h[0]!=='E').join(', ')||'no plain holes'}${push.some(h=>h[0]==='E')?`, and in the gourd hole put the bead at the ${push.includes('E1')?'top (E1)':'bottom (E2)'}`:''}.`);
+  else s.push('Straight push face: leave every hole empty.');
+  if(rot.length)s.push(`Rotating face: fit a spring and bead in ${rot.join(', ')}.`);else s.push('Rotating face: leave every hole empty.');
+  s.push('Fit the centre post nut with its notch facing up.');
+  s.push('Seat every part fully, and never force anything together: it can damage the body.');
+  s.push('Tighten the centre screw until the gap in the body closes with almost no play. It also sets the damping; left loose, the body can wear.');
+  return stepsBox(s);}
+function uMeters(bead,spring){return `<div class="meter"><div><span class="label">Crisp</span>${bars(UB[bead].cr)}</div><div><span class="label">Push effort</span>${bars(US[spring].k+1)}</div><div></div></div>`;}
+let uBead='zr',uSpring='hi';
+function uBeadSpringRows(attr){return `<div class="row" style="display:grid;gap:5px"><span class="label">Bead in every filled hole</span><div class="chips">${Object.entries(UB).map(([k,b])=>`<button class="chip" data-${attr}bead="${k}" aria-pressed="${uBead===k}">${b.n}</button>`).join('')}</div></div>
+  <div class="row" style="display:grid;gap:5px"><span class="label">Spring in every filled hole</span><div class="chips">${Object.entries(US).map(([k,v])=>`<button class="chip" data-${attr}spring="${k}" aria-pressed="${uSpring===k}">${v.n}</button>`).join('')}</div></div>`;}
+function renderUgList(){
+  const row=(L,cur,attr)=>L.map(p=>`<button class="item" data-${attr}="${p.id}" aria-pressed="${cur===p.id}"><span class="nm">${esc(p.n)}</span><span class="tg">${esc(p.holes.join(', '))}</span></button>`).join('');
+  $('#ugitems').innerHTML=`<div class="grp"><span class="label">Straight push face</span>${row(UPS,uPush,'ugp')}</div><div class="grp" style="margin-top:10px"><span class="label">Rotating face</span>${row(URS,uRot,'ugr')}</div>
+   <p class="muted" style="font-size:.82rem;margin-top:10px">Pick one setup for each face; they work independently. All from the Groove Ultra card.</p>`;
+  $('#ugitems').querySelectorAll('[data-ugp]').forEach(b=>b.addEventListener('click',()=>{uPush=b.dataset.ugp;renderUgList();renderUgSheet();}));
+  $('#ugitems').querySelectorAll('[data-ugr]').forEach(b=>b.addEventListener('click',()=>{uRot=b.dataset.ugr;renderUgList();renderUgSheet();}));
+}
+function renderUgSheet(){const p=UPS.find(x=>x.id===uPush),r=URS.find(x=>x.id===uRot);
+  $('#ugsheet').innerHTML=`<div class="head"><span class="label">MOT Groove Ultra · from the card</span><h2>Push: ${esc(p.n)} · Turn: ${esc(r.n)}</h2></div>
+   <div class="split">${drawBox(uDiagram(p.holes,r.holes),ULEG,'Drawn from the card\'s hole map. Coloured holes get a spring and bead.')}
+   <div style="display:grid;gap:14px;align-content:start">
+     <div style="display:grid;gap:6px"><b>Straight push face</b><p style="font-size:.9rem">${esc(p.feel)}</p>${uPatHTML(p.pat)}${ioList(uHoleList(p.holes),[])}</div>
+     <div style="display:grid;gap:6px"><b>Rotating face</b><p style="font-size:.9rem">${esc(r.feel)}</p>${uPatHTML(r.pat)}${ioList(uHoleList(r.holes),[])}</div>
+   </div></div>
+   <div class="toggles">${uBeadSpringRows('ugs')}</div>${uMeters(uBead,uSpring)}
+   <p class="muted" style="font-size:.8rem">The card doesn't tie beads or springs to a setup, so choose your own. Crisp follows the card's bead ranking; push effort follows its spring ranking.</p>
+   ${uSteps(p.holes,r.holes,uBead,uSpring)}
+   <div class="nav"><button class="btn ghost" data-ugbuild>Change the holes</button></div>`;
+  const el=$('#ugsheet');
+  el.querySelectorAll('[data-ugsbead]').forEach(b=>b.addEventListener('click',()=>{uBead=b.dataset.ugsbead;renderUgSheet();}));
+  el.querySelectorAll('[data-ugsspring]').forEach(b=>b.addEventListener('click',()=>{uSpring=b.dataset.ugsspring;renderUgSheet();}));
+  el.querySelector('[data-ugbuild]').addEventListener('click',()=>{ub.push=[...p.holes];ub.rot=[...r.holes];showTab('groove','build');renderUgBuild();window.scrollTo(0,0);});
+}
+const ub={push:['Z1','A','B'],rot:['A2','B2','A3','B3','Z3','Z4']};
+function uPushPat(h){const has=x=>h.includes(x);
+  if(has('E1')||has('E2')){const top=has('E1');if(has('A'))return top?{up:'dense',down:'basic'}:{up:'basic',down:'dense'};}
+  if(has('D'))return 'ultra';if(has('C'))return 'densified';if(has('A')&&has('B'))return 'dense';if(has('A')||has('B'))return 'basic';return null;}
+function uRotPat(h){const has=x=>h.includes(x);if(has('D2')||has('D3'))return 'ultra';
+  const c=['A2','B2','B3','A3'].filter(has);if(c.length>=3)return 'dense';if(c.length===2){const diag=(has('A2')&&has('A3'))||(has('B2')&&has('B3'));return diag?'basic':'dense';}if(c.length===1)return 'basic';return null;}
+function renderUgBuild(){
+  const chip=(id,on,face)=>`<button class="chip" data-ugh="${face}.${id}" aria-pressed="${on}">${id} · ${URole(id)[0].toLowerCase()}</button>`;
+  const eState=ub.push.includes('E1')?'E1':ub.push.includes('E2')?'E2':'';
+  $('#ugctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">Tap holes to fill or empty them. The drawing, click pattern and steps update as you go.</p></div>
+   <div class="row" style="display:grid;gap:5px"><span class="label">Straight push face</span><div class="chips">${UPUSH.filter(x=>x[0]!=='E').map(([id])=>chip(id,ub.push.includes(id),'p')).join('')}</div>
+    <span class="label" style="margin-top:4px">Gourd hole (E)</span><div class="chips">${[['','Empty'],['E1','Bead at the top (E1)'],['E2','Bead at the bottom (E2)']].map(([v,t])=>`<button class="chip" data-uge="${v}" aria-pressed="${eState===v}">${t}</button>`).join('')}</div></div>
+   <div class="row" style="display:grid;gap:5px"><span class="label">Rotating face</span><div class="chips">${UROT.map(([id])=>chip(id,ub.rot.includes(id),'r')).join('')}</div></div>
+   ${uBeadSpringRows('ugb')}
+   <div class="nav"><button class="btn ghost" id="ugclear">Empty all holes</button></div>`;
+  const C=$('#ugctl');
+  C.querySelectorAll('[data-ugh]').forEach(b=>b.addEventListener('click',()=>{const [f,id]=b.dataset.ugh.split('.'),L=f==='p'?ub.push:ub.rot,i=L.indexOf(id);i<0?L.push(id):L.splice(i,1);renderUgBuild();}));
+  C.querySelectorAll('[data-uge]').forEach(b=>b.addEventListener('click',()=>{ub.push=ub.push.filter(x=>x[0]!=='E');if(b.dataset.uge)ub.push.push(b.dataset.uge);renderUgBuild();}));
+  C.querySelectorAll('[data-ugbbead]').forEach(b=>b.addEventListener('click',()=>{uBead=b.dataset.ugbbead;renderUgBuild();}));
+  C.querySelectorAll('[data-ugbspring]').forEach(b=>b.addEventListener('click',()=>{uSpring=b.dataset.ugbspring;renderUgBuild();}));
+  $('#ugclear').addEventListener('click',()=>{ub.push=[];ub.rot=[];renderUgBuild();});
+  const P=[...ub.push],R=[...ub.rot],pp=uPushPat(P),rp=uRotPat(R),W=[],has=x=>P.includes(x);
+  if(P.some(h=>h[0]==='E')&&!has('A'))W.push('The card pairs the gourd hole (E) with A. Without A, the asymmetric effect isn\'t one the card describes.');
+  if(P.length&&!has('Z1')&&!has('Z2')&&!has('D'))W.push('No Z1 or Z2: the card uses them for positioning and damping on the push face.');
+  if(R.length&&!R.includes('Z3')&&!R.includes('Z4'))W.push('No Z3 or Z4: the card fills both on every rotating-face setup, for damping.');
+  if(has('D')&&P.length>1)W.push('The card\'s ultra-dense push setup uses D on its own.');
+  const corners=['A2','B2','B3','A3'].filter(x=>R.includes(x));if(corners.length===2)W.push(uRotPat(R)==='basic'?'Two diagonal corners: basic clicks, as the card describes.':'Two adjacent corners: dense clicks, as the card describes.');
+  const match=[...UPS.filter(x=>JSON.stringify([...x.holes].sort())===JSON.stringify([...P].sort())),...URS.filter(x=>JSON.stringify([...x.holes].sort())===JSON.stringify([...R].sort()))].map(x=>(x.id[0]==='p'?'Push: ':'Turn: ')+x.n);
+  $('#ugout').innerHTML=`<div class="head"><span class="label">${match.length?'Matches the card · '+esc(match.join(' · ')):'Your build'}</span>${uMeters(uBead,uSpring)}
+     ${W.length?`<ul class="feelbox">${W.map(x=>`<li class="${x.includes('as the card describes')?'tip':'w'}">${esc(x)}</li>`).join('')}</ul>`:''}</div>
+   <div class="split">${drawBox(uDiagram(P,R),ULEG,'Coloured holes get a spring and bead.')}
+   <div style="display:grid;gap:14px;align-content:start"><div style="display:grid;gap:6px"><b>Straight push face</b>${uPatHTML(pp)}</div><div style="display:grid;gap:6px"><b>Rotating face</b>${uPatHTML(rp)}</div>
+   <div style="display:grid;gap:6px"><span class="label">You'll need</span>${partList(Object.assign({},P.length+R.length?{[UB[uBead].n+' bead']:P.length+R.length,[US[uSpring].n]:P.length+R.length}:{}))}</div></div></div>
+   ${uSteps(P,R,uBead,uSpring)}`;
+}
+function setGrooveModel(m){const sec=$('#g-groove');sec.dataset.model=m;document.querySelectorAll('[data-gmodel]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gmodel===m)));
+  $('#htitle').textContent=m==='ultra'?'MOT Groove Ultra':'MOT Groove';}
+function initGrooveUltra(){renderUgList();renderUgSheet();renderUgBuild();document.querySelectorAll('[data-gmodel]').forEach(b=>b.addEventListener('click',()=>setGrooveModel(b.dataset.gmodel)));}
+
+/* =========================================================
    Hub: menu, routing, tabs
    ========================================================= */
 const GUIDES=[
  {id:'tita',n:'TITA Pro',by:'PEL Studio',kind:'magnetic + mechanical',type:'Modular magnetic + mechanical',count:`${ALL.length} setups`,blurb:'Buckyballs, detent magnets, limit blocks and spring balls: eight official modes from the manual plus twelve more worked out from them, and a mixer.',tabs:'tita'},
- {id:'groove',n:'MOT Groove',by:'MOT',kind:'bead and spring',type:'Bead and spring · push + rotate',count:'4 card plans + builder',blurb:'The four plans from the instruction card, every hole on the straight push face and the rotating face, and a builder to try your own.',tabs:'groove'},
+ {id:'groove',n:'MOT Groove',by:'MOT',kind:'bead and spring',type:'Bead and spring · push + rotate',count:'Groove and Groove Ultra',blurb:'The card plans and hole maps for the Groove and the Groove Ultra, with builders to try your own.',tabs:'groove'},
  {id:'aura',n:'Aura Sand Slim Pro',by:'Peacock',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:`${ASET.length} magnet setups`,blurb:'N52 and N45 corner magnet setups with halfmoon spacers or pads, long halfmoon and foam pad options, and what each one changes.',tabs:'aura'},
  {id:'jj',n:'Creation Mountain / Shuriken',by:'JJ EDC',kind:'infinite slider',type:'Infinite slider · 6 × 8',count:'Standard and Mini',blurb:'The 14-magnet layouts both sliders share, in Standard and Mini, a simulator of where Panel A holds, and a builder.',tabs:'jj'},
  {id:'pf',n:'Polar Front',by:'DR EDC',kind:'fancy play',type:'Floating · fancy play 8 × 6',count:'Stock + builder',blurb:'The out-of-the-box magnet layout and a builder for corner magnets and washers on either side.',tabs:'pf'},
@@ -1932,7 +2106,7 @@ function route(){
   ['home','tita','groove','aura','jj','pf','hf','ego','blade'].forEach(s=>$('#g-'+s).hidden=(g?g.id:'home')!==s);
   document.querySelectorAll('.tabs[data-g]').forEach(t=>t.classList.toggle('on',!!g&&t.dataset.g===g.id));
   if(g)document.documentElement.dataset.g=g.id;else delete document.documentElement.dataset.g;document.querySelector('.topbar').hidden=!g;
-  $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'EDC Tuning';$('#htitle').textContent=g?g.n:'EDC Tuning';
+  $('#back').hidden=!g;$('#hlabel').textContent=g?`${g.by} · ${g.type}`:'EDC Tuning';$('#htitle').textContent=g?g.n:'EDC Tuning';if(g&&g.id==='groove'&&$('#g-groove').dataset.model==='ultra')$('#htitle').textContent='MOT Groove Ultra';
   if(g&&!inited[g.id]){inited[g.id]=1;if(g.id==='tita')initTita();if(g.id==='groove')initGroove();if(g.id==='aura'){renderAList();renderASheet();renderABuild();}if(g.id==='jj'){renderJList();renderJSheet();renderJBuild();}if(g.id==='pf'){renderPfList();renderPfSheet();renderPfBuild();}if(g.id==='hf'){renderHfList();renderHfSheet();renderHfBuild();}if(g.id==='ego')initVideos('#g-ego');if(g.id==='blade')initVideos('#g-blade');}
   window.scrollTo(0,0);
 }
