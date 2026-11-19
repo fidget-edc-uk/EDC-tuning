@@ -508,6 +508,7 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
             <li><b>Clean the bead grooves</b>Clean them now and then and reassemble, to keep the best feel.</li>
             <li><b>Centre post nut</b>Fit it with the notch facing up.</li>
             <li><b>Centre post screw</b>It also adjusts the damping. Tighten it until the gap in the body closes with almost no play; left loose, the body can wear.</li>
+            <li><b>Quick-access resistance adjustment</b>The back circle plate comes off in seconds, giving you quick access to the internal adjustment screw, so you can fine-tune the resistance to the feel you like without taking the slider apart.</li>
           </ul>
         </div>
       </div>
@@ -2004,7 +2005,8 @@ function uSteps(st){
   const s=['Undo the centre screw and open the slider. Work over a tray, with a dish for small parts.','Empty any holes this setup doesn\'t use.',
    ...uFaceSteps('Straight push face',st.push),...uFaceSteps('Rotating face',st.rot),
    'Fit the centre post nut with its notch facing up.','Seat every part fully, and never force anything together: it can damage the body.',
-   'Tighten the centre screw until the gap in the body closes with almost no play. It also sets the damping; left loose, the body can wear.'];
+   'Tighten the centre screw until the gap in the body closes with almost no play. It also sets the damping; left loose, the body can wear.',
+   'To fine-tune the resistance later, take off the back circle plate: it comes off in seconds and gives you quick access to the internal adjustment screw.'];
   return stepsBox(s);}
 function uFaceMeters(m){const ks=uKeys(m),seg=ks.filter(h=>h[0]!=='Z');if(!ks.length)return '';
   const cr=seg.length?Math.round(seg.reduce((t,h)=>t+UB[m[h].b].cr,0)/seg.length):0,k=Math.round(ks.reduce((t,h)=>t+US[m[h].s].k,0)/ks.length)+1;
