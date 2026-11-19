@@ -331,6 +331,7 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
 .txl .tc{color:var(--accent);font-weight:650}
 .txl button[aria-current="true"]{background:color-mix(in srgb,var(--accent) 14%,transparent)}
 #g-groove:not([data-model="ultra"]) .gv-ultra{display:none!important}#g-groove[data-model="ultra"] .gv-orig{display:none!important}
+.cats{display:grid;gap:22px;max-width:980px}.cat{display:grid;gap:10px}.cat h2{font-size:1.15rem}
 </style>
 </head>
 <body>
@@ -377,7 +378,7 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
   <!-- ===== Menu ===== -->
   <section id="g-home">
     <div class="hero"><h1>EDC Tuning</h1><p>Pick a slider or spinner. Each guide shows the setups, the parts to pull and the steps, with drawings, simulators or videos so you can see a setup before you open it up.</p></div>
-    <div class="tray" id="menu"></div>
+    <div id="menu" class="cats"></div>
   </section>
 
   <!-- ===== TITA Pro ===== -->
@@ -2150,9 +2151,11 @@ function thumb(id){
   if(id==='blade')return '<img src="blade/thumb.jpg" alt="">';
   return aDiagram(ASET[1],{mid:'spacer',foam:'none'});
 }
+const CATS=[['Mechanical sliders',['tita','groove']],['Sliders',['aura','jj','pf','hf']],['Spinners',['blade','ego']]];
 function renderMenu(){
-  $('#menu').innerHTML=GUIDES.map(g=>`<button class="well" data-open-guide="${g.id}" style="--wa:var(--a-${g.id})"><div class="pic ${g.id==='ego'||g.id==='blade'?'photo':'drawing'}" style="border:0;border-radius:0">${thumb(g.id)}</div>
-    <div class="txt"><span class="nm">${esc(g.n)}</span><span class="by">${esc(g.by)} · ${esc(g.kind)}</span><span class="ct">${esc(g.count)}</span></div></button>`).join('');
+  const well=g=>`<button class="well" data-open-guide="${g.id}" style="--wa:var(--a-${g.id})"><div class="pic ${g.id==='ego'||g.id==='blade'?'photo':'drawing'}" style="border:0;border-radius:0">${thumb(g.id)}</div>
+    <div class="txt"><span class="nm">${esc(g.n)}</span><span class="by">${esc(g.by)} · ${esc(g.kind)}</span><span class="ct">${esc(g.count)}</span></div></button>`;
+  $('#menu').innerHTML=CATS.map(([n,ids])=>`<section class="cat" aria-label="${n}"><h2>${n}</h2><div class="tray">${ids.map(id=>well(GUIDES.find(g=>g.id===id))).join('')}</div></section>`).join('');
   $('#menu').querySelectorAll('[data-open-guide]').forEach(b=>b.addEventListener('click',()=>{location.hash=b.dataset.openGuide;}));
 }
 function showTab(g,t){
