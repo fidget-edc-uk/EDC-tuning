@@ -1990,83 +1990,91 @@ function uDiagram(push,rot){
   UROT.forEach(([id,dx,dy])=>{s+=hole(222+dx*k,104+dy*k*.66,id,rot.includes(id));});
   return s+'</svg>';}
 const ULEG=`<div class="legend">${Object.entries(UROLE).map(([k,[n,c]])=>`<span><i style="background:${c}"></i>${k}: ${n}</span>`).join('')}</div>`;
-const uHoleList=hs=>hs.map(h=>`${h}: ${h[0]==='E'?(h==='E1'?'gourd hole, bead at the top':'gourd hole, bead at the bottom'):URole(h)[0].toLowerCase()}`);
-function uSteps(push,rot,bead,spring){
-  const s=['Undo the centre screw and open the slider. Work over a tray, with a dish for small parts.',
-   'Empty any holes you aren\'t using in this setup.'];
-  if(push.length)s.push(`Straight push face: fit a ${spring?US[spring].n.toLowerCase():'spring'} and a ${bead?UB[bead].n.toLowerCase():''} bead in ${push.filter(h=>h[0]!=='E').join(', ')||'no plain holes'}${push.some(h=>h[0]==='E')?`, and in the gourd hole put the bead at the ${push.includes('E1')?'top (E1)':'bottom (E2)'}`:''}.`);
-  else s.push('Straight push face: leave every hole empty.');
-  if(rot.length)s.push(`Rotating face: fit a spring and bead in ${rot.join(', ')}.`);else s.push('Rotating face: leave every hole empty.');
-  s.push('Fit the centre post nut with its notch facing up.');
-  s.push('Seat every part fully, and never force anything together: it can damage the body.');
-  s.push('Tighten the centre screw until the gap in the body closes with almost no play. It also sets the damping; left loose, the body can wear.');
+// Per-hole parts. The card doesn't say which bead or spring goes where, so presets use our defaults:
+// click holes get zirconia on the custom high-pitch spring; Z damping holes get Teflon on the short spring.
+const uDef=id=>id[0]==='Z'?{b:'tef',s:'short'}:{b:'zr',s:'hi'};
+const uFromHoles=hs=>Object.fromEntries(hs.map(h=>[h,uDef(h)]));
+const uRoleTxt=h=>h[0]==='E'?(h==='E1'?'gourd hole, bead at the top':'gourd hole, bead at the bottom'):URole(h)[0].toLowerCase();
+const uKeys=m=>Object.keys(m);
+function uFaceTable(m){const ks=uKeys(m);if(!ks.length)return '<p class="muted" style="font-size:.86rem">Every hole empty.</p>';
+  return `<div class="tbl" style="border-radius:10px"><table class="htable"><thead><tr><th scope="col">Hole</th><th scope="col">Bead</th><th scope="col">Spring</th></tr></thead><tbody>${ks.map(h=>`<tr><td class="h">${h}</td><td>${UB[m[h].b].n}</td><td>${US[m[h].s].n.replace(' spring','')}</td></tr>`).join('')}</tbody></table></div>`;}
+function uFaceSteps(name,m){const ks=uKeys(m);if(!ks.length)return [`${name}: leave every hole empty.`];
+  return ks.map(h=>`${name}, ${h==='E1'||h==='E2'?`gourd hole (bead at the ${h==='E1'?'top':'bottom'})`:h}: ${US[m[h].s].n.toLowerCase()} and a ${['Teflon','POM'].includes(UB[m[h].b].n)?UB[m[h].b].n:UB[m[h].b].n.toLowerCase()} bead.`);}
+function uSteps(st){
+  const s=['Undo the centre screw and open the slider. Work over a tray, with a dish for small parts.','Empty any holes this setup doesn\'t use.',
+   ...uFaceSteps('Straight push face',st.push),...uFaceSteps('Rotating face',st.rot),
+   'Fit the centre post nut with its notch facing up.','Seat every part fully, and never force anything together: it can damage the body.',
+   'Tighten the centre screw until the gap in the body closes with almost no play. It also sets the damping; left loose, the body can wear.'];
   return stepsBox(s);}
-function uMeters(bead,spring){return `<div class="meter"><div><span class="label">Crisp</span>${bars(UB[bead].cr)}</div><div><span class="label">Push effort</span>${bars(US[spring].k+1)}</div><div></div></div>`;}
-let uBead='zr',uSpring='hi';
-function uBeadSpringRows(attr){return `<div class="row" style="display:grid;gap:5px"><span class="label">Bead in every filled hole</span><div class="chips">${Object.entries(UB).map(([k,b])=>`<button class="chip" data-${attr}bead="${k}" aria-pressed="${uBead===k}">${b.n}</button>`).join('')}</div></div>
-  <div class="row" style="display:grid;gap:5px"><span class="label">Spring in every filled hole</span><div class="chips">${Object.entries(US).map(([k,v])=>`<button class="chip" data-${attr}spring="${k}" aria-pressed="${uSpring===k}">${v.n}</button>`).join('')}</div></div>`;}
+function uFaceMeters(m){const ks=uKeys(m),seg=ks.filter(h=>h[0]!=='Z');if(!ks.length)return '';
+  const cr=seg.length?Math.round(seg.reduce((t,h)=>t+UB[m[h].b].cr,0)/seg.length):0,k=Math.round(ks.reduce((t,h)=>t+US[m[h].s].k,0)/ks.length)+1;
+  return `<div class="meter"><div><span class="label">Crisp</span>${bars(cr)}</div><div><span class="label">Effort</span>${bars(k)}</div><div></div></div>`;}
+function uParts(st){const c={};[st.push,st.rot].forEach(m=>uKeys(m).forEach(h=>{const b=UB[m[h].b].n+' bead',s=US[m[h].s].n;c[b]=(c[b]||0)+1;c[s]=(c[s]||0)+1;}));return Object.keys(c).length?partList(c):'<p class="muted" style="font-size:.86rem">Nothing to fit.</p>';}
+function uFaceBlock(title,feel,pat,m){return `<div style="display:grid;gap:8px"><b>${title}</b>${feel?`<p style="font-size:.9rem">${esc(feel)}</p>`:''}${uPatHTML(pat)}${uFaceMeters(m)}${uFaceTable(m)}</div>`;}
 function renderUgList(){
   const row=(L,cur,attr)=>L.map(p=>`<button class="item" data-${attr}="${p.id}" aria-pressed="${cur===p.id}"><span class="nm">${esc(p.n)}</span><span class="tg">${esc(p.holes.join(', '))}</span></button>`).join('');
   $('#ugitems').innerHTML=`<div class="grp"><span class="label">Straight push face</span>${row(UPS,uPush,'ugp')}</div><div class="grp" style="margin-top:10px"><span class="label">Rotating face</span>${row(URS,uRot,'ugr')}</div>
-   <p class="muted" style="font-size:.82rem;margin-top:10px">Pick one setup for each face; they work independently. All from the Groove Ultra card.</p>`;
+   <p class="muted" style="font-size:.82rem;margin-top:10px">Pick one setup for each face; they work independently. Holes are from the Groove Ultra card.</p>`;
   $('#ugitems').querySelectorAll('[data-ugp]').forEach(b=>b.addEventListener('click',()=>{uPush=b.dataset.ugp;renderUgList();renderUgSheet();}));
   $('#ugitems').querySelectorAll('[data-ugr]').forEach(b=>b.addEventListener('click',()=>{uRot=b.dataset.ugr;renderUgList();renderUgSheet();}));
 }
-function renderUgSheet(){const p=UPS.find(x=>x.id===uPush),r=URS.find(x=>x.id===uRot);
-  $('#ugsheet').innerHTML=`<div class="head"><span class="label">MOT Groove Ultra · from the card</span><h2>Push: ${esc(p.n)} · Turn: ${esc(r.n)}</h2></div>
+function renderUgSheet(){const p=UPS.find(x=>x.id===uPush),r=URS.find(x=>x.id===uRot),st={push:uFromHoles(p.holes),rot:uFromHoles(r.holes)};
+  const el=$('#ugsheet');
+  el.innerHTML=`<div class="head"><span class="label">MOT Groove Ultra · from the card</span><h2>Push: ${esc(p.n)} · Turn: ${esc(r.n)}</h2></div>
    <div class="split">${drawBox(uDiagram(p.holes,r.holes),ULEG,'Drawn from the card\'s hole map. Coloured holes get a spring and bead.')}
-   <div style="display:grid;gap:14px;align-content:start">
-     <div style="display:grid;gap:6px"><b>Straight push face</b><p style="font-size:.9rem">${esc(p.feel)}</p>${uPatHTML(p.pat)}${ioList(uHoleList(p.holes),[])}</div>
-     <div style="display:grid;gap:6px"><b>Rotating face</b><p style="font-size:.9rem">${esc(r.feel)}</p>${uPatHTML(r.pat)}${ioList(uHoleList(r.holes),[])}</div>
-   </div></div>
-   <div class="toggles">${uBeadSpringRows('ugs')}</div>${uMeters(uBead,uSpring)}
-   <p class="muted" style="font-size:.8rem">The card doesn't tie beads or springs to a setup, so choose your own. Crisp follows the card's bead ranking; push effort follows its spring ranking.</p>
+   <div style="display:grid;gap:16px;align-content:start">${uFaceBlock('Straight push face',p.feel,p.pat,st.push)}${uFaceBlock('Rotating face',r.feel,r.pat,st.rot)}
+   <p class="muted" style="font-size:.8rem">The holes are from the card. The card doesn't say which bead or spring goes in each, so these use our defaults: zirconia on the custom high-pitch spring in the click holes, and Teflon on the short spring in the Z damping holes.</p></div></div>
    ${uSims()}
-   ${uSteps(p.holes,r.holes,uBead,uSpring)}
-   <div class="nav"><button class="btn ghost" data-ugbuild>Change the holes</button></div>`;
-  const el=$('#ugsheet');uMount(el,p.holes,r.holes);
-  el.querySelectorAll('[data-ugsbead]').forEach(b=>b.addEventListener('click',()=>{uBead=b.dataset.ugsbead;renderUgSheet();}));
-  el.querySelectorAll('[data-ugsspring]').forEach(b=>b.addEventListener('click',()=>{uSpring=b.dataset.ugsspring;renderUgSheet();}));
-  el.querySelector('[data-ugbuild]').addEventListener('click',()=>{ub.push=[...p.holes];ub.rot=[...r.holes];showTab('groove','build');renderUgBuild();window.scrollTo(0,0);});
+   ${uSteps(st)}
+   <div class="nav"><button class="btn" data-ugbuild>Customise in Build your own</button></div>`;
+  uMount(el,st);
+  el.querySelector('[data-ugbuild]').addEventListener('click',()=>{ubLoad(uPush,uRot);showTab('groove','build');renderUgBuild();window.scrollTo(0,0);});
 }
-const ub={push:['Z1','A','B'],rot:['A2','B2','A3','B3','Z3','Z4']};
+const ub={push:uFromHoles(['Z1','A','B']),rot:uFromHoles(['A2','B2','A3','B3','Z3','Z4']),fromP:'p-dense',fromR:'r-dense'};
+function ubLoad(pid,rid){if(pid!=null){const p=UPS.find(x=>x.id===pid);ub.push=p?uFromHoles(p.holes):{};ub.fromP=pid;}if(rid!=null){const r=URS.find(x=>x.id===rid);ub.rot=r?uFromHoles(r.holes):{};ub.fromR=rid;}}
 function uPushPat(h){const has=x=>h.includes(x);
   if(has('E1')||has('E2')){const top=has('E1');if(has('A'))return top?{up:'dense',down:'basic'}:{up:'basic',down:'dense'};}
   if(has('D'))return 'ultra';if(has('C'))return 'densified';if(has('A')&&has('B'))return 'dense';if(has('A')||has('B'))return 'basic';return null;}
 function uRotPat(h){const has=x=>h.includes(x);if(has('D2')||has('D3'))return 'ultra';
   const c=['A2','B2','B3','A3'].filter(has);if(c.length>=3)return 'dense';if(c.length===2){const diag=(has('A2')&&has('A3'))||(has('B2')&&has('B3'));return diag?'basic':'dense';}if(c.length===1)return 'basic';return null;}
+function uHoleRows(face,list){const m=ub[face];
+  const sel=(h,kind,val,dis)=>`<select data-ugsel="${face}.${h}.${kind}" ${dis?'disabled':''} aria-label="${h} ${kind==='b'?'bead':'spring'}">${Object.entries(kind==='b'?UB:US).map(([k,v])=>`<option value="${k}" ${val===k?'selected':''}>${kind==='b'?v.n:{piano:'Piano steel',hi:'High-pitch',lo:'Low-pitch',short:'Short'}[k]}</option>`).join('')}</select>`;
+  return `<div class="holes">${list.map(([id])=>{
+    if(id==='E'){const cur=m.E1?'E1':m.E2?'E2':'',v=m[cur]||uDef('E');return `<div class="hole"><b>E</b><select data-uge="${face}" aria-label="Gourd hole">${[['','Empty'],['E1','Bead at top (E1)'],['E2','Bead at bottom (E2)']].map(([k,t])=>`<option value="${k}" ${cur===k?'selected':''}>${t}</option>`).join('')}</select><span></span>${cur?`<span></span>${sel(cur,'b',v.b)}${sel(cur,'s',v.s)}`:''}</div>`;}
+    const on=!!m[id],v=m[id]||uDef(id);
+    return `<div class="hole"><b>${id}</b><button class="chip" data-ugh="${face}.${id}" aria-pressed="${on}" style="justify-self:start">${on?'Filled':'Empty'}</button><span class="muted" style="font-size:.78rem;align-self:center">${uRoleTxt(id)}</span>${on?`<span></span>${sel(id,'b',v.b)}${sel(id,'s',v.s)}`:''}</div>`;}).join('')}</div>`;}
 function renderUgBuild(){
-  const chip=(id,on,face)=>`<button class="chip" data-ugh="${face}.${id}" aria-pressed="${on}">${id} · ${URole(id)[0].toLowerCase()}</button>`;
-  const eState=ub.push.includes('E1')?'E1':ub.push.includes('E2')?'E2':'';
-  $('#ugctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">Tap holes to fill or empty them. The drawing, click pattern and steps update as you go.</p></div>
-   <div class="row" style="display:grid;gap:5px"><span class="label">Straight push face</span><div class="chips">${UPUSH.filter(x=>x[0]!=='E').map(([id])=>chip(id,ub.push.includes(id),'p')).join('')}</div>
-    <span class="label" style="margin-top:4px">Gourd hole (E)</span><div class="chips">${[['','Empty'],['E1','Bead at the top (E1)'],['E2','Bead at the bottom (E2)']].map(([v,t])=>`<button class="chip" data-uge="${v}" aria-pressed="${eState===v}">${t}</button>`).join('')}</div></div>
-   <div class="row" style="display:grid;gap:5px"><span class="label">Rotating face</span><div class="chips">${UROT.map(([id])=>chip(id,ub.rot.includes(id),'r')).join('')}</div></div>
-   ${uBeadSpringRows('ugb')}
-   <div class="nav"><button class="btn ghost" id="ugclear">Empty all holes</button></div>`;
+  const opt=(L,cur)=>`<option value="__empty" ${cur==='__empty'?'selected':''}>All empty</option>`+L.map(p=>`<option value="${p.id}" ${cur===p.id?'selected':''}>${esc(p.n)}</option>`).join('')+(cur===null?'<option value="" selected>Your changes</option>':'');
+  $('#ugctl').innerHTML=`<div class="head"><span class="src ours" style="justify-self:start">Your build</span><h2>Build your own</h2><p class="muted">Start from one of the card's setups, then fill or empty holes and choose the bead and spring for each one.</p></div>
+   <div class="row" style="display:grid;gap:5px"><span class="label">Start from: straight push face</span><select id="ugfromP">${opt(UPS,ub.fromP)}</select></div>
+   <div class="row" style="display:grid;gap:5px"><span class="label">Start from: rotating face</span><select id="ugfromR">${opt(URS,ub.fromR)}</select></div>
+   <div class="row" style="display:grid;gap:6px"><span class="label">Straight push face holes</span>${uHoleRows('push',UPUSH)}</div>
+   <div class="row" style="display:grid;gap:6px"><span class="label">Rotating face holes</span>${uHoleRows('rot',UROT)}</div>`;
   const C=$('#ugctl');
-  C.querySelectorAll('[data-ugh]').forEach(b=>b.addEventListener('click',()=>{const [f,id]=b.dataset.ugh.split('.'),L=f==='p'?ub.push:ub.rot,i=L.indexOf(id);i<0?L.push(id):L.splice(i,1);renderUgBuild();}));
-  C.querySelectorAll('[data-uge]').forEach(b=>b.addEventListener('click',()=>{ub.push=ub.push.filter(x=>x[0]!=='E');if(b.dataset.uge)ub.push.push(b.dataset.uge);renderUgBuild();}));
-  C.querySelectorAll('[data-ugbbead]').forEach(b=>b.addEventListener('click',()=>{uBead=b.dataset.ugbbead;renderUgBuild();}));
-  C.querySelectorAll('[data-ugbspring]').forEach(b=>b.addEventListener('click',()=>{uSpring=b.dataset.ugbspring;renderUgBuild();}));
-  $('#ugclear').addEventListener('click',()=>{ub.push=[];ub.rot=[];renderUgBuild();});
-  const P=[...ub.push],R=[...ub.rot],pp=uPushPat(P),rp=uRotPat(R),W=[],has=x=>P.includes(x);
+  $('#ugfromP').addEventListener('change',e=>{if(e.target.value){ubLoad(e.target.value==='__empty'?'__empty':e.target.value,null);if(e.target.value==='__empty'){ub.push={};ub.fromP='__empty';}}renderUgBuild();});
+  $('#ugfromR').addEventListener('change',e=>{if(e.target.value){ubLoad(null,e.target.value==='__empty'?'__empty':e.target.value);if(e.target.value==='__empty'){ub.rot={};ub.fromR='__empty';}}renderUgBuild();});
+  const changed=face=>{if(face==='push')ub.fromP=null;else ub.fromR=null;};
+  C.querySelectorAll('[data-ugh]').forEach(b=>b.addEventListener('click',()=>{const [f,id]=b.dataset.ugh.split('.');if(ub[f][id])delete ub[f][id];else ub[f][id]=uDef(id);changed(f);renderUgBuild();}));
+  C.querySelectorAll('[data-uge]').forEach(s=>s.addEventListener('change',()=>{const f=s.dataset.uge,prev=ub[f].E1||ub[f].E2||uDef('E');delete ub[f].E1;delete ub[f].E2;if(s.value)ub[f][s.value]=prev;changed(f);renderUgBuild();}));
+  C.querySelectorAll('[data-ugsel]').forEach(s=>s.addEventListener('change',()=>{const [f,id,k]=s.dataset.ugsel.split('.');ub[f][id][k]=s.value;changed(f);renderUgBuild();}));
+  const P=uKeys(ub.push),R=uKeys(ub.rot),pp=uPushPat(P),rp=uRotPat(R),W=[],has=x=>P.includes(x);
   if(P.some(h=>h[0]==='E')&&!has('A'))W.push('The card pairs the gourd hole (E) with A. Without A, the asymmetric effect isn\'t one the card describes.');
   if(P.length&&!has('Z1')&&!has('Z2')&&!has('D'))W.push('No Z1 or Z2: the card uses them for positioning and damping on the push face.');
   if(R.length&&!R.includes('Z3')&&!R.includes('Z4'))W.push('No Z3 or Z4: the card fills both on every rotating-face setup, for damping.');
   if(has('D')&&P.length>1)W.push('The card\'s ultra-dense push setup uses D on its own.');
   const corners=['A2','B2','B3','A3'].filter(x=>R.includes(x));if(corners.length===2)W.push(uRotPat(R)==='basic'?'Two diagonal corners: basic clicks, as the card describes.':'Two adjacent corners: dense clicks, as the card describes.');
-  const match=[...UPS.filter(x=>JSON.stringify([...x.holes].sort())===JSON.stringify([...P].sort())),...URS.filter(x=>JSON.stringify([...x.holes].sort())===JSON.stringify([...R].sort()))].map(x=>(x.id[0]==='p'?'Push: ':'Turn: ')+x.n);
-  $('#ugout').innerHTML=`<div class="head"><span class="label">${match.length?'Matches the card · '+esc(match.join(' · ')):'Your build'}</span>${uMeters(uBead,uSpring)}
+  const sameHoles=(a,b)=>JSON.stringify([...a].sort())===JSON.stringify([...b].sort());
+  const mp=UPS.find(x=>sameHoles(x.holes,P)),mr=URS.find(x=>sameHoles(x.holes,R));
+  const tag=[mp?'Push: '+mp.n+' holes':null,mr?'Turn: '+mr.n+' holes':null].filter(Boolean).join(' · ');
+  $('#ugout').innerHTML=`<div class="head"><span class="label">${tag?'Same holes as the card · '+esc(tag):'Your build'}</span>
      ${W.length?`<ul class="feelbox">${W.map(x=>`<li class="${x.includes('as the card describes')?'tip':'w'}">${esc(x)}</li>`).join('')}</ul>`:''}</div>
    <div class="split">${drawBox(uDiagram(P,R),ULEG,'Coloured holes get a spring and bead.')}
-   <div style="display:grid;gap:14px;align-content:start"><div style="display:grid;gap:6px"><b>Straight push face</b>${uPatHTML(pp)}</div><div style="display:grid;gap:6px"><b>Rotating face</b>${uPatHTML(rp)}</div>
-   <div style="display:grid;gap:6px"><span class="label">You'll need</span>${partList(Object.assign({},P.length+R.length?{[UB[uBead].n+' bead']:P.length+R.length,[US[uSpring].n]:P.length+R.length}:{}))}</div></div></div>
+   <div style="display:grid;gap:16px;align-content:start">${uFaceBlock('Straight push face','',pp,ub.push)}${uFaceBlock('Rotating face','',rp,ub.rot)}
+   <div style="display:grid;gap:6px"><span class="label">You'll need</span>${uParts(ub)}</div></div></div>
    ${uSims()}
-   ${uSteps(P,R,uBead,uSpring)}`;
-  uMount($('#ugout'),P,R);
+   ${uSteps(ub)}`;
+  uMount($('#ugout'),{push:{...ub.push},rot:{...ub.rot}});
 }
-
 /* --- Groove Ultra simulators: click patterns from the card, illustrative counts --- */
 const UPN={basic:6,dense:12,densified:18,ultra:26},URN={basic:8,dense:16,densified:24,ultra:32};
 const UKIND={basic:'A',dense:'B',densified:'C',ultra:'D'};
@@ -2077,21 +2085,25 @@ function uPushEvents(pat){if(!pat)return [];const E=[];
   const extra=pat.up==='dense'?'fwd':'back';for(let i=0;i<N;i++)E.push({p:.05+(i+1)/N*.9,k:'B',cls:'lo',dir:extra});
   return E.filter(e=>e.p<.97);}
 function uRotEvents(pat){if(!pat)return [];const N=URN[pat];return Array.from({length:N},(_,i)=>({p:i/N,k:pat==='dense'&&i%2?'B':UKIND[pat],cls:pat==='basic'||(pat==='dense'&&!(i%2))?'hi':'lo'}));}
-function uPlay(k){const b=UB[uBead],sp=US[uSpring],soft=uBead==='pom'||uBead==='tef',heavy=uBead==='wc';if(!canPlay('ug'+k,22))return;
+function uPartsFor(m,k){const ks=uKeys(m);if(!ks.length)return null;
+  const exact=ks.find(h=>h[0]===k&&h[0]!=='Z');return m[exact||ks.find(h=>h[0]!=='Z')||ks[0]];}
+function uPlay(m,k){const v=uPartsFor(m,k);if(!v||!canPlay('ug'+k,22))return;const b=UB[v.b],sp=US[v.s],soft=v.b==='pom'||v.b==='tef',heavy=v.b==='wc';
   const gain=Math.min(1,(.3+sp.k*.13)*(k==='D'?.7:k==='C'?.85:1)*(soft?.45:1));
   try{if(soft){noise(.012,'lowpass',1400+b.cr*150,.5*gain);tone('sine',420,240,.04,.18*gain);}
     else{noise(.004+(5-b.cr)*.001,'highpass',2200+b.cr*900,.55*gain);tone('triangle',heavy?900:1400+b.cr*220,heavy?420:700,.03,.17*gain);if(heavy)tone('sine',210,110,.06,.22*gain);}
-    tone('sine',uSpring==='hi'?2300:uSpring==='lo'?1300:1700+sp.k*120,uSpring==='hi'?2250:uSpring==='lo'?1250:1650,.05,.03*gain);}catch(e){}
+    tone('sine',v.s==='hi'?2300:v.s==='lo'?1300:1700+sp.k*120,v.s==='hi'?2250:v.s==='lo'?1250:1650,.05,.03*gain);}catch(e){}
   buzz(Math.round(5+sp.k*2));}
 function uSims(){return `<div class="sims">${simHTML('Straight push face · drag the pusher',false,'Right is pushing up, left is pushing down. Tall marks are basic clicks, short marks are the extra dense clicks. On the asymmetric setups, some clicks only happen in one direction. Use ◀ ▶ to feel each click on iPhone.')}
   <div class="sim" data-udial><div class="sim-head"><span class="label">Rotating face · drag round</span><span class="label" data-count>0 clicks</span></div>
   <div class="dialwrap"><div class="dial" role="slider" tabindex="0" aria-label="Rotating face. Arrow keys turn it." aria-valuemin="0" aria-valuemax="360"><div class="ticks"></div><div class="knob"></div></div></div>
   <div class="taprow">${tapBtn('-1','↺','Turn back one click')}<span class="label">Or tap to turn</span>${tapBtn('1','↻','Turn forward one click')}</div>
   <div class="sim-meta"><span class="label">Per turn</span><span data-per></span><span class="label">Last</span><span class="last" data-last>–</span></div></div></div>`;}
-function uMount(root,P,R){
-  const pp=uPushPat(P),z=P.filter(x=>x[0]==='Z').length,E=uPushEvents(pp);
-  mountTrack(root.querySelector('[data-sim]'),{E,travel:1,home:null,noise:Math.max(1,Math.min(5,Math.round((UB[uBead].cr+US[uSpring].k)/2))),top:'stop',bot:'stop',topName:'Pushed down',botName:'Pushed up',
-    drag:Math.min(.6,z*US[uSpring].k*.05),play:k=>k==='stop'?sfx('stop',{balls:[],blockMag:'5x4',spr:'none'}):uPlay(k),lab:k=>ULAB[k]});
+function uMount(root,st){
+  const P=uKeys(st.push),R=uKeys(st.rot),pp=uPushPat(P),E=uPushEvents(pp);
+  const zDrag=P.filter(h=>h[0]==='Z').reduce((t,h)=>t+US[st.push[h].s].k,0)*.05;
+  const seg=P.filter(h=>h[0]!=='Z'),noiseLvl=seg.length?Math.max(1,Math.min(5,Math.round(seg.reduce((t,h)=>t+(UB[st.push[h].b].cr+US[st.push[h].s].k)/2,0)/seg.length))):1;
+  mountTrack(root.querySelector('[data-sim]'),{E,travel:1,home:null,noise:noiseLvl,top:'stop',bot:'stop',topName:'Pushed down',botName:'Pushed up',
+    drag:Math.min(.6,zDrag),play:k=>k==='stop'?sfx('stop',{balls:[],blockMag:'5x4',spr:'none'}):uPlay(st.push,k),lab:k=>ULAB[k]});
   const el=root.querySelector('[data-udial]');if(!el)return;
   const RE=uRotEvents(uRotPat(R)),dial=el.querySelector('.dial'),knob=el.querySelector('.knob'),cnt=el.querySelector('[data-count]'),last=el.querySelector('[data-last]');
   el.querySelector('.ticks').innerHTML=RE.map(e=>`<span class="tick ${e.cls==='hi'?'':'q'}" style="transform:rotate(${e.p*360+180}deg) translateY(66px)"></span>`).join('');
@@ -2099,7 +2111,7 @@ function uMount(root,P,R){
   let ang=0,drag=null,n=0;const set=()=>{knob.style.transform=`rotate(${ang*360}deg)`;dial.setAttribute('aria-valuenow',Math.round(((ang%1)+1)%1*360));};
   function turn(to){const a=ang;if(to===a)return;const lo=Math.min(a,to),hi=Math.max(a,to),hits=[];
     for(let k=Math.floor(lo);k<=Math.ceil(hi);k++)RE.forEach(e=>{const p=k+e.p;if(p>lo&&p<=hi)hits.push({p,k:e.k});});
-    hits.sort((x,y)=>to>a?x.p-y.p:y.p-x.p).slice(0,6).forEach(x=>{n++;cnt.textContent=n+(n===1?' click':' clicks');last.textContent=ULAB[x.k];uPlay(x.k);});
+    hits.sort((x,y)=>to>a?x.p-y.p:y.p-x.p).slice(0,6).forEach(x=>{n++;cnt.textContent=n+(n===1?' click':' clicks');last.textContent=ULAB[x.k];uPlay(st.rot,x.k);});
     ang=to;set();}
   const angAt=e=>{const r=dial.getBoundingClientRect();return Math.atan2(e.clientY-(r.top+r.height/2),e.clientX-(r.left+r.width/2))/(2*Math.PI);};
   dial.addEventListener('pointerdown',e=>{drag={a:angAt(e)};dial.setPointerCapture(e.pointerId);dial.style.cursor='grabbing';});
