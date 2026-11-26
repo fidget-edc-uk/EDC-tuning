@@ -490,11 +490,11 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
           <p class="muted" style="font-size:.84rem">Compartment 1's beads are zirconia, even though the label says silicon oxide. The anti-loosening spring in compartment 6 is included in the box but isn't part of any setup on the card. Also in the box: a Torx key, plastic tweezers and stickers.</p>
           <h2 style="margin-top:6px">Out of the box: push face</h2>
           <div class="tbl"><table class="htable"><thead><tr><th scope="col">Hole</th><th scope="col">Spring</th><th scope="col">Bead</th></tr></thead><tbody>
-            <tr><td>A · basic</td><td>Piano steel middle spring (compartment 2): longer, about 5 open coils</td><td>POM: white, with a slight shine</td></tr>
-            <tr><td>B · density boost</td><td>Custom high-pitch spring (compartment 1): tightly wound, about 7 close coils</td><td>POM: white, with a slight shine</td></tr>
-            <tr><td>Z1 · damping</td><td>Short spring (compartment 3): squat, about 3 coils</td><td>Teflon: white and duller</td></tr>
+            <tr><td>A · basic</td><td>Piano steel middle spring (compartment 2): longer, about 5 open coils</td><td>Zirconia (compartment 1)</td></tr>
+            <tr><td>B · density boost</td><td>Custom high-pitch spring (compartment 1): tightly wound, about 7 close coils</td><td>Zirconia (compartment 1)</td></tr>
+            <tr><td>Z1 · damping</td><td>Short spring (compartment 3): squat, about 3 coils</td><td>Teflon (compartment 3)</td></tr>
           </tbody></table></div>
-          <p class="muted" style="font-size:.84rem">Same holes as the card's Dense setup. Springs and beads were identified by eye from a stock unit. The rotating face's out-of-the-box tune hasn't been checked yet.</p>
+          <p class="muted" style="font-size:.84rem">Same holes as the card's Dense setup. Springs were identified by eye from a stock unit; beads were matched to the box compartments. The rotating face's out-of-the-box tune hasn't been checked yet.</p>
           <h2 style="margin-top:6px">From the card</h2>
           <div class="tbl"><table class="htable"><thead><tr><th scope="col">Spring</th><th scope="col">Push resistance</th></tr></thead><tbody>
             <tr><td>Piano steel middle spring</td><td class="up">Stiffest</td></tr><tr><td>Custom high-pitch spring</td><td>Firm</td></tr><tr><td>Custom low-pitch spring</td><td>Lighter</td></tr><tr><td>Short spring</td><td class="dn">Lightest</td></tr></tbody></table></div>
@@ -1972,7 +1972,7 @@ const UB={zr:{n:'Zirconia',c:'#fbfbf8',cr:5},wc:{n:'Tungsten steel',c:'#2a2c30',
 const US={piano:{n:'Piano steel middle spring',k:4},hi:{n:'Custom high-pitch spring',k:3},lo:{n:'Custom low-pitch spring',k:2},short:{n:'Short spring',k:1}};
 const UPATS={basic:'Basic: evenly spaced clicks',dense:'Dense: twice as many clicks',densified:'Densified: closer still',ultra:'Ultra-dense: the most clicks'};
 const UPS=[
- {id:'p-factory',n:'Out of the box',holes:['Z1','A','B'],pat:'dense',factory:1,parts:{Z1:{b:'tef',s:'short'},A:{b:'pom',s:'piano'},B:{b:'pom',s:'hi'}},feel:'How the push face comes out of the box: the Dense hole layout, with POM beads in A and B for a soft, quieter click, and Teflon in Z1 for damping.'},
+ {id:'p-factory',n:'Out of the box',holes:['Z1','A','B'],pat:'dense',factory:1,parts:{Z1:{b:'tef',s:'short'},A:{b:'zr',s:'piano'},B:{b:'zr',s:'hi'}},feel:'How the push face comes out of the box: the Dense hole layout, with zirconia beads in A and B for a crisp click, and Teflon in Z1 for damping.'},
  {id:'p-basic',n:'Basic',holes:['Z1','A','Z2'],pat:'basic',feel:'A alone gives the basic stepped clicks, with Z1 and Z2 for positioning and damping.'},
  {id:'p-dense',n:'Dense',holes:['Z1','A','B'],pat:'dense',feel:'A plus B\'s density boost doubles the clicks.'},
  {id:'p-densified',n:'Densified',holes:['Z1','F','C'],pat:'densified',feel:'C\'s densified segments, with F reinforcing the end of the push.'},
