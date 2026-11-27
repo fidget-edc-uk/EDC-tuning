@@ -1969,8 +1969,20 @@ const UROLE={A:['Basic segment','#5b7fb8'],B:['Density boost','#e3a1ad'],C:['Den
 const UPUSH=[['Z1',-30,-107],['F',32,-107],['E',-4,-78],['C',-60,-30],['A',58,2],['B',-2,48],['D',-32,80],['Z2',30,80]];
 const UROT=[['D2',0,-124],['A2',-52,-79],['B2',55,-79],['Z3',-54,-37],['Z4',55,10],['B3',-57,50],['A3',58,50],['D3',0,95]];
 const URole=id=>UROLE[id[0]];
-const UB={zr:{n:'Zirconia',c:'#fbfbf8',cr:5},wc:{n:'Tungsten steel',c:'#2a2c30',cr:4},si:{n:'Silicon nitride',c:'#5a5f67',cr:3},pom:{n:'POM',c:'#f1efe6',cr:2},tef:{n:'Teflon',c:'#e6dfcb',cr:1}};
-const US={piano:{n:'Piano steel middle spring',k:4},hi:{n:'Custom high-pitch spring',k:3},lo:{n:'Custom low-pitch spring',k:2},short:{n:'Short spring',k:1}};
+const UB={zr:{n:'Zirconia',c:'#fbfbf8',cr:5},wc:{n:'Tungsten steel',c:'#2a2c30',cr:4,heavy:1},si:{n:'Silicon nitride',c:'#5a5f67',cr:3},pom:{n:'POM',c:'#f1efe6',cr:2,soft:1},tef:{n:'Teflon',c:'#e6dfcb',cr:1,soft:1},
+ // your own tuning box (sizes as labelled)
+ o_zr3:{n:'Zirconia 3 mm',cr:5,own:1},o_zr278:{n:'Zirconia 2.778 mm',cr:5,own:1},o_zr3175:{n:'Zirconia 3.175 mm',cr:5,own:1},
+ o_si3:{n:'Silicon nitride 3 mm',cr:3,own:1},o_si278:{n:'Silicon nitride 2.778 mm',cr:3,own:1},o_si3175:{n:'Silicon nitride 3.175 mm',cr:3,own:1},
+ o_ss3:{n:'Stainless steel 3 mm',cr:4,own:1},o_ss278:{n:'Stainless steel 2.778 mm',cr:4,own:1},
+ o_gl3:{n:'Glass 3 mm',cr:4,ring:1,own:1},o_gl3175:{n:'Glass 3.175 mm',cr:4,ring:1,own:1},
+ o_pom3:{n:'POM 3 mm',cr:2,soft:1,own:1},o_pom25:{n:'POM 2.5 mm',cr:2,soft:1,own:1},o_pom278:{n:'POM 2.778 mm',cr:2,soft:1,own:1},o_pom3175:{n:'POM 3.175 mm',cr:2,soft:1,own:1},
+ o_br3:{n:'Brass 3 mm',cr:2,heavy:1,own:1},o_br25:{n:'Brass 2.5 mm',cr:2,heavy:1,own:1},o_br3175:{n:'Brass 3.175 mm',cr:2,heavy:1,own:1},o_br4:{n:'Brass 4 mm',cr:2,heavy:1,own:1}};
+const US={piano:{n:'Piano steel middle spring',sn:'Piano steel',k:4},hi:{n:'Custom high-pitch spring',sn:'High-pitch',k:3},lo:{n:'Custom low-pitch spring',sn:'Low-pitch',k:2},short:{n:'Short spring',sn:'Short',k:1},
+ // your own tuning box: wire · outer diameter · length (mm). k is estimated from wire and length.
+ o_g2545:{n:'Gold spring 0.25 · 3 · 4.5',k:1,own:1},o_g255:{n:'Gold spring 0.25 · 3 · 5',k:1,own:1},o_r255:{n:'Ruida spring 0.25 · 3 · 5',k:1,own:1},
+ o_g345:{n:'Gold spring 0.3 · 3 · 4.5',k:2,own:1},o_g35:{n:'Gold spring 0.3 · 3 · 5',k:2,own:1},o_r35:{n:'Ruida spring 0.3 · 3 · 5',k:2,own:1},
+ o_g355:{n:'Gold spring 0.3 · 3 · 5.5',k:3,own:1},o_r358:{n:'Ruida spring 0.3 · 3 · 5.8',k:3,own:1},o_tb:{n:'Top-B custom spring 0.35 · 2.9 · 4.8',k:4,own:1}};
+const uOpts=(D,val)=>{const row=([k,v])=>`<option value="${k}" ${val===k?'selected':''}>${v.sn||v.n}</option>`,E=Object.entries(D);return `<optgroup label="Groove Ultra box">${E.filter(([,v])=>!v.own).map(row).join('')}</optgroup><optgroup label="Your tuning box">${E.filter(([,v])=>v.own).map(row).join('')}</optgroup>`;};
 const UPATS={basic:'Basic: evenly spaced clicks',dense:'Dense: twice as many clicks',densified:'Densified: closer still',ultra:'Ultra-dense: the most clicks'};
 const UPS=[
  {id:'p-factory',n:'Out of the box',holes:['Z1','A','B'],pat:'dense',factory:1,parts:{Z1:{b:'tef',s:'short'},A:{b:'zr',s:'piano'},B:{b:'zr',s:'hi'}},feel:'How the push face comes out of the box: the Dense hole layout, with zirconia beads in A and B for a crisp click, and Teflon in Z1 for damping.'},
@@ -2031,7 +2043,7 @@ function uSteps(st){
 function uFaceMeters(m){const ks=uKeys(m),seg=ks.filter(h=>h[0]!=='Z');if(!ks.length)return '';
   const cr=seg.length?Math.round(seg.reduce((t,h)=>t+UB[m[h].b].cr,0)/seg.length):0,k=Math.round(ks.reduce((t,h)=>t+US[m[h].s].k,0)/ks.length)+1;
   return `<div class="meter"><div><span class="label">Crisp</span>${bars(cr)}</div><div><span class="label">Effort</span>${bars(k)}</div><div></div></div>`;}
-function uParts(st){const c={};[st.push,st.rot].forEach(m=>uKeys(m).forEach(h=>{const b=UB[m[h].b].n+' bead',s=US[m[h].s].n;c[b]=(c[b]||0)+1;c[s]=(c[s]||0)+1;}));return Object.keys(c).length?partList(c):'<p class="muted" style="font-size:.86rem">Nothing to fit.</p>';}
+function uParts(st){const c={};[st.push,st.rot].forEach(m=>uKeys(m).forEach(h=>{const b=UB[m[h].b].n+' bead'+(UB[m[h].b].own?' (yours)':''),s=US[m[h].s].n+(US[m[h].s].own?' (yours)':'');c[b]=(c[b]||0)+1;c[s]=(c[s]||0)+1;}));return Object.keys(c).length?partList(c):'<p class="muted" style="font-size:.86rem">Nothing to fit.</p>';}
 function uFaceBlock(title,feel,pat,m){return `<div style="display:grid;gap:8px"><b>${title}</b>${feel?`<p style="font-size:.9rem">${esc(feel)}</p>`:''}${uPatHTML(pat)}${uFaceMeters(m)}${uFaceTable(m)}</div>`;}
 function renderUgList(){
   const row=(L,cur,attr)=>L.map(p=>`<button class="item" data-${attr}="${p.id}" aria-pressed="${cur===p.id}"><span class="nm">${esc(p.n)}</span><span class="tg">${esc(p.holes.join(', '))}</span></button>`).join('');
@@ -2060,7 +2072,7 @@ function uPushPat(h){const has=x=>h.includes(x);
 function uRotPat(h){const has=x=>h.includes(x);if(has('D2')||has('D3'))return 'ultra';
   const c=['A2','B2','B3','A3'].filter(has);if(c.length>=3)return 'dense';if(c.length===2){const diag=(has('A2')&&has('A3'))||(has('B2')&&has('B3'));return diag?'basic':'dense';}if(c.length===1)return 'basic';return null;}
 function uHoleRows(face,list){const m=ub[face];
-  const sel=(h,kind,val,dis)=>`<select data-ugsel="${face}.${h}.${kind}" ${dis?'disabled':''} aria-label="${h} ${kind==='b'?'bead':'spring'}">${Object.entries(kind==='b'?UB:US).map(([k,v])=>`<option value="${k}" ${val===k?'selected':''}>${kind==='b'?v.n:{piano:'Piano steel',hi:'High-pitch',lo:'Low-pitch',short:'Short'}[k]}</option>`).join('')}</select>`;
+  const sel=(h,kind,val,dis)=>`<select data-ugsel="${face}.${h}.${kind}" ${dis?'disabled':''} aria-label="${h} ${kind==='b'?'bead':'spring'}">${uOpts(kind==='b'?UB:US,val)}</select>`;
   return `<div class="holes">${list.map(([id])=>{
     if(id==='E'){const cur=m.E1?'E1':m.E2?'E2':'',v=m[cur]||uDef('E');return `<div class="hole"><b>E</b><select data-uge="${face}" aria-label="Gourd hole">${[['','Empty'],['E1','Bead at top (E1)'],['E2','Bead at bottom (E2)']].map(([k,t])=>`<option value="${k}" ${cur===k?'selected':''}>${t}</option>`).join('')}</select><span></span>${cur?`<span></span>${sel(cur,'b',v.b)}${sel(cur,'s',v.s)}`:''}</div>`;}
     const on=!!m[id],v=m[id]||uDef(id);
@@ -2071,7 +2083,8 @@ function renderUgBuild(){
    <div class="row" style="display:grid;gap:5px"><span class="label">Start from: straight push face</span><select id="ugfromP">${opt(UPS,ub.fromP)}</select></div>
    <div class="row" style="display:grid;gap:5px"><span class="label">Start from: rotating face</span><select id="ugfromR">${opt(URS,ub.fromR)}</select></div>
    <div class="row" style="display:grid;gap:6px"><span class="label">Straight push face holes</span>${uHoleRows('push',UPUSH)}</div>
-   <div class="row" style="display:grid;gap:6px"><span class="label">Rotating face holes</span>${uHoleRows('rot',UROT)}</div>`;
+   <div class="row" style="display:grid;gap:6px"><span class="label">Rotating face holes</span>${uHoleRows('rot',UROT)}</div>
+   <p class="muted" style="font-size:.8rem">Each bead and spring list has the Groove Ultra box first, then your own tuning box. The Ultra takes 3 mm beads, so other sizes may sit loose or not fit. Before fitting one of your springs, stand it next to the stock spring it replaces: a much longer one may stop the face closing. Your springs' stiffness is estimated from wire and length, not tested against the Ultra's own springs.</p>`;
   const C=$('#ugctl');
   $('#ugfromP').addEventListener('change',e=>{if(e.target.value){ubLoad(e.target.value==='__empty'?'__empty':e.target.value,null);if(e.target.value==='__empty'){ub.push={};ub.fromP='__empty';}}renderUgBuild();});
   $('#ugfromR').addEventListener('change',e=>{if(e.target.value){ubLoad(null,e.target.value==='__empty'?'__empty':e.target.value);if(e.target.value==='__empty'){ub.rot={};ub.fromR='__empty';}}renderUgBuild();});
@@ -2109,10 +2122,11 @@ function uPushEvents(pat){if(!pat)return [];const E=[];
 function uRotEvents(pat){if(!pat)return [];const N=URN[pat];return Array.from({length:N},(_,i)=>({p:i/N,k:pat==='dense'&&i%2?'B':UKIND[pat],cls:pat==='basic'||(pat==='dense'&&!(i%2))?'hi':'lo'}));}
 function uPartsFor(m,k){const ks=uKeys(m);if(!ks.length)return null;
   const exact=ks.find(h=>h[0]===k&&h[0]!=='Z');return m[exact||ks.find(h=>h[0]!=='Z')||ks[0]];}
-function uPlay(m,k){const v=uPartsFor(m,k);if(!v||!canPlay('ug'+k,22))return;const b=UB[v.b],sp=US[v.s],soft=v.b==='pom'||v.b==='tef',heavy=v.b==='wc';
+function uPlay(m,k){const v=uPartsFor(m,k);if(!v||!canPlay('ug'+k,22))return;const b=UB[v.b],sp=US[v.s],soft=!!b.soft,heavy=!!b.heavy;
   const gain=Math.min(1,(.3+sp.k*.13)*(k==='D'?.7:k==='C'?.85:1)*(soft?.45:1));
   try{if(soft){noise(.012,'lowpass',1400+b.cr*150,.5*gain);tone('sine',420,240,.04,.18*gain);}
     else{noise(.004+(5-b.cr)*.001,'highpass',2200+b.cr*900,.55*gain);tone('triangle',heavy?900:1400+b.cr*220,heavy?420:700,.03,.17*gain);if(heavy)tone('sine',210,110,.06,.22*gain);}
+    if(b.ring)tone('sine',2900,2860,.35,.09*gain);
     tone('sine',v.s==='hi'?2300:v.s==='lo'?1300:1700+sp.k*120,v.s==='hi'?2250:v.s==='lo'?1250:1650,.05,.03*gain);}catch(e){}
   buzz(Math.round(5+sp.k*2));}
 function uSims(){return `<div class="sims">${simHTML('Straight push face · drag the pusher',false,'Right is pushing up, left is pushing down. Tall marks are basic clicks, short marks are the extra dense clicks. On the asymmetric setups, some clicks only happen in one direction. Use ◀ ▶ to feel each click on iPhone.')}
