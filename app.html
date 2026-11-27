@@ -488,13 +488,18 @@ header.top{border-top:3px solid var(--accent);background:color-mix(in srgb,var(-
             <tr><td>6</td><td>Anti-loosening spring, for the hole</td><td>Tungsten steel beads</td></tr>
           </tbody></table></div>
           <p class="muted" style="font-size:.84rem">Compartment 1's beads are zirconia, even though the label says silicon oxide. The anti-loosening spring in compartment 6 is included in the box but isn't part of any setup on the card. Also in the box: a Torx key, plastic tweezers and stickers.</p>
-          <h2 style="margin-top:6px">Out of the box: push face</h2>
-          <div class="tbl"><table class="htable"><thead><tr><th scope="col">Hole</th><th scope="col">Spring</th><th scope="col">Bead</th></tr></thead><tbody>
-            <tr><td>A · basic</td><td>Piano steel middle spring (compartment 2): longer, about 5 open coils</td><td>Zirconia (compartment 1)</td></tr>
-            <tr><td>B · density boost</td><td>Custom high-pitch spring (compartment 1): tightly wound, about 7 close coils</td><td>Zirconia (compartment 1)</td></tr>
-            <tr><td>Z1 · damping</td><td>Short spring (compartment 3): short and stiff, about 4 coils of thicker wire</td><td>Teflon (compartment 3)</td></tr>
+          <h2 style="margin-top:6px">Out of the box</h2>
+          <div class="tbl"><table class="htable"><thead><tr><th scope="col">Holes</th><th scope="col">Spring</th><th scope="col">Bead</th></tr></thead><tbody>
+            <tr><th scope="rowgroup" colspan="3">Straight push face</th></tr>
+            <tr><td>A · basic</td><td>Custom high-pitch spring (compartment 1)</td><td>Silicon nitride</td></tr>
+            <tr><td>B · density boost</td><td>Custom low-pitch spring (compartment 4)</td><td>Silicon nitride</td></tr>
+            <tr><td>Z1 · damping</td><td>Short spring (compartment 3): short and stiff</td><td>Teflon</td></tr>
+            <tr><th scope="rowgroup" colspan="3">Rotating face</th></tr>
+            <tr><td>A2, A3</td><td>Custom high-pitch spring</td><td>Silicon nitride</td></tr>
+            <tr><td>B2, B3</td><td>Custom low-pitch spring</td><td>Silicon nitride</td></tr>
+            <tr><td>Z3, Z4 · damping</td><td>Short spring</td><td>Teflon or POM</td></tr>
           </tbody></table></div>
-          <p class="muted" style="font-size:.84rem">Same holes as the card's Dense setup. Springs were identified by eye from a stock unit; beads were matched to the box compartments. The rotating face's out-of-the-box tune hasn't been checked yet.</p>
+          <p class="muted" style="font-size:.84rem">Confirmed stock build. On both faces, the A track runs high-pitch springs and the B track low-pitch springs, so the two tracks click at different pitches. The short spring isn't soft: the wire is stiff, it's just short.</p>
           <h2 style="margin-top:6px">From the card</h2>
           <div class="tbl"><table class="htable"><thead><tr><th scope="col">Spring</th><th scope="col">Push resistance</th></tr></thead><tbody>
             <tr><td>Piano steel middle spring</td><td class="up">Stiffest</td></tr><tr><td>Custom high-pitch spring</td><td>Firm</td></tr><tr><td>Custom low-pitch spring</td><td>Lighter</td></tr><tr><td>Short spring</td><td class="dn">Lightest</td></tr></tbody></table></div>
@@ -1985,7 +1990,7 @@ const US={piano:{n:'Piano steel middle spring',sn:'Piano steel',k:4},hi:{n:'Cust
 const uOpts=(D,val)=>{const row=([k,v])=>`<option value="${k}" ${val===k?'selected':''}>${v.sn||v.n}</option>`,E=Object.entries(D);return `<optgroup label="Groove Ultra box">${E.filter(([,v])=>!v.own).map(row).join('')}</optgroup><optgroup label="Your tuning box">${E.filter(([,v])=>v.own).map(row).join('')}</optgroup>`;};
 const UPATS={basic:'Basic: evenly spaced clicks',dense:'Dense: twice as many clicks',densified:'Densified: closer still',ultra:'Ultra-dense: the most clicks'};
 const UPS=[
- {id:'p-factory',n:'Out of the box',holes:['Z1','A','B'],pat:'dense',factory:1,parts:{Z1:{b:'tef',s:'short'},A:{b:'zr',s:'piano'},B:{b:'zr',s:'hi'}},feel:'How the push face comes out of the box: the Dense hole layout, with zirconia beads in A and B for a crisp click, and Teflon in Z1 for damping.'},
+ {id:'p-factory',n:'Out of the box',holes:['Z1','A','B'],pat:'dense',factory:1,parts:{Z1:{b:'tef',s:'short'},A:{b:'si',s:'hi'},B:{b:'si',s:'lo'}},feel:'How the push face ships: silicon nitride on the high-pitch spring in A and on the low-pitch spring in B, so the two tracks click at different pitches, with Teflon on the short spring in Z1 for damping.'},
  {id:'p-basic',n:'Basic',holes:['Z1','A','Z2'],pat:'basic',feel:'A alone gives the basic stepped clicks, with Z1 and Z2 for positioning and damping.'},
  {id:'p-dense',n:'Dense',holes:['Z1','A','B'],pat:'dense',feel:'A plus B\'s density boost doubles the clicks.'},
  {id:'p-densified',n:'Densified',holes:['Z1','F','C'],pat:'densified',feel:'C\'s densified segments, with F reinforcing the end of the push.'},
@@ -1993,10 +1998,11 @@ const UPS=[
  {id:'p-asym1',n:'Asymmetric, bead at the top (E1)',holes:['E1','A','Z2'],pat:{up:'dense',down:'basic'},feel:'With the bead in the top of the gourd hole, pushing up is dense and pushing down is basic.'},
  {id:'p-asym2',n:'Asymmetric, bead at the bottom (E2)',holes:['E2','A','Z2'],pat:{up:'basic',down:'dense'},feel:'With the bead in the bottom of the gourd hole, pushing up is basic and pushing down is dense.'}];
 const URS=[
+ {id:'r-factory',n:'Out of the box',holes:['A2','A3','B2','B3','Z3','Z4'],pat:'dense',factory:1,parts:{A2:{b:'si',s:'hi'},A3:{b:'si',s:'hi'},B2:{b:'si',s:'lo'},B3:{b:'si',s:'lo'},Z3:{b:'tef',s:'short'},Z4:{b:'tef',s:'short'}},feel:'How the rotating face ships: silicon nitride on high-pitch springs in A2 and A3, and on low-pitch springs in B2 and B3, with short springs in Z3 and Z4 for damping. Z3 and Z4 come with Teflon or POM beads.'},
  {id:'r-basic',n:'Basic',holes:['B2','B3','Z3','Z4'],pat:'basic',feel:'Two diagonal corners give basic clicks as you turn, with Z3 and Z4 for damping.'},
  {id:'r-dense',n:'Dense',holes:['A2','B2','A3','B3','Z3','Z4'],pat:'dense',feel:'All four corners filled. Adjacent corners make it dense.'},
  {id:'r-ultra',n:'Ultra-dense',holes:['D2','D3','Z3','Z4'],pat:'ultra',feel:'D2 and D3 give the densest clicks as you turn.'}];
-let uPush='p-factory',uRot='r-dense';
+let uPush='p-factory',uRot='r-factory';
 function uStrip(p){const W=220,H=12;let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true" style="max-width:100%">`;const ink='var(--fg)';
   if(p==='dense')for(let i=0;i<10;i++)s+=`<circle cx="${11+i*22}" cy="6" r="5.5" fill="${ink}"/>`;
   if(p==='densified')for(let i=0;i<12;i++)s+=`<rect x="${3+i*18}" y="1" width="14" height="10" rx="5" fill="${ink}"/>`;
@@ -2048,24 +2054,24 @@ function uFaceBlock(title,feel,pat,m){return `<div style="display:grid;gap:8px">
 function renderUgList(){
   const row=(L,cur,attr)=>L.map(p=>`<button class="item" data-${attr}="${p.id}" aria-pressed="${cur===p.id}"><span class="nm">${esc(p.n)}</span><span class="tg">${esc(p.holes.join(', '))}</span></button>`).join('');
   $('#ugitems').innerHTML=`<div class="grp"><span class="label">Straight push face</span>${row(UPS,uPush,'ugp')}</div><div class="grp" style="margin-top:10px"><span class="label">Rotating face</span>${row(URS,uRot,'ugr')}</div>
-   <p class="muted" style="font-size:.82rem;margin-top:10px">Pick one setup for each face; they work independently. Out of the box is how the push face ships; the rest are from the Groove Ultra card.</p>`;
+   <p class="muted" style="font-size:.82rem;margin-top:10px">Pick one setup for each face; they work independently. Out of the box is how each face ships; the rest are from the Groove Ultra card.</p>`;
   $('#ugitems').querySelectorAll('[data-ugp]').forEach(b=>b.addEventListener('click',()=>{uPush=b.dataset.ugp;renderUgList();renderUgSheet();}));
   $('#ugitems').querySelectorAll('[data-ugr]').forEach(b=>b.addEventListener('click',()=>{uRot=b.dataset.ugr;renderUgList();renderUgSheet();}));
 }
 function renderUgSheet(){const p=UPS.find(x=>x.id===uPush),r=URS.find(x=>x.id===uRot),st={push:uPreset(p),rot:uPreset(r)};
   const el=$('#ugsheet');
-  el.innerHTML=`<div class="head"><span class="label">MOT Groove Ultra · ${p.factory?'push: out of the box, turn: from the card':'from the card'}</span><h2>Push: ${esc(p.n)} · Turn: ${esc(r.n)}</h2></div>
+  el.innerHTML=`<div class="head"><span class="label">MOT Groove Ultra · ${p.factory&&r.factory?'out of the box':p.factory?'push: out of the box, turn: from the card':r.factory?'push: from the card, turn: out of the box':'from the card'}</span><h2>Push: ${esc(p.n)} · Turn: ${esc(r.n)}</h2></div>
    <div class="split">${drawBox(uDiagram(p.holes,r.holes),ULEG,'Drawn from the card\'s hole map. Coloured holes get a spring and bead.')}
    <div style="display:grid;gap:16px;align-content:start">${uFaceBlock('Straight push face',p.feel,p.pat,st.push)}${uFaceBlock('Rotating face',r.feel,r.pat,st.rot)}
-   <p class="muted" style="font-size:.8rem">${p.factory?'The push face is the out-of-the-box tune, checked from a stock Groove Ultra. The rotating face hasn\'t been checked yet, so it':'The holes are from the card. The card doesn\'t say which bead or spring goes in each, so this'} uses our defaults for beads and springs: zirconia on the custom high-pitch spring in the click holes, and Teflon on the short spring in the Z damping holes.</p></div></div>
+   <p class="muted" style="font-size:.8rem">${p.factory&&r.factory?'Both faces are the confirmed out-of-the-box tune.':`${p.factory||r.factory?'The out-of-the-box face is the confirmed stock tune. ':''}The card gives the holes but not the bead or spring for each, so card setups use our defaults: zirconia on the custom high-pitch spring in the click holes, and Teflon on the short spring in the Z damping holes.`}</p></div></div>
    ${uSims()}
    ${uSteps(st)}
    <div class="nav"><button class="btn" data-ugbuild>Customise in Build your own</button></div>`;
   uMount(el,st);
   el.querySelector('[data-ugbuild]').addEventListener('click',()=>{ubLoad(uPush,uRot);showTab('groove','build');renderUgBuild();window.scrollTo(0,0);});
 }
-const ub={push:uPreset(UPS[0]),rot:uFromHoles(['A2','B2','A3','B3','Z3','Z4']),fromP:'p-factory',fromR:'r-dense'};
-function ubLoad(pid,rid){if(pid!=null){const p=UPS.find(x=>x.id===pid);ub.push=p?uPreset(p):{};ub.fromP=pid;}if(rid!=null){const r=URS.find(x=>x.id===rid);ub.rot=r?uFromHoles(r.holes):{};ub.fromR=rid;}}
+const ub={push:uPreset(UPS[0]),rot:uPreset(URS[0]),fromP:'p-factory',fromR:'r-factory'};
+function ubLoad(pid,rid){if(pid!=null){const p=UPS.find(x=>x.id===pid);ub.push=p?uPreset(p):{};ub.fromP=pid;}if(rid!=null){const r=URS.find(x=>x.id===rid);ub.rot=r?uPreset(r):{};ub.fromR=rid;}}
 function uPushPat(h){const has=x=>h.includes(x);
   if(has('E1')||has('E2')){const top=has('E1');if(has('A'))return top?{up:'dense',down:'basic'}:{up:'basic',down:'dense'};}
   if(has('D'))return 'ultra';if(has('C'))return 'densified';if(has('A')&&has('B'))return 'dense';if(has('A')||has('B'))return 'basic';return null;}
